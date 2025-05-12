@@ -87,7 +87,6 @@ SESSION = test-irc
 test: debug
 	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)4243$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
 	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
-		echo "→ Killing existing session '$(SESSION)'…"; \
 		tmux kill-session -t $(SESSION); \
 	fi
 	@tmux new-session -d -s $(SESSION) \

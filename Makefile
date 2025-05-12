@@ -95,7 +95,7 @@ test: debug
 	@tmux split-window -h -p 70 -t $(SESSION):0 \
 		'bash -lc "irssi 4243 irc || exec yes \"irssi exit code: $?\""'
 	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
-		'bash -lc "nc localhost 4243 || exec yes \"irssi exit code: $?\""'
+		'bash -lc "nc localhost 4243 || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
 #	Header

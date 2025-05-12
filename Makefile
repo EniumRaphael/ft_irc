@@ -30,7 +30,7 @@ CXXFLAGS += $(DEBUG)
 # Sources
 SRC = main.cpp
 
-INC_DIR =
+INC_DIR = include/core
 
 CPPFLAGS = $(addprefix -I, $(INC_DIR)) -MMD -MP
 

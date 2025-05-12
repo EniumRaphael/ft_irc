@@ -35,3 +35,4 @@
 flake.lock
 .direnv/
 .clangd
+.vscode/

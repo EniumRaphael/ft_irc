@@ -93,9 +93,9 @@ test: debug
 	@tmux new-session -d -s $(SESSION) \
 		'bash -lc "./$(NAME) 4243 irc; exec bash"'
 	@tmux split-window -h -p 70 -t $(SESSION):0 \
-		'bash -lc "irssi 4243 irc --color=on; exec yes irssi"'
+		'bash -lc "irssi 4243 irc || exec yes \"irssi exit code: $?\""'
 	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
-		'bash -lc "nc localhost 4243; exec yes netcat"'
+		'bash -lc "nc localhost 4243 || exec yes \"irssi exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
 #	Header

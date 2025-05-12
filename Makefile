@@ -85,7 +85,7 @@ debug: CPPFLAGS += -D DEBUG=1
 debug: re
 
 test: debug
-	@printf '$(GREY) now running with\n\t- Port:\t$(GREEN)4243$(GREY)\n\t-Password:\t$(GREEN)irc$(END)\n'
+	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)4243$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
 	@./$(NAME) 4243 irc
 
 #	Header

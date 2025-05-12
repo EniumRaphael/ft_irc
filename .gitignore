@@ -34,5 +34,7 @@
 # Nix files
 flake.lock
 .direnv/
+
+# Editor files
 .clangd
 .vscode/

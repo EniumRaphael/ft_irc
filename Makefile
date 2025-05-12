@@ -63,8 +63,7 @@ clean:
 # Clean (make fclean)
 fclean: clean
 	@printf '$(GREY) Removing $(END)$(RED)Program$(END)\n'
-	@$(RM) $(NAME)
-	@echo ""
+	@$(RM) $(NAME) @echo ""
 
 # Restart (make re)
 re: header fclean all
@@ -84,9 +83,20 @@ $(OBJDIRNAME)/%.o: %.cpp
 debug: CPPFLAGS += -D DEBUG=1
 debug: re
 
+SESSION = test-irc
 test: debug
 	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)4243$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
-	@./$(NAME) 4243 irc
+	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
+		echo "→ Killing existing session '$(SESSION)'…"; \
+		tmux kill-session -t $(SESSION); \
+	fi
+	@tmux new-session -d -s $(SESSION) \
+		'bash -lc "./$(NAME) 4243 irc; exec bash"'
+	@tmux split-window -h -p 70 -t $(SESSION):1 \
+		'bash -lc "irssi 4243 irc --color=on; exec yes irssi"'
+	@tmux split-window -v -p 50 -t $(SESSION):1.2 \
+		'bash -lc "nc localhost 4243; exec yes netcat"'
+	@tmux attach -t $(SESSION)
 
 #	Header
 header:

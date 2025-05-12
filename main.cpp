@@ -10,5 +10,7 @@ int main(int argc, char *argv[]) {
 		std::cout << CLR_GREY << "Port:\t\t" << CLR_GREEN << argv[1] << CLR_RESET << std::endl;
 		std::cout << CLR_GREY << "Password:\t" << CLR_GREEN << argv[2] << CLR_RESET << std::endl;
 	}
+	while (1)
+		;
 	return 0;
 }

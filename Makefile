@@ -92,9 +92,9 @@ test: debug
 	fi
 	@tmux new-session -d -s $(SESSION) \
 		'bash -lc "./$(NAME) 4243 irc; exec bash"'
-	@tmux split-window -h -p 70 -t $(SESSION):1 \
+	@tmux split-window -h -p 70 -t $(SESSION):0 \
 		'bash -lc "irssi 4243 irc --color=on; exec yes irssi"'
-	@tmux split-window -v -p 50 -t $(SESSION):1.2 \
+	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
 		'bash -lc "nc localhost 4243; exec yes netcat"'
 	@tmux attach -t $(SESSION)
 

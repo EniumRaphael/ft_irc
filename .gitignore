@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# Nix files
+flake.lock
+.direnv/
+.clangd

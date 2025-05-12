@@ -30,6 +30,8 @@
 *.exe
 *.out
 *.app
+ircserv
+build/
 
 # Nix files
 flake.lock

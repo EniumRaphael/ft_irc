@@ -28,7 +28,7 @@ DEBUG = -g3
 CXXFLAGS += $(DEBUG)
 
 # Sources
-SRC = main.cpp
+SRC = sources/core/main.cpp
 
 INC_DIR = include/core
 

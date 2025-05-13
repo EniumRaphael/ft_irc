@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:16:03 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/12 14:16:52 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:06:48 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,3 +17,4 @@
 #endif
 
 #include "color.hpp"
+#include "server.hpp"

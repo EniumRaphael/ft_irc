@@ -16,10 +16,11 @@
 
 class Server {
 	private:
-		int _port;
+		unsigned short int _port;
 		std::string _password;
 	public:
 		Server();
 		Server(int port, const std::string &password);
 		~Server();
+		unsigned short int getPort() const;
 };

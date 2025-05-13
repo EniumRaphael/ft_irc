@@ -31,12 +31,21 @@ Server::Server() : _port(0), _password("") {
  * @note Thanks to check the port / password before give them to the constructor.
  */
 Server::Server(int port, const std::string &password) : _port(port), _password(password) {
-	std::cout << CLR_GREY << "[INFO] Server constructor called" << CLR_RESET << std::endl;
+	std::cout << CLR_GREY << "Info: Server constructor called" << CLR_RESET << std::endl;
 }
 
 /**
  * @brief The default destructor of the Server class.
  */
 Server::~Server() {
-	std::cout << CLR_GREY << "[INFO] Server destructor called" << CLR_RESET << std::endl;
+	std::cout << CLR_GREY << "Info: Server destructor called" << CLR_RESET << std::endl;
+}
+
+/**
+ * @brief The getter of the port.
+ *
+ * @return the port of the server
+ */
+unsigned short int Server::getPort() const {
+	return this->_port;
 }

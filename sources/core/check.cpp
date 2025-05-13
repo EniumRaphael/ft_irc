@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:25:04 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/13 14:14:44 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/13 14:20:47 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @brief function to check if the port is valid
  *
  * @param input input given bu the user
- * @return value between 1 and 65535 if valid, 0 if not
+ * @return value between 1 and 65535 if valid, 0 if not (on unsigned 16 bits)
  */
 unsigned short int valid_port(char *input)
 {

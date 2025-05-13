@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:06:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/13 11:42:11 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/13 12:54:02 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ class Server {
 		Server();
 		Server(int port, const std::string &password);
 		~Server();
+		void showInfo() const;
 		unsigned short int getPort() const;
 };

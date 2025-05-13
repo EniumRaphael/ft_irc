@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:03:13 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/13 11:56:50 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/13 12:56:52 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 	Server server(tmp_port, argv[2]);
+	server.showInfo();
 	while (1)
 		;
 	return 0;

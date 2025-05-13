@@ -6,10 +6,11 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/13 12:00:55 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/13 12:55:21 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "color.hpp"
 #include "core.hpp"
 #include <iostream>
 
@@ -39,6 +40,13 @@ Server::Server(int port, const std::string &password) : _port(port), _password(p
  */
 Server::~Server() {
 	std::cout << CLR_GREY << "Info: Server destructor called" << CLR_RESET << std::endl;
+}
+
+void Server::showInfo() const {
+	std::cout << CLR_GREY << "IRCSettings:" << CLR_RESET << std::endl;
+	std::cout << CLR_GREY << "\t- Port:\t\t" << CLR_GREEN << this->_port << CLR_RESET << std::endl;
+	std::cout << CLR_GREY << "\t- Password:\t" << CLR_GREEN << this->_password << CLR_RESET << std::endl;
+
 }
 
 /**

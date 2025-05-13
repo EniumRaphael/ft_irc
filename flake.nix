@@ -12,7 +12,7 @@
 				};
 			in {
 				devShells.default = pkgs.mkShell {
-					name = "cpp-42";
+					name = "irc-42";
 					buildInputs = with pkgs; [
 						clang
 						clang-tools

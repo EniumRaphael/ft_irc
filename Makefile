@@ -30,7 +30,8 @@ CXXFLAGS += $(DEBUG)
 # Sources
 SRC = sources/core/main.cpp
 
-INC_DIR = include/core
+INC_DIR = include/core \
+		  include
 
 CPPFLAGS = $(addprefix -I, $(INC_DIR)) -MMD -MP
 
@@ -137,7 +138,7 @@ clangd:
 	done
 	@printf "    - \"-I"$(shell pwd)"/\"\n" >> .clangd;
 	@for file in $(INC_DIR); do \
-		printf "    - \"-I"$(shell pwd)"/"$$file"\"" >> .clangd; \
+		printf "    - \"-I"$(shell pwd)"/"$$file"\"\n" >> .clangd; \
 	done
 	@printf "\n" >> ./.clangd
 	@printf '$(GREY) Now parsing settings is set in $(END)$(GREEN)./.clangd$(END)\n'

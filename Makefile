@@ -21,8 +21,6 @@ RM = rm -rf
 # Flags
 #  Mandatory flags for 42
 CXXFLAGS = -Werror -Wextra -Wall -std=c++98
-#  Flags to have the dependences (can be removed for correction)
-#  Flags to have the debug (can be removed for correction)
 SESSION = test-irc
 
 # Sources

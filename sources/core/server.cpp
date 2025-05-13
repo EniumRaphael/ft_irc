@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/13 12:55:21 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/13 13:05:07 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ Server::~Server() {
 }
 
 void Server::showInfo() const {
-	std::cout << CLR_GREY << "IRCSettings:" << CLR_RESET << std::endl;
-	std::cout << CLR_GREY << "\t- Port:\t\t" << CLR_GREEN << this->_port << CLR_RESET << std::endl;
-	std::cout << CLR_GREY << "\t- Password:\t" << CLR_GREEN << this->_password << CLR_RESET << std::endl;
+	std::cout << std::endl;
+	std::cout << CLR_BLUE << "IRCSettings:" << CLR_RESET << std::endl;
+	std::cout << CLR_BLUE << "\t- Port:\t\t" << CLR_GOLD << this->_port << CLR_RESET << std::endl;
+	std::cout << CLR_BLUE << "\t- Password:\t" << CLR_GOLD << this->_password << CLR_RESET << std::endl;
 
 }
 

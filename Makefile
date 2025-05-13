@@ -23,21 +23,18 @@ RM = rm -rf
 CXXFLAGS = -Werror -Wextra -Wall -std=c++98
 #  Flags to have the dependences (can be removed for correction)
 #  Flags to have the debug (can be removed for correction)
-DEBUG = -g3
-# DEBUG += -fsanitize=address
-CXXFLAGS += $(DEBUG)
+SESSION = test-irc
 
 # Sources
-SRC = sources/core/main.cpp
+SRC =	sources/core/main.cpp \
+		sources/core/server.cpp \
+		sources/core/check.cpp
+
 
 INC_DIR = include/core \
 		  include
 
 CPPFLAGS = $(addprefix -I, $(INC_DIR)) -MMD -MP
-
-#  Flags to have the dependences (can be removed for correction)
-# DEBUG = -g3
-# CPPFLAGS += $(DEBUG)
 
 # Objects
 OBJDIRNAME = ./build
@@ -82,10 +79,24 @@ $(OBJDIRNAME)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 debug: CPPFLAGS += -D DEBUG=1
+debug: CXXFLAGS += -g
+# debug: CXXFLAGS += -fsanitize=address
 debug: re
 
-SESSION = test-irc
 test: debug
+	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)4243$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
+	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
+		tmux kill-session -t $(SESSION); \
+	fi
+	@tmux new-session -d -s $(SESSION) \
+		'bash -lc "./$(NAME) 4243 irc; exec bash"'
+	@tmux split-window -h -p 70 -t $(SESSION):0 \
+		'bash -lc "irssi 4243 irc || exec yes \"irssi exit code: $?\""'
+	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
+		'bash -lc "nc localhost 4243 || exec yes \"netcat exit code: $?\""'
+	@tmux attach -t $(SESSION)
+
+run: re
 	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)4243$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
 	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
 		tmux kill-session -t $(SESSION); \

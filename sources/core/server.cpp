@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/13 11:19:18 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/13 12:00:55 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
  */
 Server::Server() : _port(0), _password("") {
 	if (DEBUG)
-		std::cerr << CLR_MAGENTA << "[DEBUG] Thanks to use the constructor with port and password !" << std::endl;
-	std::cout << CLR_GREY << "[INFO] Server default constructor called" << CLR_RESET << std::endl;
+		std::cerr << CLR_MAGENTA << "Debug: Thanks to use the constructor with port and password !" << std::endl;
+	std::cout << CLR_GREY << "Info: Server default constructor called" << CLR_RESET << std::endl;
 }
 
 /**

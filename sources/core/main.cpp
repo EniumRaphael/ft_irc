@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:03:13 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/13 12:56:52 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/14 23:17:03 by omoudni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int main(int argc, char *argv[]) {
 		std::cerr << CLR_RED << "Error: Invalid port: " << argv[1] << CLR_RESET << std::endl;
 		return 1;
 	}
-	Server server(tmp_port, argv[2]);
-	server.showInfo();
-	while (1)
-		;
-	return 0;
+    Server server(tmp_port, argv[2]);
+    server.showInfo();
+    server.start();
+    return 0;
 }

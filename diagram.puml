@@ -7,11 +7,11 @@ class Server {
     - _port : int
     - _password : string
     - _clients : List<Client>
-    - _socket_id : int
-    - _fd : int
+    - _server_fd : int
 
     + showInfo() : void
     + getPort() : int
+    + start() : void
 }
 
 ' ========================

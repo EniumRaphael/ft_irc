@@ -3,13 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+         #
-#    Created: 2023/11/12 11:05:05 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/02 15:40:00 by rparodi          ###   ########.fr        #
+#    By: omoudni <omoudni@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
+#    Updated: 2025/05/14 23:33:58 by omoudni          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Variables
 
 # Name
 NAME = ircserv
@@ -136,7 +136,7 @@ footer:
 		@printf "$(GOLD)                  /| |   | |\\_//$(END)\n"
 		@printf "$(GOLD)                  \\| |._.| |/-\`$(END)\n"
 		@printf "$(GOLD)                   '\"'   '\"'$(END)\n"
-		@printf '              $(GREY)The compilation is$(END) $(GOLD)finish$(END)\n               $(GREY)Have a good $(END)$(GOLD)correction !$(END)\n'
+		@printf '              $(GREY)The compilation is$(END) $(GOLD)finished$(END)\n               $(GREY)Have a good $(END)$(GOLD)evaluation !$(END)\n'
 
 clangd:
 	@printf "CompileFlags:\n" > ./.clangd

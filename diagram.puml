@@ -1,0 +1,81 @@
+@startuml
+
+' ========================
+'        CLASS: Server
+' ========================
+class Server {
+    - _port : int
+    - _password : string
+    - _clients : List<Client>
+    - _socket_id : int
+    - _fd : int
+
+    + showInfo() : void
+    + getPort() : int
+}
+
+' ========================
+'        CLASS: Client
+' ========================
+class Client {
+    - _id : int
+    - _name : string
+    - _registered : bool
+    - _channels : List<Channel>
+    - _banned : List<Channel>
+
+    + getId() : int
+    + getName() : string
+    + isRegistered() : bool
+    + joinChannel(channel : Channel) : void
+    + leaveChannel(channel : Channel) : void
+    + sendMessage(to : Client, message : string) : void
+}
+
+' ========================
+'        CLASS: Channel
+' ========================
+class Channel {
+    - _name : string
+    - _password : string
+    - _owner : Client
+    - _operators : List<Client>
+    - _socket_id : int
+    - _topic : string
+
+    + getName() : string
+    + setTopic(newTopic : string) : void
+    + addOperator(client : Client) : void
+    + removeOperator(client : Client) : void
+}
+
+' ========================
+'        CLASS: Commandes
+' ========================
+class Commandes {
+    - _form_user : Client
+    - _to_user : Client
+    - _channel : Channel
+
+    + MODE() : void
+    + KICK() : void
+    + INVITE() : void
+    + TOPIC() : void
+    + JOIN() : void
+    + PRIVMSG() : void
+    + LIST() : void
+    + PASS() : void
+    + NICK() : void
+    + USERNAME() : void
+}
+
+' ========================
+'         RELATIONS
+' ========================
+
+Server "1" o-- "*" Client : _clients
+Client "1" o-- "*" Channel : _channels
+Channel "1" *-- "1" Client : _owner
+Channel "1" o-- "*" Client : _operators
+
+@enduml

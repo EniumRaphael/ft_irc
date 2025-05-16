@@ -40,3 +40,7 @@ flake.lock
 # Editor files
 .clangd
 .vscode/
+
+# 42 files
+bircd/
+*.pdf

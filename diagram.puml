@@ -70,6 +70,22 @@ class Commandes {
 }
 
 ' ========================
+'        CLASS: Parser
+' ========================
+class Parser {
+    - _port : int
+    - _password : string
+    - _valid : bool
+    - _errorMsg : string
+
+    + Parser(argc : int, argv : char**)
+    + isValid() : bool
+    + getPort() : int
+    + getPassword() : string
+    + getErrorMsg() : string
+}
+
+' ========================
 '         RELATIONS
 ' ========================
 
@@ -77,5 +93,6 @@ Server "1" o-- "*" Client : _clients
 Client "1" o-- "*" Channel : _channels
 Channel "1" *-- "1" Client : _owner
 Channel "1" o-- "*" Client : _operators
+main ..> Parser : uses
 
 @enduml

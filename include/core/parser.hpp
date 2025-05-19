@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 11:03:13 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/19 15:02:41 by omoudni          ###   ########.fr       */
+/*   Created: 2025/05/19 14:47:46 by omoudni           #+#    #+#             */
+/*   Updated: 2025/05/19 15:14:31 by omoudni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #include "core.hpp"
-#include <iostream>
+#include <string>
 
-int main(int argc, char *argv[]) {
-    Parser parser(argc, argv);
-    if (!parser.isValid()) {
-        std::cerr << CLR_RED << parser.getErrorMsg() << CLR_RESET << std::endl;
-        return 1;
-    }
-    Server server(parser.getPort(), parser.getPassword());
-    server.showInfo();
-    server.start();
-    return 0;
-}
+class Parser {
+private:
+    unsigned short int _port;
+    std::string _password;
+    bool _valid;
+    std::string _errorMsg;
+
+public:
+    Parser(int argc, char* argv[]);
+    bool isValid() const;
+    unsigned short int getPort() const;
+    const std::string& getPassword() const;
+    const std::string& getErrorMsg() const;
+};      

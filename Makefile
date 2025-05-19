@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omoudni <omoudni@student.42.fr>            +#+  +:+       +#+         #
+#    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/14 23:33:58 by omoudni          ###   ########.fr        #
+#    Updated: 2025/05/19 15:13:05 by omoudni          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SESSION = test-irc
 # Sources
 SRC =	sources/core/main.cpp \
 		sources/core/server.cpp \
-		sources/core/check.cpp
+		sources/core/check.cpp \
+		sources/core/parser.cpp \
 
 
 INC_DIR = include/core \

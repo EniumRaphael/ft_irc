@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   core.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:16:03 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/13 12:45:24 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/19 15:07:26 by omoudni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@
 
 #include "color.hpp"
 #include "server.hpp"
+#include "parser.hpp"
 
 unsigned short int valid_port(char *input);

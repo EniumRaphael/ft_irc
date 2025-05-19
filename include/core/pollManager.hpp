@@ -1,38 +1,30 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   core.hpp                                           :+:      :+:    :+:   */
+/*   pollManager.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 14:16:03 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/19 20:15:14 by omoudni          ###   ########.fr       */
+/*   Created: 2025/05/19 19:15:13 by omoudni           #+#    #+#             */
+/*   Updated: 2025/05/19 19:25:45 by omoudni          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #pragma once
+#include <vector>
+#include <poll.h>
+#include <map>
 
-#ifdef DEBUG
-#define LOG std::endl << CLR_CYAN << "Debug: " << __FILE__ << ":" << __LINE__  << std::endl << CLR_RESET
-#endif
+class PollManager {
+private:
+    std::vector<struct pollfd> _fds;
+    std::map<int, short> _fd_events; // fd -> event
 
-
-
-#ifndef DEBUG
-#define DEBUG 0
-#define LOG ""
-#endif
-
-enum e_state {
-    ERROR = 0,
-    CMD,
-    MSG
-    };
-    
-
-#include "pollManager.hpp"
-#include "color.hpp"
-#include "server.hpp"
-#include "parser.hpp"
-
-unsigned short int valid_port(char *input);
+public:
+    PollManager();
+    void addFd(int fd, short events);
+    void removeFd(int fd);
+    void updateFd(int fd, short events);
+    int pollEvents(int timeout = -1);
+    const std::vector<struct pollfd>& getFds() const;
+};

@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoudni <omoudni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/14 23:32:21 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:16:00 by omoudni          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "color.hpp"
 #include "server.hpp"
@@ -67,17 +67,48 @@ void Server::start() {
 		close(server_fd);
 		return;
 	}
+	_pollManager.addFd(server_fd, POLLIN);
 	std::cout << CLR_GREEN << "Server started on port " << this->_port << CLR_RESET << std::endl;
 	std::cout << CLR_GREEN << "Waiting for clients..." << CLR_RESET << std::endl;
-	while (true) {
-		int client_fd = accept(server_fd, NULL, NULL);
-		if (client_fd == -1) {
-			std::cerr << CLR_RED << "Error: Failed to accept client" << CLR_RESET << std::endl;
-			continue;
-		}
-		std::cout << CLR_GREEN << "Client connected" << CLR_RESET << std::endl;
-		close(client_fd);
-	}
+    while (true) {
+        int n = _pollManager.pollEvents();
+        if (n < 0) {
+            std::cerr << CLR_RED << "Poll error" << CLR_RESET << std::endl;
+            break;
+        }
+        const std::vector<struct pollfd>& fds = _pollManager.getFds();
+        for (size_t i = 0; i < fds.size(); ++i) {
+            if (fds[i].revents & POLLIN) {
+                if (fds[i].fd == server_fd) {
+                    // Accept new client
+                    int client_fd = accept(server_fd, NULL, NULL);
+                    if (client_fd != -1) {
+                        _pollManager.addFd(client_fd, POLLIN);
+                        std::cout << CLR_GREEN << "Client connected" << CLR_RESET << std::endl;
+						std::cout << "Welcome to IRC. Your client_id is: " << client_fd << std::endl;
+					} else {
+						std::cerr << CLR_RED << "Error: Failed to accept client" << CLR_RESET << std::endl;
+						
+					}
+                } else {
+					// Handle client communication
+					char buffer[1024];
+					ssize_t bytes_received = recv(fds[i].fd, buffer, sizeof(buffer) - 1, 0);
+					if (bytes_received <= 0) {
+						// Client disconnected
+						// if it's negative, it means an error occurred, maybe print it with perror?
+						std::cout << CLR_RED << "Client disconnected" << CLR_RESET << std::endl;
+						close(fds[i].fd);
+						_pollManager.removeFd(fds[i].fd);
+					} else {
+						buffer[bytes_received] = '\0';
+						std::cout << "Received: " << buffer << std::endl;
+						// Optionally: send response to client here
+					}
+                }
+            }
+        }
+    }
 	close(server_fd);
 	std::cout << CLR_GREEN << "Server stopped" << CLR_RESET << std::endl;
 }

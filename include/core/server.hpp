@@ -1,17 +1,18 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoudni <omoudni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:06:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/14 23:23:13 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:12:46 by omoudni          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #pragma once
 
+#include "core.hpp"
 #include <string>
 
 class Server {
@@ -19,6 +20,7 @@ class Server {
 		unsigned short int _port;
 		std::string _password;
 		int server_fd;
+		PollManager _pollManager;
 	public:
 		Server();
 		Server(int port, const std::string &password);

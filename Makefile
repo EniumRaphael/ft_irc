@@ -28,6 +28,7 @@ SRC =	sources/core/main.cpp \
 		sources/core/Server.cpp \
 		sources/core/check.cpp \
 		sources/core/parser.cpp \
+		sources/core/PollManager.cpp \
 
 
 INC_DIR = include/core \

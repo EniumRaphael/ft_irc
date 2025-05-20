@@ -1,14 +1,14 @@
-#******************************************************************************#
+x# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
+#    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/20 15:04:42 by rparodi          ###   ########.fr        #
+#    Updated: 2025/05/20 17:06:30 by sben-tay         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 
 # Name
@@ -25,10 +25,9 @@ SESSION = test-irc
 
 # Sources
 SRC =	sources/core/main.cpp \
-		sources/core/server.cpp \
+		sources/core/Server.cpp \
 		sources/core/check.cpp \
 		sources/core/parser.cpp \
-		sources/core/pollManager.cpp \
 
 
 INC_DIR = include/core \

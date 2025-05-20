@@ -86,7 +86,7 @@ class Channel {
 ' ====================================
 package "CommandDispatcher" <<namespace>> {
     class CommandDispatcher {
-        + dispatchCommand(user : User, line : string) : void
+        + dispatchCommand(user : *User, channel : *channel, line : string) : void
         + splitCommand(line : string) : vector<string>
     }
 }

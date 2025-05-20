@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/20 17:19:13 by sben-tay         ###   ########.fr        #
+#    Updated: 2025/05/20 21:43:49 by rparodi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,7 +104,7 @@ run: re
 	@tmux new-session -d -s $(SESSION) \
 		'bash -lc "./$(NAME) 4243 irc; exec bash"'
 	@tmux split-window -h -p 70 -t $(SESSION):0 \
-		'bash -lc "irssi 4243 irc || exec yes \"irssi exit code: $?\""'
+		'bash -lc "irssi -c localhost -p 4243 -w irc || exec yes \"irssi exit code: $?\""'
 	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
 		'bash -lc "nc localhost 4243 || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)

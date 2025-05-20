@@ -139,27 +139,16 @@ package "Command" <<namespace>> {
 }
 
 ' ========================
-'        CLASS: PollManager
-' ========================
-class PollManager {
-    - _fds : vector<pollfd>
-    - _fd_events : map<int, short>
-
-    + addFd(fd : int, events : short) : void
-    + removeFd(fd : int) : void
-    + updateFd(fd : int, events : short) : void
-    + pollEvents(timeout : int) : int
-    + getFds() : vector<pollfd>
-}
-
-' ========================
 '         RELATIONS
 ' ========================
-
-Server "1" o-- "*" Client : _clients
-Client "1" o-- "*" Channel : _channels
-Channel "1" *-- "1" Client : _owner
-Channel "1" o-- "*" Client : _operators
-main ..> Parser : uses
+"main()" --> Server : creates
+Server "1" *-- "1" PollManager : _poll
+PollManager "1" o-- "*" User : _users
+User "1" o-- "*" Channel : _channels
+Channel "1" *-- "1" User : _owner
+Channel "1" o-- "*" User : _operators
+PollManager --> CommandDispatcher.CommandDispatcher : calls
+CommandDispatcher.CommandDispatcher --> Command : dispatches
+CommandDispatcher.CommandDispatcher --> User : parses commands
 
 @enduml

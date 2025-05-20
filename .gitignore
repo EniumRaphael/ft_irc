@@ -40,6 +40,7 @@ flake.lock
 # Editor files
 .clangd
 .vscode/
+massif.out
 
 # 42 files
 bircd/

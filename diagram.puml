@@ -68,10 +68,17 @@ class Channel {
     - _topic : string
 
     + getName() : string
+	+ getTopic() : string
+	+ isUserInChannel(User *user) : bool
+	+ getUsers() : list<User>
+	+ getOwner() : User
+    + isOperator(user : User) : bool
+	+ isUserInChannel(User *user) : bool
     + setTopic(newTopic : string) : void
     + addOperator(user : User) : void
+	+ addUser(user : User) : void
     + removeOperator(user : User) : void
-    + isOperator(user : User) : bool
+	+ removeUser(user : User) : void
 }
 
 ' ====================================

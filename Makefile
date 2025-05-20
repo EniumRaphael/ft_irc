@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
+#    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/19 15:13:05 by omoudni          ###   ########.fr        #
+#    Updated: 2025/05/20 00:09:16 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,10 @@ SESSION = test-irc
 
 # Sources
 SRC =	sources/core/main.cpp \
-		sources/core/server.cpp \
+		sources/core/Server.cpp \
 		sources/core/check.cpp \
 		sources/core/parser.cpp \
+		sources/core/PollManager.cpp \
 
 
 INC_DIR = include/core \

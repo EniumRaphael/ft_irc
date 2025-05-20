@@ -1,98 +1,154 @@
-@startuml
+@startuml "IRC Server - Detailed UML"
 
 ' ========================
-'        CLASS: Server
+'         ENTRY: main()
+' ========================
+class "main()"
+
+' ========================
+'         CLASS: Server
 ' ========================
 class Server {
     - _port : int
     - _password : string
-    - _clients : List<Client>
     - _server_fd : int
+    - _poll : PollManager
 
-    + showInfo() : void
-    + getPort() : int
+    + Server(port : int, password : string)
     + start() : void
+    + getPort() : int
+    + showInfo() : void
+}
+
+' ============================
+'         CLASS: PollManager
+' ============================
+class PollManager {
+    - _fds : vector<pollfd>
+    - _users : map<int, User>
+
+    + addUser(fd : int) : void
+    + removeUser(fd : int) : void
+    + updateUser(fd : int, events : short) : void
+    + pollLoop(server_fd : int) : void
+    + readFromUser(fd : int) : void
+    + writeToUser(fd : int) : void
 }
 
 ' ========================
-'        CLASS: Client
+'         CLASS: User
 ' ========================
-class Client {
-    - _id : int
-    - _name : string
+class User {
+    - _fd : int
+    - _nickname : string
+    - _username : string
+    - _hostname : string
+    - _readBuffer : string
+    - _writeBuffer : string
     - _registered : bool
-    - _channels : List<Channel>
-    - _banned : List<Channel>
 
-    + getId() : int
-    + getName() : string
+    + getFd() : int
+    + getNickname() : string
+    + setNickname(name : string) : void
+    + appendToReadBuffer(data : string) : void
+    + appendToWriteBuffer(data : string) : void
+    + extractFullCommand() : string
+    + isReadyToSend() : bool
     + isRegistered() : bool
-    + joinChannel(channel : Channel) : void
-    + leaveChannel(channel : Channel) : void
-    + sendMessage(to : Client, message : string) : void
 }
 
 ' ========================
-'        CLASS: Channel
+'         CLASS: Channel
 ' ========================
 class Channel {
     - _name : string
     - _password : string
-    - _owner : Client
-    - _operators : List<Client>
-    - _socket_id : int
+    - _owner : User
+    - _operators : List<User>
     - _topic : string
 
     + getName() : string
     + setTopic(newTopic : string) : void
-    + addOperator(client : Client) : void
-    + removeOperator(client : Client) : void
+    + addOperator(user : User) : void
+    + removeOperator(user : User) : void
+    + isOperator(user : User) : bool
 }
 
-' ========================
-'        CLASS: Commandes
-' ========================
-class Commandes {
-    - _form_user : Client
-    - _to_user : Client
-    - _channel : Channel
-
-    + MODE() : void
-    + KICK() : void
-    + INVITE() : void
-    + TOPIC() : void
-    + JOIN() : void
-    + PRIVMSG() : void
-    + LIST() : void
-    + PASS() : void
-    + NICK() : void
-    + USERNAME() : void
+' ====================================
+'  NAMESPACE: CommandDispatcher (static)
+' ====================================
+package "CommandDispatcher" <<namespace>> {
+    class CommandDispatcher {
+        + dispatchCommand(user : User, line : string) : void
+        + splitCommand(line : string) : vector<string>
+    }
 }
 
-' ========================
-'        CLASS: Parser
-' ========================
-class Parser {
-    - _port : int
-    - _password : string
-    - _valid : bool
-    - _errorMsg : string
-
-    + Parser(argc : int, argv : char**)
-    + isValid() : bool
-    + getPort() : int
-    + getPassword() : string
-    + getErrorMsg() : string
+' =============================
+'      NAMESPACE: Command
+' =============================
+package "Command" <<namespace>> {
+    class PASS {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class NICK {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class USER {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class JOIN {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class PART {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class PRIVMSG {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class NOTICE {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class PING {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class PONG {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class QUIT {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class TOPIC {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class MODE {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class INVITE {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class KICK {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class LIST {
+        + execute(user : User, args : vector<string>) : void
+    }
+    class UNKNOWN {
+        + execute(user : User, args : vector<string>) : void
+    }
 }
 
 ' ========================
 '         RELATIONS
 ' ========================
-
-Server "1" o-- "*" Client : _clients
-Client "1" o-- "*" Channel : _channels
-Channel "1" *-- "1" Client : _owner
-Channel "1" o-- "*" Client : _operators
-main ..> Parser : uses
+"main()" --> Server : creates
+Server "1" *-- "1" PollManager : _poll
+PollManager "1" o-- "*" User : _users
+User "1" o-- "*" Channel : _channels
+Channel "1" *-- "1" User : _owner
+Channel "1" o-- "*" User : _operators
+PollManager --> CommandDispatcher.CommandDispatcher : calls
+CommandDispatcher.CommandDispatcher --> Command : dispatches
+CommandDispatcher.CommandDispatcher --> User : parses commands
 
 @enduml

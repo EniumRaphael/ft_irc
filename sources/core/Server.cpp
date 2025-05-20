@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.cpp                                         :+:      :+:    :+:   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoudni <omoudni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/14 23:32:21 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/05/19 23:58:53 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <cstdlib>
+#include <cstring>
+
 /**
  * @brief The default constructor of the Server class.
  */
@@ -47,39 +50,29 @@ Server::~Server() {
 
 
 void Server::start() {
-	int fd = socket(AF_INET, SOCK_STREAM, 0);
-	if (server_fd == -1) {
-		std::cerr << CLR_RED << "Error: Failed to create socket" << CLR_RESET << std::endl;
-		return;
-	}
-	setServerFd(fd);
-	struct sockaddr_in server_addr;
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_addr.s_addr = INADDR_ANY;
-	server_addr.sin_port = htons(this->_port);
-	if (bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
-		std::cerr << CLR_RED << "Error: Failed to bind socket" << CLR_RESET << std::endl;
-		close(server_fd);
-		return;
-	}
-	if (listen(server_fd, 5) == -1) {
-		std::cerr << CLR_RED << "Error: Failed to listen on socket" << CLR_RESET << std::endl;
-		close(server_fd);
-		return;
-	}
-	std::cout << CLR_GREEN << "Server started on port " << this->_port << CLR_RESET << std::endl;
-	std::cout << CLR_GREEN << "Waiting for clients..." << CLR_RESET << std::endl;
-	while (true) {
-		int client_fd = accept(server_fd, NULL, NULL);
-		if (client_fd == -1) {
-			std::cerr << CLR_RED << "Error: Failed to accept client" << CLR_RESET << std::endl;
-			continue;
-		}
-		std::cout << CLR_GREEN << "Client connected" << CLR_RESET << std::endl;
-		close(client_fd);
-	}
-	close(server_fd);
-	std::cout << CLR_GREEN << "Server stopped" << CLR_RESET << std::endl;
+    _serverFd = socket(AF_INET, SOCK_STREAM, 0);
+    if (_serverFd == -1) {
+        std::cerr << "Erreur socket" << std::endl;
+        return;
+    }
+
+    sockaddr_in addr;
+    std::memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = INADDR_ANY;
+    addr.sin_port = htons(_port);
+
+    if (bind(_serverFd, (sockaddr*)&addr, sizeof(addr)) == -1 ||
+        listen(_serverFd, 10) == -1) {
+        std::cerr << "Erreur bind/listen" << std::endl;
+        close(_serverFd);
+        return;
+    }
+
+    std::cout << "Serveur lancé sur le port " << _port << std::endl;
+
+    _poll.pollLoop(_serverFd);
+    close(_serverFd);
 }
 
 /**
@@ -105,9 +98,4 @@ void Server::showInfo() const {
 unsigned short int Server::getPort() const {
 	return this->_port;
 }
-
-void Server::setServerFd(int fd) {
-	this->server_fd = fd;
-}
-
 

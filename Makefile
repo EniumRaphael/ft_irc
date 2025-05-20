@@ -1,4 +1,4 @@
-x# **************************************************************************** #
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -6,7 +6,7 @@ x# **************************************************************************** 
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/20 17:06:30 by sben-tay         ###   ########.fr        #
+#    Updated: 2025/05/20 17:19:13 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRC =	sources/core/main.cpp \
 		sources/core/Server.cpp \
 		sources/core/check.cpp \
 		sources/core/parser.cpp \
-		sources/core/PollManager.cpp \
+		sources/core/PollManager.cpp
 
 
 INC_DIR = include/core \

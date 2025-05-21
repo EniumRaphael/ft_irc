@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/20 17:11:06 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:03:51 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
-
-/**
- * @brief The default constructor of the Server class.
- */
-Server::Server() : _port(0), _password("") {
-	if (DEBUG)
-		std::cerr << CLR_MAGENTA << "Debug: Thanks to use the constructor with port and password !" << std::endl;
-	std::cout << CLR_GREY << "Info: Server default constructor called" << CLR_RESET << std::endl;
-}
 
 /**
  * @brief The constructor of the Server class.
@@ -71,7 +62,7 @@ void Server::start() {
 
     std::cout << "Serveur lancé sur le port " << _port << std::endl;
 
-    _poll.pollLoop(_serverFd);
+	_pollManager.pollLoop(_serverFd);
     close(_serverFd);
 }
 

@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/20 21:43:49 by rparodi          ###   ########.fr        #
+#    Updated: 2025/05/21 13:01:09 by rparodi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,14 @@ CXXFLAGS = -Werror -Wextra -Wall -std=c++98
 SESSION = test-irc
 
 # Sources
-SRC =	sources/core/main.cpp \
-		sources/core/Server.cpp \
+SRC =	sources/core/logs.cpp \
 		sources/core/check.cpp \
+		sources/core/PollManager.cpp \
 		sources/core/parser.cpp \
-		sources/core/PollManager.cpp
-
+		sources/core/main.cpp \
+		sources/core/Server.cpp \
+		sources/user/user.cpp \
+		sources/channel/channel.cpp
 
 INC_DIR = include/core \
 		  include

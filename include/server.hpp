@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:50:32 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/20 21:53:29 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:03:01 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 class Server {
 	private:
 		int _port;
-		int _server_fd;
+		int _serverFd;
 		std::string _password;
-		PollManager _poll_manager;
+		PollManager _pollManager;
 	public:
 		Server(int port, const std::string &password);
 		~Server();
 		void start();
-		int getPort() const;
+		unsigned short int getPort() const;
 		void showInfo() const;
 };

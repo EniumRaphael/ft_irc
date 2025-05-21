@@ -10,72 +10,86 @@
 
 PollManager::PollManager() {}
 
-PollManager::~PollManager() {
-	for (size_t i = 0; i < _fds.size(); ++i) {
-		close(_fds[i].fd);
-	}
+PollManager::~PollManager()
+{
+    for (size_t i = 0; i < _fds.size(); ++i)
+    {
+        close(_fds[i].fd);
+    }
 }
 
-void PollManager::pollLoop(int server_fd) {
+void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vector<int> &disconnected, std::vector<std::pair<int, std::string> > &readyClients)
+{
 
-	struct pollfd server_pollfd;
+    struct pollfd server_pollfd;
     server_pollfd.fd = server_fd;
     server_pollfd.events = POLLIN;
     _fds.push_back(server_pollfd);
 
     std::cout << "Serveur prêt à accepter des connexions..." << std::endl;
 
-    while (true) {
-        int poll_count = poll(&_fds[0], _fds.size(), -1);
-        if (poll_count == -1) {
-            std::cerr << "poll error\n" << std::endl;
-            continue;
-        }
-        for (size_t i = 0; i < _fds.size(); ++i) {
-            int fd = _fds[i].fd;
+    // while (true) {
+    int poll_count = poll(&_fds[0], _fds.size(), -1);
+    if (poll_count == -1)
+    {
+        std::cerr << "poll error\n"
+                  << std::endl;
+        return;
+    }
+    for (size_t i = 0; i < _fds.size(); ++i)
+    {
+        short unsigned fd = _fds[i].fd;
 
-            if ((fd == server_fd) && (_fds[i].revents & POLLIN)) {
-                int client_fd = accept(server_fd, NULL, NULL);
-                if (client_fd == -1) {
-                    std::cerr << "Error accept()" << std::endl;
-                    continue;
-                }
-                addClient(client_fd);
+        if ((fd == server_fd) && (_fds[i].revents & POLLIN))
+        {
+            int client_fd = accept(server_fd, NULL, NULL);
+            if (client_fd == -1)
+            {
+                std::cerr << "Error accept()" << std::endl;
+                continue;
             }
-            else if (_fds[i].revents & POLLIN) {
-                char buffer[1024];
-                ssize_t bytes = recv(fd, buffer, sizeof(buffer) -1, 0);
-                if (bytes > 0) {
-                    buffer[bytes] = '\0';
-                    _buffers[fd] += buffer;
-                    std::cout << "Client " << fd << " send : " << buffer;
-                } else {
-                    std::cout << "Client " << fd << " disconected." << std::endl;
-                    // removeClient(fd);
-                    --i;
-                }
+            addClient(client_fd);
+            newClients.push_back(client_fd);
+        }
+        else if (_fds[i].revents & POLLIN)
+        {
+            char buffer[1024];
+            ssize_t bytes = recv(fd, buffer, sizeof(buffer) - 1, 0);
+            if (bytes > 0)
+            {
+                buffer[bytes] = '\0';
+                readyClients.push_back(std::make_pair(fd, std::string(buffer)));
+            }
+            else
+            {
+                removeClient(fd);
+                disconnected.push_back(fd);
+                --i;
             }
         }
     }
+    // }
 }
 
-void PollManager::addClient(int fd) {
+void PollManager::addClient(short unsigned fd)
+{
     struct pollfd pfd;
     pfd.fd = fd;
     pfd.events = POLLIN;
     _fds.push_back(pfd);
-    _buffers[fd] = "";
-    std::cout << "Client connecté (fd " << fd << ")" << std::endl;
+    std::cout << "Client connected (fd " << fd << ")" << std::endl;
 }
 
-void PollManager::removeClient(int fd) {
-    for (size_t i = 0; i < _fds.size(); ++i) {
-        if (_fds[i].fd == fd) {
+void PollManager::removeClient(short unsigned fd)
+{
+    for (size_t i = 0; i < _fds.size(); ++i)
+    {
+        if (_fds[i].fd == fd)
+        {
             _fds.erase(_fds.begin() + i);
             break;
         }
     }
-    _buffers.erase(fd);
     close(fd);
-    std::cout << "Client retiré (fd " << fd << ")" << std::endl;
+    std::cout << "Client disconnected (fd " << fd << ")" << std::endl;
 }

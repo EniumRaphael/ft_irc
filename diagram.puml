@@ -13,6 +13,7 @@ class Server {
     - _password : string
     - _server_fd : int
     - _poll : PollManager
+    - _users : map<int, User>
 
     + Server(port : int, password : string)
     + start() : void
@@ -25,12 +26,11 @@ class Server {
 ' ============================
 class PollManager {
     - _fds : vector<pollfd>
-    - _users : map<int, User>
 
     + addUser(fd : int) : void
     + removeUser(fd : int) : void
     + updateUser(fd : int, events : short) : void
-    + pollLoop(server_fd : int) : void
+    + pollLoop(server_fd : int, newClients : std::vector<int>,  disconnected : std::vector<int>) : void
     + readFromUser(fd : int) : void
     + writeToUser(fd : int) : void
 }

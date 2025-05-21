@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/21 13:03:51 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/21 21:50:03 by omoudni          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "color.hpp"
 #include "server.hpp"
@@ -37,6 +37,9 @@ Server::Server(int port, const std::string &password) : _port(port), _password(p
  */
 Server::~Server() {
 	std::cout << CLR_GREY << "Info: Server destructor called" << CLR_RESET << std::endl;
+    if (_serverFd != -1) {
+        close(_serverFd);
+    }
 }
 
 
@@ -61,8 +64,47 @@ void Server::start() {
     }
 
     std::cout << "Serveur lancé sur le port " << _port << std::endl;
+    std::vector<int> newClients;
+    std::vector<int> disconnected;
+    std::vector<std::pair<int, std::string> > readyClients;
+    while (true)
+    {
+        newClients.clear();
+        disconnected.clear();
+        readyClients.clear();
+        _pollManager.pollLoop(_serverFd, newClients, disconnected, readyClients);
 
-	_pollManager.pollLoop(_serverFd);
+        // Handle new clients
+        for (size_t i = 0; i < newClients.size(); ++i)
+            _users[newClients[i]] = new User(newClients[i]);
+        // Handle disconnected clients
+        for (size_t i = 0; i < disconnected.size(); ++i)
+        {
+            delete _users[disconnected[i]];
+            _users.erase(disconnected[i]);
+        }
+        for (size_t i = 0; i < readyClients.size(); ++i)
+        {
+            int fd = readyClients[i].first;
+            const std::string &data = readyClients[i].second;
+            if (_users.count(fd))
+            {
+                _users[fd]->appendToReadBuffer(data);
+                //print users
+                std::cout << "User " << fd << " is registered: " << _users[fd]->isRegistered() << std::endl;
+                std::cout << "Received data from fd " << fd << ": " << data << std::endl;
+                std::string cmd;
+                while (!(cmd = _users[fd]->extractFullCommand()).empty())
+                {
+                    // This prints every command/message received from any client
+                    std::cout << "Client " << fd << " says: " << cmd << std::endl;
+                    
+                }
+            }
+        }
+
+        // Optionally: handle server shutdown, signals, etc.
+    }
     close(_serverFd);
 }
 

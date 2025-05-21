@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   PollManager.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:15:13 by omoudni           #+#    #+#             */
-/*   Updated: 2025/05/20 17:22:59 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:34:20 by omoudni          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #pragma once
 
@@ -16,19 +16,17 @@
 #include <vector>
 #include <string>
 
-class PollManager {
+class PollManager
+{
 public:
-	PollManager();
-	~PollManager();
+    PollManager();
+    ~PollManager();
 
-    void addClient(int fd);
-    void removeClient(int fd);
-	void updateServer(int fd);
-    void pollLoop(int server_fd);
+    void addClient(short unsigned fd);
+    void removeClient(short unsigned fd);
+    void updateServer(short unsigned fd);
+    void pollLoop(int server_fd, std::vector<int> &newClients, std::vector<int> &disconnected, std::vector<std::pair<int, std::string> > &readyClients);
 
 private:
-
     std::vector<struct pollfd> _fds;
-    std::map<int, std::string> _buffers;
-
 };

@@ -1,14 +1,14 @@
-# **************************************************************************** #
+#******************************************************************************#
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
+#    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/21 13:01:09 by rparodi          ###   ########.fr        #
+#    Updated: 2025/05/21 21:51:13 by omoudni          ###   ########.fr        #
 #                                                                              #
-# **************************************************************************** #
+#******************************************************************************#
 
 
 # Name
@@ -30,7 +30,7 @@ SRC =	sources/core/logs.cpp \
 		sources/core/parser.cpp \
 		sources/core/main.cpp \
 		sources/core/Server.cpp \
-		sources/user/user.cpp \
+		sources/core/user.cpp \
 		sources/channel/channel.cpp
 
 INC_DIR = include/core \
@@ -85,30 +85,37 @@ debug: CXXFLAGS += -g
 # debug: CXXFLAGS += -fsanitize=address
 debug: re
 
+PORT ?= 4243
+
 test: debug
-	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)4243$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
+	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)$(PORT)$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
 	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
 		tmux kill-session -t $(SESSION); \
 	fi
 	@tmux new-session -d -s $(SESSION) \
-		'bash -lc "./$(NAME) 4243 irc; exec bash"'
+		'bash -lc "./$(NAME) $(PORT) irc; exec bash"'
 	@tmux split-window -h -p 70 -t $(SESSION):0 \
-		'bash -lc "irssi -c localhost -p 4243 -w irc || exec yes \"irssi exit code: $?\""'
+		'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
 	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
-		'bash -lc "nc localhost 4243 || exec yes \"netcat exit code: $?\""'
+		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
+	@tmux split-window -v -p 50 -t $(SESSION):0.2 \
+		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
+	@tmux split-window -v -p 50 -t $(SESSION):0.3 \
+		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
+
 run: re
-	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)4243$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
+	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)$(PORT)$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
 	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
 		tmux kill-session -t $(SESSION); \
 	fi
 	@tmux new-session -d -s $(SESSION) \
-		'bash -lc "./$(NAME) 4243 irc; exec bash"'
+		'bash -lc "./$(NAME) $(PORT) irc; exec bash"'
 	@tmux split-window -h -p 70 -t $(SESSION):0 \
-		'bash -lc "irssi -c localhost -p 4243 -w irc || exec yes \"irssi exit code: $?\""'
+		'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
 	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
-		'bash -lc "nc localhost 4243 || exec yes \"netcat exit code: $?\""'
+		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
 #	Header

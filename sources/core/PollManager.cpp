@@ -29,8 +29,7 @@ void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vec
     }
     for (size_t i = 0; i < _fds.size(); ++i)
     {
-      short unsigned fd = _fds[i].fd;
-      std::cout << "I'm here 1" << std::endl;
+        short unsigned fd = _fds[i].fd;
         if ((fd == server_fd) && (_fds[i].revents & POLLIN))
         {
             int client_fd = accept(server_fd, NULL, NULL);
@@ -39,11 +38,11 @@ void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vec
                 std::cerr << "Error accept()" << std::endl;
                 continue;
             }
-      std::cout << "I'm here 2" << std::endl;
-      addClient(client_fd);
+            addClient(client_fd);
             newClients.push_back(client_fd);
-        } else if (_fds[i].revents & POLLIN) {
-            std::cout << "I'm here 3" << std::endl;
+        }
+        else if (_fds[i].revents & POLLIN)
+        {
             char buffer[1024];
             ssize_t bytes = recv(fd, buffer, sizeof(buffer) - 1, 0);
             if (bytes > 0)

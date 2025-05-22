@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:50:32 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/21 21:19:47 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:44:35 by omoudni          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -15,18 +15,20 @@
 #include "core.hpp"
 
 class User;
-class Server {
-	private:
-		int _port;
-		int _serverFd;
-		std::string _password;
-		PollManager _pollManager;
-		std::map<int, User*> _users;
-		
-	public:
-		Server(int port, const std::string &password);
-		~Server();
-		void start();
-		unsigned short int getPort() const;
-		void showInfo() const;
+class Server
+{
+private:
+	int _port;
+	int _serverFd;
+	std::string _password;
+	PollManager _pollManager;
+	std::map<int, User *> _users;
+
+public:
+	Server(int port, const std::string &password);
+	~Server();
+	void start();
+	unsigned short int getPort() const;
+	void showInfo() const;
+	void printUsers() const;
 };

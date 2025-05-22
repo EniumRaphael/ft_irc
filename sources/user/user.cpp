@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/05/21 21:44:58 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:13:35 by omoudni          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -95,14 +95,17 @@ bool User::isReadyToSend() const
 }
 
 // Extract full command from read buffer
-std::string User::extractFullCommand()
-{
+std::string User::extractFullCommand() {
     std::string command;
     size_t pos = _read_buffer.find("\r\n");
-    if (pos != std::string::npos)
-    {
+    if (pos == std::string::npos)
+        pos = _read_buffer.find("\n"); // fallback
+
+    if (pos != std::string::npos) {
         command = _read_buffer.substr(0, pos);
-        _read_buffer.erase(0, pos + 2);
+        _read_buffer.erase(0, pos + 1);
+        if (_read_buffer[pos] == '\r') // clean up stray \r
+            _read_buffer.erase(0, 1);
     }
     return command;
 }

@@ -20,15 +20,6 @@ PollManager::~PollManager()
 
 void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vector<int> &disconnected, std::vector<std::pair<int, std::string> > &readyClients)
 {
-
-    struct pollfd server_pollfd;
-    server_pollfd.fd = server_fd;
-    server_pollfd.events = POLLIN;
-    _fds.push_back(server_pollfd);
-
-    std::cout << "Serveur prêt à accepter des connexions..." << std::endl;
-
-    // while (true) {
     int poll_count = poll(&_fds[0], _fds.size(), -1);
     if (poll_count == -1)
     {
@@ -38,8 +29,8 @@ void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vec
     }
     for (size_t i = 0; i < _fds.size(); ++i)
     {
-        short unsigned fd = _fds[i].fd;
-
+      short unsigned fd = _fds[i].fd;
+      std::cout << "I'm here 1" << std::endl;
         if ((fd == server_fd) && (_fds[i].revents & POLLIN))
         {
             int client_fd = accept(server_fd, NULL, NULL);
@@ -48,17 +39,19 @@ void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vec
                 std::cerr << "Error accept()" << std::endl;
                 continue;
             }
-            addClient(client_fd);
+      std::cout << "I'm here 2" << std::endl;
+      addClient(client_fd);
             newClients.push_back(client_fd);
-        }
-        else if (_fds[i].revents & POLLIN)
-        {
+        } else if (_fds[i].revents & POLLIN) {
+            std::cout << "I'm here 3" << std::endl;
             char buffer[1024];
             ssize_t bytes = recv(fd, buffer, sizeof(buffer) - 1, 0);
             if (bytes > 0)
             {
                 buffer[bytes] = '\0';
                 readyClients.push_back(std::make_pair(fd, std::string(buffer)));
+                std::cout << "Received data from fd " << fd << ": " << buffer << std::endl;
+                std::cout << std::flush;
             }
             else
             {
@@ -92,4 +85,12 @@ void PollManager::removeClient(short unsigned fd)
     }
     close(fd);
     std::cout << "Client disconnected (fd " << fd << ")" << std::endl;
+}
+
+void PollManager::setServerFd(int fd)
+{
+    struct pollfd pfd;
+    pfd.fd = fd;
+    pfd.events = POLLIN;
+    _fds.push_back(pfd);
 }

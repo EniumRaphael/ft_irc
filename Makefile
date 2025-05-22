@@ -6,7 +6,7 @@
 #    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/21 21:51:13 by omoudni          ###   ########.fr        #
+#    Updated: 2025/05/22 17:35:48 by omoudni          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -30,7 +30,7 @@ SRC =	sources/core/logs.cpp \
 		sources/core/parser.cpp \
 		sources/core/main.cpp \
 		sources/core/Server.cpp \
-		sources/core/user.cpp \
+		sources/user/user.cpp \
 		sources/channel/channel.cpp
 
 INC_DIR = include/core \

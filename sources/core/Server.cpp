@@ -6,13 +6,14 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/21 21:50:03 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:31:42 by omoudni          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "color.hpp"
 #include "server.hpp"
 #include "core.hpp"
+#include "PollManager.hpp"
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -64,6 +65,7 @@ void Server::start() {
     }
 
     std::cout << "Serveur lancé sur le port " << _port << std::endl;
+    _pollManager.setServerFd(_serverFd);
     std::vector<int> newClients;
     std::vector<int> disconnected;
     std::vector<std::pair<int, std::string> > readyClients;
@@ -72,11 +74,12 @@ void Server::start() {
         newClients.clear();
         disconnected.clear();
         readyClients.clear();
-        _pollManager.pollLoop(_serverFd, newClients, disconnected, readyClients);
-
+        _pollManager.pollLoop(_serverFd, newClients, disconnected,
+                              readyClients);
+        std::cout << "Poll loop finished" << std::endl;
         // Handle new clients
         for (size_t i = 0; i < newClients.size(); ++i)
-            _users[newClients[i]] = new User(newClients[i]);
+          _users[newClients[i]] = new User(newClients[i]);
         // Handle disconnected clients
         for (size_t i = 0; i < disconnected.size(); ++i)
         {

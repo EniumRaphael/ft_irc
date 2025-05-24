@@ -1,24 +1,24 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 22:03:36 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/20 22:15:14 by rparodi          ###   ########.fr       */
+/*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
+/*   Updated: 2025/05/22 17:13:35 by omoudni          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
-#include "user.hpp"
+#include "core.hpp"
 
-/**
- * @brief Getter for the fd of the user
- *
- * @return the actual fd of the user
- */
-int User::getFd() const {
-	return this->_fd;
+// Constructor
+User::User(short unsigned int fd) : _fd(fd), _registered(false), _hasNick(false), _hasUser(false) {}
+
+// Getter for fd
+short unsigned int User::getFd() const
+{
+    return _fd;
 }
 
 /**
@@ -30,47 +30,85 @@ std::string User::getName() const {
 	return this->_nickname;
 }
 
-/**
- * @brief Setter for the nickname of the user (also checker)
- *
- * @param nickname the nickname given to set to the user
- */
-void User::setNickname(const std::string &nickname) {
-	if (nickname.empty()) {
-		throw std::invalid_argument("Nickname cannot be empty");
-	} else if (nickname == "anonymous") {
-		throw std::invalid_argument("Nickname cannot be 'anonymous'");
-	} else if (nickname.length() > 9) {
-		throw std::length_error("Nickname is too long");
-	} else if (nickname == this->_nickname) {
-		throw std::invalid_argument("The nickname is the same");
-	} else {
-		this->_nickname = nickname;
-	}
+void User::setUsername(const std::string &username)
+{
+    _username = username;
+    _hasUser = true;
+    checkRegistration();
 }
 
-/**
- * @brief Getter for the state of the user
- *
- * @return true if the user is registered, false otherwise
- */
-bool User::isRegistered() const {
-	return this->_registered;
+// Setter for nickname (with basic checks)
+void User::setNickname(const std::string &nickname)
+{
+    if (nickname.empty())
+    {
+        throw std::invalid_argument("Nickname cannot be empty");
+    }
+    else if (nickname == "anonymous")
+    {
+        throw std::invalid_argument("Nickname cannot be 'anonymous'");
+    }
+    else if (nickname.length() > 9)
+    {
+        throw std::length_error("Nickname is too long");
+    }
+    else if (nickname == _nickname)
+    {
+        throw std::invalid_argument("The nickname is the same");
+    }
+    else
+    {
+        _nickname = nickname;
+        _hasNick = true;
+        checkRegistration();
+    }
 }
-void User::appendToReadBuffer(const std::string &data) {
-	std::cerr << CLR_RED << "Error: Method not found (" << __FILE_NAME__ ":" << __LINE__ << ")" << CLR_RESET << std::endl;
-	(void)data;
+
+// Registration state
+bool User::isRegistered() const
+{
+    return _registered;
 }
-void User::appendToWriteBuffer(const std::string &data) {
-	std::cerr << CLR_RED << "Error: Method not found (" << __FILE_NAME__ ":" << __LINE__ << ")" << CLR_RESET << std::endl;
-	(void)data;
+
+// Append to read buffer
+void User::appendToReadBuffer(const std::string &data)
+{
+    _read_buffer += data;
 }
+
+// Append to write buffer
+void User::appendToWriteBuffer(const std::string &data)
+{
+    _write_buffer += data;
+}
+
+// Check registration
+void User::checkRegistration()
+{
+    if (!_registered && _hasNick && _hasUser)
+    {
+        _registered = true;
+    }
+}
+
+// Check if the user is ready to send
+bool User::isReadyToSend() const
+{
+    return !_write_buffer.empty();
+}
+
+// Extract full command from read buffer
 std::string User::extractFullCommand() {
-	std::cerr << CLR_RED << "Error: Method not found (" << __FILE_NAME__ ":" << __LINE__ << ")" << CLR_RESET << std::endl;
-	return nullptr;
-}
+    std::string command;
+    size_t pos = _read_buffer.find("\r\n");
+    if (pos == std::string::npos)
+        pos = _read_buffer.find("\n"); // fallback
 
-bool User::isReadyToSend() const {
-	std::cerr << CLR_RED << "Error: Method not found (" << __FILE_NAME__ ":" << __LINE__ << ")" << CLR_RESET << std::endl;
-	return (false);
+    if (pos != std::string::npos) {
+        command = _read_buffer.substr(0, pos);
+        _read_buffer.erase(0, pos + 1);
+        if (_read_buffer[pos] == '\r') // clean up stray \r
+            _read_buffer.erase(0, 1);
+    }
+    return command;
 }

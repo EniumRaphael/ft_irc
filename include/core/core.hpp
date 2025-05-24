@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   core.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:16:03 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/20 17:23:41 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:18:22 by omoudni          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #pragma once
 
@@ -28,8 +28,13 @@ enum e_state {
     CMD,
     MSG
     };
-    
 
+
+// INCLUDES (not to repeat)
+#include <stdexcept>
+#include <iostream>
+#include <string>
+#include "user.hpp"
 #include "PollManager.hpp"
 #include "color.hpp"
 #include "server.hpp"

@@ -1,18 +1,19 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/21 13:03:51 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:45:41 by omoudni          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "color.hpp"
 #include "server.hpp"
 #include "core.hpp"
+#include "PollManager.hpp"
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -28,21 +29,28 @@
  *
  * @note Thanks to check the port / password before give them to the constructor.
  */
-Server::Server(int port, const std::string &password) : _port(port), _password(password) {
-	std::cout << CLR_GREY << "Info: Server constructor called" << CLR_RESET << std::endl;
+Server::Server(int port, const std::string &password) : _port(port), _password(password)
+{
+    std::cout << CLR_GREY << "Info: Server constructor called" << CLR_RESET << std::endl;
 }
 
 /**
  * @brief The default destructor of the Server class.
  */
-Server::~Server() {
-	std::cout << CLR_GREY << "Info: Server destructor called" << CLR_RESET << std::endl;
+Server::~Server()
+{
+    std::cout << CLR_GREY << "Info: Server destructor called" << CLR_RESET << std::endl;
+    if (_serverFd != -1)
+    {
+        close(_serverFd);
+    }
 }
 
-
-void Server::start() {
+void Server::start()
+{
     _serverFd = socket(AF_INET, SOCK_STREAM, 0);
-    if (_serverFd == -1) {
+    if (_serverFd == -1)
+    {
         std::cerr << "Erreur socket" << std::endl;
         return;
     }
@@ -53,16 +61,57 @@ void Server::start() {
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(_port);
 
-    if (bind(_serverFd, (sockaddr*)&addr, sizeof(addr)) == -1 ||
-        listen(_serverFd, 10) == -1) {
+    if (bind(_serverFd, (sockaddr *)&addr, sizeof(addr)) == -1 ||
+        listen(_serverFd, 10) == -1)
+    {
         std::cerr << "Erreur bind/listen" << std::endl;
         close(_serverFd);
         return;
     }
 
     std::cout << "Serveur lancé sur le port " << _port << std::endl;
+    _pollManager.setServerFd(_serverFd);
+    std::vector<int> newClients;
+    std::vector<int> disconnected;
+    std::vector<std::pair<int, std::string> > readyClients;
+    while (true)
+    {
+        printUsers();
+        newClients.clear();
+        disconnected.clear();
+        readyClients.clear();
+        _pollManager.pollLoop(_serverFd, newClients, disconnected,
+                              readyClients);
+        std::cout << "Poll loop finished" << std::endl;
+        std::cout << "New clients: " << newClients.size() << std::endl;
+        for (size_t i = 0; i < newClients.size(); ++i)
+        {
+            _users[newClients[i]] = new User(newClients[i]);
+        }
+        // Handle disconnected clients
+        for (size_t i = 0; i < disconnected.size(); ++i)
+        {
+            delete _users[disconnected[i]];
+            _users.erase(disconnected[i]);
+        }
+        for (size_t i = 0; i < readyClients.size(); ++i)
+        {
+            int fd = readyClients[i].first;
+            const std::string &data = readyClients[i].second;
+            if (_users.count(fd))
+            {
+                _users[fd]->appendToReadBuffer(data);
+                std::string cmd;
+                while (!(cmd = _users[fd]->extractFullCommand()).empty())
+                {
+                    // This prints every command/message received from any client
+                    std::cout << "Client " << fd << " says: " << cmd << std::endl;
+                }
+            }
+        }
 
-	_pollManager.pollLoop(_serverFd);
+        // Optionally: handle server shutdown, signals, etc.
+    }
     close(_serverFd);
 }
 
@@ -73,12 +122,12 @@ void Server::start() {
  *       It is used for debug purpose.
  */
 
-void Server::showInfo() const {
-	std::cout << std::endl;
-	std::cout << CLR_BLUE << "IRCSettings:" << CLR_RESET << std::endl;
-	std::cout << CLR_BLUE << "\t- Port:\t\t" << CLR_GOLD << this->_port << CLR_RESET << std::endl;
-	std::cout << CLR_BLUE << "\t- Password:\t" << CLR_GOLD << this->_password << CLR_RESET << std::endl;
-
+void Server::showInfo() const
+{
+    std::cout << std::endl;
+    std::cout << CLR_BLUE << "IRCSettings:" << CLR_RESET << std::endl;
+    std::cout << CLR_BLUE << "\t- Port:\t\t" << CLR_GOLD << this->_port << CLR_RESET << std::endl;
+    std::cout << CLR_BLUE << "\t- Password:\t" << CLR_GOLD << this->_password << CLR_RESET << std::endl;
 }
 
 /**
@@ -86,7 +135,14 @@ void Server::showInfo() const {
  *
  * @return the port of the server
  */
-unsigned short int Server::getPort() const {
-	return this->_port;
-}
+unsigned short int Server::getPort() const { return this->_port; }
 
+void Server::printUsers() const
+{
+    std::cout << "Connected users:" << std::endl;
+    for (std::map<int, User *>::const_iterator it = _users.begin(); it != _users.end(); ++it)
+    {
+        std::cout << "User fd: " << it->first << std::endl;
+        std::cout << "Nickname: " << it->second->getNickname() << std::endl;
+    }
+}

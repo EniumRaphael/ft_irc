@@ -21,10 +21,13 @@ short unsigned int User::getFd() const
     return _fd;
 }
 
-// Getter for nickname
-std::string User::getNickname() const
-{
-    return _nickname;
+/**
+ * @brief Getter for the nickname of the user
+ *
+ * @return the actual nickname of the user
+ */
+std::string User::getName() const {
+	return this->_nickname;
 }
 
 void User::setUsername(const std::string &username)

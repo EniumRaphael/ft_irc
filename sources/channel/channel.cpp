@@ -106,7 +106,7 @@ void Channel::addOperator(User *user) {
 		this->_operators.push_back(user);
 	}
 	else {
-		std::cerr << user->getNickname() << " is already an operator in the channel " << this->_name << std::endl;
+		std::cerr << user->getName() << " is already an operator in the channel " << this->_name << std::endl;
 	}
 }
 
@@ -120,7 +120,7 @@ void Channel::addUser(User *user) {
 		this->_users.push_back(user);
 	}
 	else {
-		std::cerr << user->getNickname() << " is already in the channel " << this->_name << std::endl;
+		std::cerr << user->getName() << " is already in the channel " << this->_name << std::endl;
 	}
 }
 
@@ -134,7 +134,7 @@ void Channel::removeUser(User *user) {
 		this->_users.remove(user);
 	}
 	else {
-		std::cerr << user->getNickname() << " is not in the channel " << this->_name << std::endl;
+		std::cerr << user->getName() << " is not in the channel " << this->_name << std::endl;
 	}
 }
 
@@ -148,7 +148,7 @@ void Channel::removeOperator(User *user) {
 		this->_operators.remove(user);
 	}
 	else {
-		std::cerr << user->getNickname() << " is not an operator in the channel " << this->_name << std::endl;
+		std::cerr << user->getName() << " is not an operator in the channel " << this->_name << std::endl;
 	}
 }
 

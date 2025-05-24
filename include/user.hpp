@@ -32,7 +32,7 @@ public:
 	short unsigned int getFd() const;
 	bool isReadyToSend() const;
 	bool isRegistered() const;
-	std::string getNickname() const;
+	std::string getName() const;
 	std::string extractFullCommand();
 	void appendToReadBuffer(const std::string &data);
 	void appendToWriteBuffer(const std::string &data);

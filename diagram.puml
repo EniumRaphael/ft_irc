@@ -55,7 +55,7 @@ class User {
     + getFd() : short unsigned int
     + isReadyToSend() : bool
     + isRegistered() : bool
-    + getNickname() : string
+    + getName() : string
     + extractFullCommand() : string
     + appendToReadBuffer(data : string) : void
     + appendToWriteBuffer(data : string) : void

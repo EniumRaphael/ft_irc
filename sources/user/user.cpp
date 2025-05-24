@@ -26,7 +26,7 @@ int User::getFd() const {
  *
  * @return the actual nickname of the user
  */
-std::string User::getNickname() const {
+std::string User::getName() const {
 	return this->_nickname;
 }
 

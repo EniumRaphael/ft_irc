@@ -48,7 +48,7 @@ class User {
     - _registered : bool
 
     + getFd() : int
-    + getNickname() : string
+    + getName() : string
     + setNickname(name : string) : void
     + appendToReadBuffer(data : string) : void
     + appendToWriteBuffer(data : string) : void

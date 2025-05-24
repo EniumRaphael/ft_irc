@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:31:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/24 17:41:11 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/24 18:21:55 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@
 
 namespace cmd
 {
-	/**
-	 * @brief To send the line where a command is invoqued to execute
-	 *
-	 * @param user user who send the command
-	 * @param channel channel where the command is sent
-	 * @param line line send by the user
-	 */
 	void dispatch(User *user, Channel *channel, const std::string &line);
 	std::vector<std::string> split(const std::string &line);
 	template <typename T>

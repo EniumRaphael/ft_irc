@@ -143,6 +143,6 @@ void Server::printUsers() const
     for (std::map<int, User *>::const_iterator it = _users.begin(); it != _users.end(); ++it)
     {
         std::cout << "User fd: " << it->first << std::endl;
-        std::cout << "Nickname: " << it->second->getNickname() << std::endl;
+        std::cout << "Nickname: " << it->second->getName() << std::endl;
     }
 }

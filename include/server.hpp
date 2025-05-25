@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:50:32 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/24 18:10:53 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/25 12:57:29 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -18,6 +18,7 @@
 #include "user.hpp"
 
 class User;
+class Channel;
 class Server
 {
 private:

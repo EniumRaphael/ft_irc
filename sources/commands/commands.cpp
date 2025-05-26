@@ -112,8 +112,8 @@ ACommand::ACommand(::User *user, ::Channel *channel, ::Server *server, const std
 	_command = _args.at(0);
 	_channels = server->getChannelsList();
 	_users = server->getUsersList();
-	_uTarget = nullptr;
-	_cTarget = nullptr;
+	_uTarget = NULL;
+	_cTarget = NULL;
 }
 
 ACommand::~ACommand() {

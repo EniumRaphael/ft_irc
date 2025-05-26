@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:17:31 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/24 17:32:43 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:27:42 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 
 class cmd::Invite : public ACommand {
 	public:
-		virtual void execute(Server &server, User &client, const std::vector<std::string> &args);
+		virtual void execute(void);
 		virtual bool checkArgs();
 };

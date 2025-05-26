@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/24 17:58:36 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:43:01 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,37 @@ bool Invite::checkArgs() {
 		return false;
 	}
 	_cTarget = searchList(_channels, _args.at(1));
-	if (_cTarget == nullptr) {
+	if (_cTarget == NULL) {
 		WARNING_MSG("Channel not found for INVITE command");
 		INFO_MSG("You can only invite users to channels you are in");
 		return false;
 	}
-	if (searchList(_cTarget->getOperators(), _sender->getName()) != nullptr) {
+	if (searchList(_cTarget->getOperators(), _sender->getName()) != NULL) {
 		WARNING_MSG("You are not an operator in the channel for INVITE command");
 		return false;
 	}
-	return (true);
+	uTarget = searchList(this->_users, _args.at(2));
+	if (this->_uTarget == NULL) {
+		WARNING_MSG("User not found");
+		return false;
+	}
+	if (this->_uTarget->isRegistered() == false) {
+		WARNING_MSG("User is not registered for INVITE command");
+		INFO_MSG("You can only invite registered users");
+		return false;
+	}
+	if (searchList(this->_cTarget->getUsers(), this->_uTarget->getName())) {
+		WARNING_MSG("User is already in the channel for INVITE command");
+		INFO_MSG("You cannot invite a user who is already in the channel");
+		return false;
+	}
+	return true;
+}
+
+void Invite::execute() {
+	if (checkArgs() == false) {
+		ERROR_MSG("Invalid arguments for INVITE command (see warning message)");
+		return;
+	}
+	// check how the com
 }

@@ -6,7 +6,7 @@
 #    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/24 16:48:43 by rparodi          ###   ########.fr        #
+#    Updated: 2025/05/26 16:18:54 by rparodi          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -31,10 +31,13 @@ SRC =	sources/core/logs.cpp \
 		sources/core/main.cpp \
 		sources/core/Server.cpp \
 		sources/user/user.cpp \
-		sources/channel/channel.cpp
+		sources/channel/channel.cpp \
+		sources/commands/commands.cpp \
+		sources/commands/invite.cpp
 
-INC_DIR = include/core \
-		  include
+INC_DIR =	include/core \
+			include/commands \
+			include
 
 CPPFLAGS = $(addprefix -I, $(INC_DIR)) -MMD -MP
 

@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:31:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/24 18:21:55 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:28:58 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ namespace cmd
 	class Quit;
 	class Topic;
 	class Unknown;
-	class User;
+	class cmdUser;
 };
 
 #include "./commands/commands.tpp"

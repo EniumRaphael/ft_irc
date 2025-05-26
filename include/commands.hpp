@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:31:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 16:28:58 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:25:49 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 namespace cmd
 {
-	void dispatch(User *user, Channel *channel, const std::string &line);
+	void dispatch(User *user, Channel *channel, Server *server, const std::string &line);
 	std::vector<std::string> split(const std::string &line);
 	template <typename T>
 	T searchList(const std::list<T> &list, const std::string &name);

@@ -6,14 +6,12 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/24 18:21:36 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:25:18 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.hpp"
 #include "logs.hpp"
-
-using namespace cmd;
 
 /**
  * @brief To send the line where a command is invoqued to execute
@@ -22,7 +20,7 @@ using namespace cmd;
  * @param channel channel where the command is sent
  * @param line line send by the user
  */
-std::vector<std::string> split(const std::string &line) {
+std::vector<std::string> cmd::split(const std::string &line) {
 	std::vector<std::string> args;
 	std::string arg;
 	size_t pos = line.find(' ');
@@ -47,7 +45,7 @@ std::vector<std::string> split(const std::string &line) {
  * @param server Server where the command is sent
  * @param line input line from the user
  */
-void dispatch(::User *user, Channel *channel, Server *server, const std::string &line) {
+void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::string &line) {
 	std::string command_name = cmd::split(line).at(0);
 	if (command_name.empty()) {
 		WARNING_MSG("No command found in line: " << line);
@@ -106,7 +104,7 @@ void dispatch(::User *user, Channel *channel, Server *server, const std::string 
 	(void)line;
 }
 
-ACommand::ACommand(::User *user, ::Channel *channel, ::Server *server, const std::string &line) : _sender(user), _channel(channel), _server(server) {
+cmd::ACommand::ACommand(::User *user, ::Channel *channel, ::Server *server, const std::string &line) : _sender(user), _channel(channel), _server(server) {
 	DEBUG_MSG("ACommand constructor called");
 	_args = split(line);
 	_command = _args.at(0);
@@ -116,6 +114,6 @@ ACommand::ACommand(::User *user, ::Channel *channel, ::Server *server, const std
 	_cTarget = NULL;
 }
 
-ACommand::~ACommand() {
+cmd::ACommand::~ACommand() {
 	DEBUG_MSG("ACommand destructor called");
 }

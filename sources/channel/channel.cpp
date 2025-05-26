@@ -6,11 +6,12 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/20 22:55:20 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:10:43 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "channel.hpp"
+#include <iostream>
 
 /**
  * @brief Get the name of the channel

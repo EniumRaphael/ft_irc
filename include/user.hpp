@@ -6,13 +6,13 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:57:49 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 16:16:01 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:10:24 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #pragma once
 
-#include "core.hpp"
+#include <string>
 
 class User
 {

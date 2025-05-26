@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 16:43:01 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:17:15 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool Invite::checkArgs() {
 		WARNING_MSG("You are not an operator in the channel for INVITE command");
 		return false;
 	}
-	uTarget = searchList(this->_users, _args.at(2));
+	_uTarget = searchList(this->_users, _args.at(2));
 	if (this->_uTarget == NULL) {
 		WARNING_MSG("User not found");
 		return false;

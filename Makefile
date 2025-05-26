@@ -6,7 +6,7 @@
 #    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/26 16:18:54 by rparodi          ###   ########.fr        #
+#    Updated: 2025/05/26 18:22:38 by rparodi          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -24,14 +24,13 @@ CXXFLAGS = -Werror -Wextra -Wall -std=c++98
 SESSION = test-irc
 
 # Sources
-SRC =	sources/core/logs.cpp \
-		sources/core/check.cpp \
+SRC =	sources/channel/channel.cpp \
 		sources/core/PollManager.cpp \
-		sources/core/parser.cpp \
-		sources/core/main.cpp \
 		sources/core/Server.cpp \
+		sources/core/check.cpp \
+		sources/core/main.cpp \
+		sources/core/parser.cpp \
 		sources/user/user.cpp \
-		sources/channel/channel.cpp \
 		sources/commands/commands.cpp \
 		sources/commands/invite.cpp
 
@@ -75,7 +74,7 @@ re: header fclean all
 $(NAME): $(OBJ)
 	@mkdir -p $(OBJDIRNAME)
 	@printf '$(GREY) Creating $(END)$(GREEN)$(OBJDIRNAME)$(END)\n'
-	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJ)
+	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJ) -fuse-ld=lld
 
 # Creating the objects
 $(OBJDIRNAME)/%.o: %.cpp

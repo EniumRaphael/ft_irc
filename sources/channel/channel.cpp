@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 18:10:43 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:55:45 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,15 @@ std::list<User *> Channel::getUsers() const {
  */
 std::list<User *> Channel::getOperators() const {
 	return this->_operators;
+}
+
+/**
+ * @brief Get the list of the Invited in the channel
+ *
+ * @return list of Invited in the channel
+ */
+std::list<User *> Channel::getInvited() const {
+	return this->_invited;
 }
 
 /**

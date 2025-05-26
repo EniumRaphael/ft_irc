@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:50:32 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/25 12:57:29 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:26:04 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,6 +16,7 @@
 #include "core.hpp"
 #include "channel.hpp"
 #include "user.hpp"
+#include "logs.hpp"
 
 class User;
 class Channel;
@@ -27,13 +28,14 @@ private:
 	std::string _password;
 	PollManager _pollManager;
 	std::map<int, User *> _users;
+	std::list<Channel *> _channels;
 
 public:
 	Server(int port, const std::string &password);
 	~Server();
 	void start();
 	unsigned short int getPort() const;
-  std::list<User *> getUsersList() const;
+	std::list<User *> getUsersList() const;
 	std::list<Channel *> getChannelsList() const;
 	void showInfo() const;
 	void printUsers() const;

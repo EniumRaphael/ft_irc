@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 18:17:15 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:50:04 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 using namespace cmd;
 
 bool Invite::checkArgs() {
-	if (_args.size() < 2) {
+	if (_args.size() < 3) {
 		WARNING_MSG("Not enough arguments for INVITE command");
 		return false;
 	}
@@ -31,7 +31,8 @@ bool Invite::checkArgs() {
 		WARNING_MSG("Channel not found for INVITE command");
 		INFO_MSG("You can only invite users to channels you are in");
 		return false;
-	}
+	} else
+		_args.at(1).erase(0, 1);
 	if (searchList(_cTarget->getOperators(), _sender->getName()) != NULL) {
 		WARNING_MSG("You are not an operator in the channel for INVITE command");
 		return false;

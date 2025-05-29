@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/22 18:45:41 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:30:07 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -14,6 +14,7 @@
 #include "server.hpp"
 #include "core.hpp"
 #include "PollManager.hpp"
+#include "logs.hpp"
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -145,4 +146,18 @@ void Server::printUsers() const
         std::cout << "User fd: " << it->first << std::endl;
         std::cout << "Nickname: " << it->second->getName() << std::endl;
     }
+}
+
+std::list<User *> Server::getUsersList() const {
+	// to_delete when done
+	WARNING_MSG("TO DO FILL")
+	std::list<User*> userList;
+	for (std::map<int, User*>::const_iterator it = _users.begin(); it != _users.end(); ++it) {
+		userList.push_back(it->second);
+	}
+	return userList;
+}
+
+std::list<Channel *> Server::getChannelsList() const {
+	return this->_channels;
 }

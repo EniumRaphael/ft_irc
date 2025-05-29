@@ -18,6 +18,7 @@
 						clang-tools
 						irssi
 						tmux
+						lld
 					] ++ (
 						if pkgs.stdenv.isLinux then [
 							valgrind

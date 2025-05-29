@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 12:25:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/15 12:38:10 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:08:50 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,14 @@
 #include <iostream>
 #include "color.hpp"
 
-#define DEBUG_MSG(str) "print_debug(str, __FILE__, __LINE__)"
-#define ERROR_MSG(str) "print_error(str, __FILE__, __LINE__)"
-#define WARNING_MSG(str) "print_warning(str, __FILE__, __LINE__)"
-#define INFO_MSG(str) "print_info(str, __FILE__, __LINE__)"
-#define SUCCESS_MSG(str) "print_success(str, __FILE__, __LINE__)"
+#define DEBUG_MSG(str) std::cerr << CLR_CYAN << "\tDebug: " << str << "(" << __FILE__ << ":" << __LINE__ << ")" << CLR_RESET << std::endl;
+#define ERROR_MSG(str) std::cerr << CLR_RED << "\tError: " << str << "(" << __FILE__ << ":" << __LINE__ << ")" << CLR_RESET << std::endl;
+#define WARNING_MSG(str) std::cerr << CLR_YELLOW << "\tWarning: " << str << "(" << __FILE__ << ":" << __LINE__ << ")" << CLR_RESET << std::endl;
+#define INFO_MSG(str) std::cerr << CLR_GREY << "\tInfo: " << str << "(" << __FILE__ << ":" << __LINE__ << ")" << CLR_RESET << std::endl;
+#define SUCCESS_MSG(str) std::cerr << CLR_GREEN << "\tSuccess: " << str << "(" << __FILE__ << ":" << __LINE__ << ")" << CLR_RESET << std::endl;
 
 
 #ifndef DEBUG
 #define DEBUG 0
 #define LOG ""
 #endif
-
-void print_debug(const char *str, const char *file, int line);
-void print_error(const char *str, const char *file, int line);
-void print_warning(const char *str, const char *file, int line);
-void print_info(const char *str, const char *file, int line);
-void print_success(const char *str, const char *file, int line);

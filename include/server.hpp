@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:50:32 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 22:26:04 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:17:55 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -37,6 +37,7 @@ public:
 	unsigned short int getPort() const;
 	std::list<User *> getUsersList() const;
 	std::list<Channel *> getChannelsList() const;
+	std::string getPassword() const;
 	void showInfo() const;
 	void printUsers() const;
 };

@@ -6,12 +6,13 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 18:25:18 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:48:13 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.hpp"
 #include "logs.hpp"
+#include "pass.hpp"
 
 /**
  * @brief To send the line where a command is invoqued to execute
@@ -91,6 +92,9 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::st
 			// }
 			break;
 		case 'p':
+			if (command_name == "pass") {
+				Pass(user, channel, server, line).execute();
+			}
 			// if (command_name == "part") {
 			// 	Part(user, channel, server, line).execute();
 			// }

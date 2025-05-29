@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/05/22 17:13:35 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:38:46 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -15,11 +15,12 @@
 // Constructor
 User::User(short unsigned int fd) : _fd(fd), _registered(false), _hasNick(false), _hasUser(false) {}
 
-// Getter for fd
-short unsigned int User::getFd() const
-{
-    return _fd;
-}
+/**
+ * @brief Getter for the fd
+ *
+ * @return the fd of the user
+ */
+short unsigned int User::getFd() const { return this->_fd; }
 
 /**
  * @brief Getter for the nickname of the user
@@ -62,6 +63,13 @@ void User::setNickname(const std::string &nickname)
         _hasNick = true;
         checkRegistration();
     }
+}
+
+/**
+ * @brief Setter to register a user
+ */
+void User::setRegistered() {
+	this->_registered = true;
 }
 
 // Registration state

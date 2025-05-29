@@ -6,7 +6,7 @@
 #    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/05/26 18:22:38 by rparodi          ###   ########.fr        #
+#    Updated: 2025/05/29 12:31:53 by rparodi          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -32,6 +32,7 @@ SRC =	sources/channel/channel.cpp \
 		sources/core/parser.cpp \
 		sources/user/user.cpp \
 		sources/commands/commands.cpp \
+		sources/commands/pass.cpp \
 		sources/commands/invite.cpp
 
 INC_DIR =	include/core \

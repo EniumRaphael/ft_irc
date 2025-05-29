@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:31:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 18:25:49 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:47:57 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ namespace cmd
 	class Nick;
 	class Notice;
 	class Part;
-	class Pass;
 	class Ping;
 	class Pong;
 	class PrivMsg;

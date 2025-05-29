@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:57:49 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 18:10:24 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:37:11 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -34,6 +34,7 @@ class User
 		bool isRegistered() const;
 		std::string getName() const;
 		std::string extractFullCommand();
+		void setRegistered();
 		void appendToReadBuffer(const std::string &data);
 		void appendToWriteBuffer(const std::string &data);
 		void setNickname(const std::string &nickname);

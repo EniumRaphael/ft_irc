@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 22:30:07 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:17:15 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -147,6 +147,13 @@ void Server::printUsers() const
         std::cout << "Nickname: " << it->second->getName() << std::endl;
     }
 }
+
+/**
+ * @brief The getter for the password
+ *
+ * @return the password of the server
+ */
+std::string Server::getPassword() const { return this->_password; }
 
 std::list<User *> Server::getUsersList() const {
 	// to_delete when done

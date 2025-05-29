@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 22:50:04 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:10:25 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ bool Invite::checkArgs() {
 		WARNING_MSG("Invalid channel name for INVITE command");
 		INFO_MSG("Channel names must start with a '#' character");
 		return false;
-	}
+	} else
+		_args.at(1).erase(0, 1);
 	_cTarget = searchList(_channels, _args.at(1));
 	if (_cTarget == NULL) {
 		WARNING_MSG("Channel not found for INVITE command");
@@ -55,6 +56,10 @@ bool Invite::checkArgs() {
 	return true;
 }
 
+/**
+ * @brief Execute the invite command
+ * @note To invite a peapol to join a channel (from an operator)
+ */
 void Invite::execute() {
 	if (checkArgs() == false) {
 		ERROR_MSG("Invalid arguments for INVITE command (see warning message)");

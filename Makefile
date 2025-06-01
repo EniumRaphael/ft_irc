@@ -6,7 +6,7 @@
 #    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/02 00:38:02 by rparodi          ###   ########.fr        #
+#    Updated: 2025/06/02 01:18:57 by rparodi          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -28,7 +28,11 @@ SRC =	sources/channel/channel.cpp \
 		sources/commands/commands.cpp \
 		sources/commands/invite.cpp \
 		sources/commands/join.cpp \
+		sources/commands/nick.cpp \
+		sources/commands/notice.cpp \
+		sources/commands/part.cpp \
 		sources/commands/pass.cpp \
+		sources/commands/privmsg.cpp \
 		sources/core/PollManager.cpp \
 		sources/core/Server.cpp \
 		sources/core/check.cpp \

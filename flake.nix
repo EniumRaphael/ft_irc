@@ -19,6 +19,7 @@
 						irssi
 						tmux
 						lld
+						fd
 					] ++ (
 						if pkgs.stdenv.isLinux then [
 							valgrind

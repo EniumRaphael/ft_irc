@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:17:31 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 22:43:47 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/02 00:33:23 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 class cmd::Join : public ACommand {
 	public:
+		Join(User *user, Channel *channel, Server *server, const std::string &line) : ACommand(user, channel, server, line) {}
 		virtual void execute(void);
 		virtual bool checkArgs();
 };

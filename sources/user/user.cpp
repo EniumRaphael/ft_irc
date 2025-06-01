@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/05/29 12:38:46 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:30:51 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -31,34 +31,23 @@ std::string User::getName() const {
 	return this->_nickname;
 }
 
-void User::setUsername(const std::string &username)
-{
+void User::setUsername(const std::string &username) {
     _username = username;
     _hasUser = true;
     checkRegistration();
 }
 
 // Setter for nickname (with basic checks)
-void User::setNickname(const std::string &nickname)
-{
-    if (nickname.empty())
-    {
+void User::setNickname(const std::string &nickname) {
+    if (nickname.empty()) {
         throw std::invalid_argument("Nickname cannot be empty");
-    }
-    else if (nickname == "anonymous")
-    {
+    } else if (nickname == "anonymous") {
         throw std::invalid_argument("Nickname cannot be 'anonymous'");
-    }
-    else if (nickname.length() > 9)
-    {
+	} else if (nickname.length() > 9) {
         throw std::length_error("Nickname is too long");
-    }
-    else if (nickname == _nickname)
-    {
+    } else if (nickname == _nickname) {
         throw std::invalid_argument("The nickname is the same");
-    }
-    else
-    {
+    } else {
         _nickname = nickname;
         _hasNick = true;
         checkRegistration();

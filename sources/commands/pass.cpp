@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/29 12:41:39 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/02 22:41:12 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool Pass::checkArgs() {
 
 /**
  * @brief Execute the Pass command
- * @note To Pass a users to join a channel (from an operator)
+ * @note To connect a user with the password
  */
 void Pass::execute() {
 	if (checkArgs() == false) {

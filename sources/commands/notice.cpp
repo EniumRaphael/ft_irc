@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/02 01:18:05 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/02 22:44:49 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ bool Notice::checkArgs() {
 }
 
 /**
- * @brief Execute the PrivMsg command
- * @note To send a private message to a user / a channel
+ * @brief Execute the Notice command
+ * @note To send a private message to a user / a channel (like privmsg but without error)
  */
 void Notice::execute() {
 	if (checkArgs() == false) {
-		ERROR_MSG("Invalid arguments for PRIVMSG command (see warning message)");
+		ERROR_MSG("Invalid arguments for NOTICE command (see warning message)");
 		return;
 	}
 	// check how the com

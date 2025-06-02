@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 22:56:16 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/02 22:42:17 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ bool Join::checkArgs() {
 	return true;
 }
 
+/**
+ * @brief Execute the join command
+ * @note To join a new channel
+ */
 void Join::execute() {
 	if (checkArgs() == false) {
 		ERROR_MSG("Invalid arguments for Join command (see warning message)");

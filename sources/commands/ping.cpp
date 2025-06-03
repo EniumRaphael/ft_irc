@@ -1,48 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pass.cpp                                           :+:      :+:    :+:   */
+/*   ping.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/03 15:04:10 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:49:27 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pass.hpp"
+#include "ping.hpp"
 #include "commands.hpp"
 #include "logs.hpp"
+#include "pong.hpp"
+#include <ctime>
 
 using namespace cmd;
 
-bool Pass::checkArgs() {
-	if (_args.size() != 2) {
-		WARNING_MSG("Not correct for Pass command");
-		return false;
-	}
-	DEBUG_MSG("coucou");
-	if (_sender->isRegistered()) {
-		WARNING_MSG(_sender->getName() << " is already is already log in the server !");
+bool Ping::checkArgs() {
+	if (_args.size() < 3) {
+		WARNING_MSG("Not enough arguments for PING command");
 		return false;
 	}
 	return true;
 }
 
 /**
- * @brief Execute the Pass command
- * @note To connect a user with the password
+ * @brief Execute the Ping
+ * @note To send a private message to a user / a channel
  */
-void Pass::execute() {
+void Ping::execute() {
+	clock_t start = clock() / CLOCKS_PER_SEC;
 	if (checkArgs() == false) {
-		ERROR_MSG("Invalid arguments for Pass command (see warning message)");
-		DEBUG_MSG("skill issues");
+		ERROR_MSG("Invalid arguments for PRIVMSG command (see warning message)");
 		return;
 	}
-	DEBUG_MSG("mais pas trop skill issues");
-	if (_args.at(1) != _server->getPassword()) {
-		ERROR_MSG("The password is incorrect");
-		return;
-	}
-	_sender->setRegistered();
+	clock_t diff = Pong().answer(start);
+	INFO_MSG(diff);
+	// check how the com
 }

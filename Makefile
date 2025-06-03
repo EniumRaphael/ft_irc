@@ -6,7 +6,7 @@
 #    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/02 01:18:57 by rparodi          ###   ########.fr        #
+#    Updated: 2025/06/03 16:50:01 by rparodi          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -32,6 +32,8 @@ SRC =	sources/channel/channel.cpp \
 		sources/commands/notice.cpp \
 		sources/commands/part.cpp \
 		sources/commands/pass.cpp \
+		sources/commands/ping.cpp \
+		sources/commands/pong.cpp \
 		sources/commands/privmsg.cpp \
 		sources/core/PollManager.cpp \
 		sources/core/Server.cpp \
@@ -80,7 +82,7 @@ re: header fclean all
 $(NAME): $(OBJ)
 	@mkdir -p $(OBJDIRNAME)
 	@printf '$(GREY) Creating $(END)$(GREEN)$(OBJDIRNAME)$(END)\n'
-	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJ) -fuse-ld=lld
+	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJ) #-fuse-ld=lld
 
 # Creating the objects
 $(OBJDIRNAME)/%.o: %.cpp
@@ -112,17 +114,16 @@ test: debug
 		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
-
-run: re
+	# @tmux split-window -h -p 70 -t $(SESSION):0 \
+	# 	'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
+run: all
 	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)$(PORT)$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
 	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
 		tmux kill-session -t $(SESSION); \
 	fi
 	@tmux new-session -d -s $(SESSION) \
 		'bash -lc "./$(NAME) $(PORT) irc; exec bash"'
-	@tmux split-window -h -p 70 -t $(SESSION):0 \
-		'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
-	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
+	@tmux split-window -v -p 50 -t $(SESSION):0 \
 		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
 

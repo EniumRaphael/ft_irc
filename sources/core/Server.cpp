@@ -6,12 +6,13 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/29 12:17:15 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:56:06 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "color.hpp"
 #include "server.hpp"
+#include "commands.hpp"
 #include "core.hpp"
 #include "PollManager.hpp"
 #include "logs.hpp"
@@ -107,6 +108,7 @@ void Server::start()
                 {
                     // This prints every command/message received from any client
                     std::cout << "Client " << fd << " says: " << cmd << std::endl;
+					 cmd::dispatch(_users[fd], NULL, this, cmd);
                 }
             }
         }

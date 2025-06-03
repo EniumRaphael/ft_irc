@@ -6,13 +6,14 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/29 12:48:13 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:46:58 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.hpp"
 #include "logs.hpp"
 #include "pass.hpp"
+#include "ping.hpp"
 
 /**
  * @brief To send the line where a command is invoqued to execute
@@ -24,6 +25,8 @@
 std::vector<std::string> cmd::split(const std::string &line) {
 	std::vector<std::string> args;
 	std::string arg;
+	if (line.empty())
+		return args;
 	size_t pos = line.find(' ');
 	while (pos != std::string::npos) {
 		arg = line.substr(0, pos);
@@ -47,7 +50,13 @@ std::vector<std::string> cmd::split(const std::string &line) {
  * @param line input line from the user
  */
 void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::string &line) {
-	std::string command_name = cmd::split(line).at(0);
+	DEBUG_MSG("in dispatch");
+	std::vector<std::string> args = cmd::split(line);
+	if (args.empty()) {
+		ERROR_MSG("Empty line");
+		return;
+	}
+	std::string command_name = args[0];
 	if (command_name.empty()) {
 		WARNING_MSG("No command found in line: " << line);
 		return;
@@ -94,6 +103,9 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::st
 		case 'p':
 			if (command_name == "pass") {
 				Pass(user, channel, server, line).execute();
+			}
+			if (command_name == "ping") {
+				Ping(user, channel, server, line).execute();
 			}
 			// if (command_name == "part") {
 			// 	Part(user, channel, server, line).execute();

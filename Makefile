@@ -114,17 +114,16 @@ test: debug
 		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
-
-run: re
+	# @tmux split-window -h -p 70 -t $(SESSION):0 \
+	# 	'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
+run: all
 	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)$(PORT)$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
 	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
 		tmux kill-session -t $(SESSION); \
 	fi
 	@tmux new-session -d -s $(SESSION) \
 		'bash -lc "./$(NAME) $(PORT) irc; exec bash"'
-	@tmux split-window -h -p 70 -t $(SESSION):0 \
-		'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
-	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
+	@tmux split-window -v -p 50 -t $(SESSION):0 \
 		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
 

@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/03 14:49:27 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/04 23:54:56 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 
 using namespace cmd;
 
-bool Ping::checkArgs() {
+e_code Ping::checkArgs() {
 	if (_args.size() < 3) {
 		WARNING_MSG("Not enough arguments for PING command");
-		return false;
+		return ERR_NEEDMOREPARAMS;
 	}
-	return true;
+	return _PARSING_OK;
 }
 
 /**
@@ -32,7 +32,7 @@ bool Ping::checkArgs() {
  */
 void Ping::execute() {
 	clock_t start = clock() / CLOCKS_PER_SEC;
-	if (checkArgs() == false) {
+	if (checkArgs() == _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for PRIVMSG command (see warning message)");
 		return;
 	}

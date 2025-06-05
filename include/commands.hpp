@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:31:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/29 12:47:57 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/05 22:55:54 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "user.hpp"
 #include "channel.hpp"
 #include "server.hpp"
+#include "core.hpp"
 #include "logs.hpp"
 
 namespace cmd
@@ -39,7 +40,7 @@ namespace cmd
 			std::vector<std::string> _args;
 		public:
 			virtual void execute() = 0;
-			virtual bool checkArgs() = 0;
+			virtual e_code checkArgs() = 0;
 			~ACommand();
 			ACommand(User *user, Channel *channel, Server *server, const std::string &line);
 	};

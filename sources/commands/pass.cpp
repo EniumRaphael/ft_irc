@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/03 15:04:10 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/04 23:59:57 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 
 using namespace cmd;
 
-bool Pass::checkArgs() {
+e_code Pass::checkArgs() {
 	if (_args.size() != 2) {
 		WARNING_MSG("Not correct for Pass command");
-		return false;
+		return ERR_NEEDMOREPARAMS;
 	}
 	DEBUG_MSG("coucou");
 	if (_sender->isRegistered()) {
 		WARNING_MSG(_sender->getName() << " is already is already log in the server !");
-		return false;
+		return ERR_ALREADYREGISTERED;
 	}
-	return true;
+	return _PARSING_OK;
 }
 
 /**
@@ -34,7 +34,7 @@ bool Pass::checkArgs() {
  * @note To connect a user with the password
  */
 void Pass::execute() {
-	if (checkArgs() == false) {
+	if (checkArgs() == _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for Pass command (see warning message)");
 		DEBUG_MSG("skill issues");
 		return;

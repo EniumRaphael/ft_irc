@@ -6,7 +6,7 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:16:03 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/04 23:45:35 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:10:45 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -17,6 +17,8 @@
 #endif
 
 enum e_code {
+	//command for parsing
+	_PARSING_OK                = 000,
     // Reply codes (RPL_*)
     RPL_WELCOME                = 001,  // “<nick> :Welcome to the Internet Relay Network <nick>!<user>@<host>”
     RPL_YOURHOST               = 002,  // “<nick> :Your host is <servername>, running version <ver>”
@@ -153,7 +155,7 @@ enum e_code {
     ERR_TOOMANYTARGETS         = 407,  // “<target> :Duplicate recipients. No message delivered”
     ERR_NOSUCHSERVICE          = 408,  // “<service name> :No such service                                 ”
     ERR_NOORIGIN               = 409,  // “:No origin specified”
-    ERR_NORECIPIENT            = 411,  // “:No recipient given (<command>)”
+    ERR_NOREC                  = 411,  // “:No recipient given (<command>)”
     ERR_NOTEXTTOSEND           = 412,  // “:No text to send”
     ERR_NOTOPLEVEL             = 413,  // “<mask> :No toplevel domain specified”
     ERR_WILDTOPLEVEL           = 414,  // “<mask> :Wildcard in toplevel domain”
@@ -173,7 +175,7 @@ enum e_code {
     ERR_NOLOGIN                = 444,  // “<user> :User not logged in”
     ERR_SUMMONDISABLED         = 445,  // “:SUMMON has been disabled”
     ERR_USERSDISABLED          = 446,  // “:USERS has been disabled”
-    ERR_NOTREGISTERED          = 451,  // “:You have not registered”
+    ERR_NOTTERED               = 451,  // “:You have not registered”
     ERR_NEEDMOREPARAMS         = 461,  // “<command> :Not enough parameters”
     ERR_ALREADYREGISTERED      = 462,  // “:You may not reregister”
     ERR_NOPERMFORHOST          = 463,  // “:Your host isn't among the privileged”

@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/02 00:55:45 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/05 22:48:17 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@
 
 using namespace cmd;
 
-bool Nick::checkArgs() {
+e_code Nick::checkArgs() {
 	if (this->_uTarget->isRegistered() == false) {
 		WARNING_MSG("User is not registered for Nick command");
 		INFO_MSG("You can only Nick registered users");
-		return false;
+		return ERR_NOSUCHNICK;
 	}
 	if (_args.size() < 2) {
 		WARNING_MSG("Not enough arguments for Nick command");
-		return false;
+		return ERR_NEEDMOREPARAMS;
 	}
 	_uTarget = searchList(this->_users, _args.at(1));
 	if (this->_uTarget != NULL) {
 		WARNING_MSG(_uTarget->getName() << " is already taken")
-		return false;
+		return ERR_NICKNAMEINUSE;
 	}
-	return true;
+	return _PARSING_OK;
 }
 
 /**
@@ -39,7 +39,7 @@ bool Nick::checkArgs() {
  * @note To change the nickname of the user
  */
 void Nick::execute() {
-	if (checkArgs() == false) {
+	if (checkArgs() == _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for Nick command (see warning message)");
 		return;
 	}

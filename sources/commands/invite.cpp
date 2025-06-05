@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/29 12:10:25 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:10:36 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,44 @@
 
 using namespace cmd;
 
-bool Invite::checkArgs() {
+e_code Invite::checkArgs() {
 	if (_args.size() < 3) {
 		WARNING_MSG("Not enough arguments for INVITE command");
-		return false;
+		return ERR_NEEDMOREPARAMS;
 	}
 	if (_args.at(1).at(0) != '#') {
 		WARNING_MSG("Invalid channel name for INVITE command");
 		INFO_MSG("Channel names must start with a '#' character");
-		return false;
+		return ERR_NOSUCHCHANNEL;
 	} else
 		_args.at(1).erase(0, 1);
 	_cTarget = searchList(_channels, _args.at(1));
 	if (_cTarget == NULL) {
 		WARNING_MSG("Channel not found for INVITE command");
 		INFO_MSG("You can only invite users to channels you are in");
-		return false;
+		return ERR_NOSUCHCHANNEL;
 	} else
 		_args.at(1).erase(0, 1);
 	if (searchList(_cTarget->getOperators(), _sender->getName()) != NULL) {
 		WARNING_MSG("You are not an operator in the channel for INVITE command");
-		return false;
+		return ERR_NOPRIVILEGES;
 	}
 	_uTarget = searchList(this->_users, _args.at(2));
 	if (this->_uTarget == NULL) {
 		WARNING_MSG("User not found");
-		return false;
+		return ERR_NOSUCHNICK;
 	}
 	if (this->_uTarget->isRegistered() == false) {
 		WARNING_MSG("User is not registered for INVITE command");
 		INFO_MSG("You can only invite registered users");
-		return false;
+		return ERR_NOSUCHNICK;
 	}
 	if (searchList(this->_cTarget->getUsers(), this->_uTarget->getName())) {
 		WARNING_MSG("User is already in the channel for INVITE command");
 		INFO_MSG("You cannot invite a user who is already in the channel");
-		return false;
+		return ERR_USERONCHANNEL;
 	}
-	return true;
+	return _PARSING_OK;
 }
 
 /**
@@ -61,7 +61,7 @@ bool Invite::checkArgs() {
  * @note To invite a peapol to join a channel (from an operator)
  */
 void Invite::execute() {
-	if (checkArgs() == false) {
+	if (checkArgs() == _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for INVITE command (see warning message)");
 		return;
 	}

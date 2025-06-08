@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/08 21:10:25 by sben-tay         ###   ########.fr        #
+#    Updated: 2025/06/08 23:06:16 by rparodi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SESSION = test-irc
 
 # Sources
 SRC =	sources/channel/channel.cpp \
+		sources/commands/cap.cpp \
 		sources/commands/commands.cpp \
 		sources/commands/invite.cpp \
 		sources/commands/join.cpp \
@@ -115,8 +116,6 @@ test: debug
 		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
-	# @tmux split-window -h -p 70 -t $(SESSION):0 \
-	# 	'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
 run: all
 	@printf '$(GREY) now running with\n\t- Port:\t\t$(GREEN)$(PORT)$(GREY)\n\t- Password:\t$(GREEN)irc$(END)\n'
 	@if tmux has-session -t $(SESSION) 2>/dev/null; then \
@@ -124,9 +123,12 @@ run: all
 	fi
 	@tmux new-session -d -s $(SESSION) \
 		'bash -lc "./$(NAME) $(PORT) irc; exec bash"'
-	@tmux split-window -v -p 50 -t $(SESSION):0 \
+	@tmux split-window -h -p 70 -t $(SESSION):0 \
+		'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
+	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
 		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
 	@tmux attach -t $(SESSION)
+
 
 #	Header
 header:

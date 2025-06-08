@@ -16,7 +16,7 @@
 
 class cmd::Notice : public ACommand {
 	public:
-		Notice(User *user, Channel *channel, Server *server, const std::string &line) : ACommand(user, channel, server, line) {}
+		Notice(User *user, Channel *channel, Server *server,  std::string &line) : ACommand(user, channel, server, line) {}
 		virtual void execute(void);
 		virtual e_code checkArgs();
 };

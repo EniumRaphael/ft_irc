@@ -3,32 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/05 22:48:17 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/08 22:18:49 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nick.hpp"
-#include "commands.hpp"
 #include "logs.hpp"
 
 using namespace cmd;
 
-e_code Nick::checkArgs() {
-	if (this->_uTarget->isRegistered() == false) {
-		WARNING_MSG("User is not registered for Nick command");
-		INFO_MSG("You can only Nick registered users");
-		return ERR_NOSUCHNICK;
+e_code cmd::Nick::checkArgs() {
+	if (_args.size() < 2 || _args[1].empty()) {
+		WARNING_MSG("Nick: Not enough arguments");
+		return ERR_NONICKNAMEGIVEN;
 	}
-	if (_args.size() < 2) {
-		WARNING_MSG("Not enough arguments for Nick command");
-		return ERR_NEEDMOREPARAMS;
+	if (_sender->isRegistered()) {
+		WARNING_MSG(_sender->getName() << " is already registered");
+		return ERR_ALREADYREGISTERED;
 	}
-	_uTarget = searchList(this->_users, _args.at(1));
-	if (this->_uTarget != NULL) {
-		WARNING_MSG(_uTarget->getName() << " is already taken")
+	User* existing = searchList<User*>(_users, _args[1]); // à adapter si besoin
+	if (existing != NULL) {
+		WARNING_MSG("Nick already in use: " << _args[1]);
 		return ERR_NICKNAMEINUSE;
 	}
 	return _PARSING_OK;
@@ -38,10 +36,13 @@ e_code Nick::checkArgs() {
  * @brief Execute the Nick command
  * @note To change the nickname of the user
  */
-void Nick::execute() {
+void cmd::Nick::execute() {
 	if (checkArgs() == _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for Nick command (see warning message)");
 		return;
 	}
-	// check how the com
+	DEBUG_MSG("Setting nickname to " << _args[1]);
+	_sender->setNickname(_args[1]);
+	_sender->setHasNick(true);
+	_sender->checkRegistration();
 }

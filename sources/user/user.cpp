@@ -1,19 +1,20 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/05/29 13:30:51 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/08 21:41:26 by sben-tay         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "core.hpp"
 
 // Constructor
-User::User(short unsigned int fd) : _fd(fd), _registered(false), _hasNick(false), _hasUser(false) {}
+User::User(short unsigned int fd) : _fd(fd), _registered(false), _hasNick(false), _hasUser(false), \
+    _hasPass(false) {}
 
 /**
  * @brief Getter for the fd
@@ -82,9 +83,13 @@ void User::appendToWriteBuffer(const std::string &data)
 // Check registration
 void User::checkRegistration()
 {
-    if (!_registered && _hasNick && _hasUser)
+    if (!_registered && _hasNick && _hasUser && _hasPass)
     {
         _registered = true;
+            std::string welcome = ":localhost 001 " + _nickname +
+            " :Welcome to the IRC server " + getPrefix() + "\r\n";
+
+        appendToWriteBuffer(welcome);
     }
 }
 
@@ -108,4 +113,24 @@ std::string User::extractFullCommand() {
             _read_buffer.erase(0, 1);
     }
     return command;
+}
+
+void User::setHasNick(bool value) { _hasNick = value; }
+
+void User::setHasUser(bool value) { _hasUser = value; }
+
+void User::setHasPass(bool value) { _hasPass = value; }
+
+bool User::getHasPass() const { return _hasPass; }
+
+std::string User::getNickname() const { return _nickname; }
+
+bool User::hasDataToSend() const { return !_write_buffer.empty(); }
+
+std::string User::getWriteBuffer() const { return _write_buffer; }
+
+void User::clearWriteBuffer() { _write_buffer.clear(); }
+
+std::string User::getPrefix() const {
+	return _nickname + "!" + _username + "@localhost";
 }

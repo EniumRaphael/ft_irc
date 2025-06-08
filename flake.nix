@@ -20,6 +20,7 @@
 						tmux
 						lld
 						fd
+						gh
 					] ++ (
 						if pkgs.stdenv.isLinux then [
 							valgrind

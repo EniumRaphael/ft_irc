@@ -149,6 +149,9 @@ package "Command" <<namespace>> {
     class UNKNOWN {
         + execute(user : User, args : vector<string>) : void
     }
+    class CAP {
+        + execute(user : User, args : vector<string>) : void
+    }
 }
 
 ' ========================

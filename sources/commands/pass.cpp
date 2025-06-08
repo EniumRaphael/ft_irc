@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pass.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/04 23:59:57 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/08 20:10:47 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ e_code Pass::checkArgs() {
  * @brief Execute the Pass command
  * @note To connect a user with the password
  */
+
 void Pass::execute() {
 	if (checkArgs() == _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for Pass command (see warning message)");
@@ -44,5 +45,5 @@ void Pass::execute() {
 		ERROR_MSG("The password is incorrect");
 		return;
 	}
-	_sender->setRegistered();
+	_sender->setHasPass(true);
 }

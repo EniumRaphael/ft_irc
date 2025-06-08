@@ -1,42 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ping.cpp                                           :+:      :+:    :+:   */
+/*   userCmd.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 20:13:52 by sben-tay         ###   ########.fr       */
+/*   Created: 2025/06/08 19:16:10 by sben-tay          #+#    #+#             */
+/*   Updated: 2025/06/08 22:19:02 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ping.hpp"
-#include "commands.hpp"
+#include "userCmd.hpp"
 #include "logs.hpp"
-#include "pong.hpp"
-#include <ctime>
 
 using namespace cmd;
 
-e_code Ping::checkArgs() {
-	if (_args.size() < 3) {
-		WARNING_MSG("Not enough arguments for PING command");
+e_code cmd::userCmd::checkArgs() {
+	if (_args.size() < 5) {
+		WARNING_MSG("USER: Not enough parameters");
 		return ERR_NEEDMOREPARAMS;
+	}
+	if (_sender->isRegistered()) {
+		WARNING_MSG(_sender->getName() << " is already registered");
+		return ERR_ALREADYREGISTERED;
 	}
 	return _PARSING_OK;
 }
 
-/**
- * @brief Execute the Ping
- * @note To send a private message to a user / a channel
- */
-
-void Ping::execute() {
-	clock_t start = clock() / CLOCKS_PER_SEC;
-	if (checkArgs() == _PARSING_OK) {
-		ERROR_MSG("Invalid arguments for PRIVMSG command (see warning message)");
+void cmd::userCmd::execute() {
+	if (checkArgs() != _PARSING_OK) {
+		ERROR_MSG("USER: bad args");
 		return;
 	}
-	clock_t diff = Pong().answer(start);
-	INFO_MSG(diff);
+
+	DEBUG_MSG("Setting username to " << _args[1]);
+	_sender->setUsername(_args[1]);
+	_sender->setHasUser(true);
+	_sender->checkRegistration();
 }

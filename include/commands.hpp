@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:31:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/05 22:55:54 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/08 22:19:40 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ namespace cmd
 	class Quit;
 	class Topic;
 	class Unknown;
-	class cmdUser;
+	class userCmd;
+	class Pass;
+	class Cap;
 };
 
 #include "./commands/commands.tpp"

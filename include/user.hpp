@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   user.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:57:49 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/29 12:37:11 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/08 21:59:53 by sben-tay         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #pragma once
 
@@ -26,6 +26,7 @@ class User
 		std::string _username;
 		bool _hasNick;
 		bool _hasUser;
+		bool _hasPass; // to check if the user has sent a PASS command
 	
 	public:
 		User(short unsigned fd);
@@ -40,4 +41,17 @@ class User
 		void setNickname(const std::string &nickname);
 		void setUsername(const std::string &username);
 		void checkRegistration();
+
+		// setters and getters
+		void setHasNick(bool value);
+		void setHasUser(bool value);
+		void setHasPass(bool value);
+		bool getHasPass() const;
+		std::string getNickname() const;
+
+		bool hasDataToSend() const;
+		std::string getWriteBuffer() const;
+		void clearWriteBuffer();
+
+		std::string getPrefix() const;
 };

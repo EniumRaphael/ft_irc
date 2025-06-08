@@ -1,12 +1,12 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/03 16:46:58 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/08 20:20:11 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include "logs.hpp"
 #include "pass.hpp"
 #include "ping.hpp"
+#include "nick.hpp"
+#include "userCmd.hpp"
+
 
 /**
  * @brief To send the line where a command is invoqued to execute
@@ -68,6 +71,11 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::st
 		return;
 	}
 	switch (command_name[0]) {
+		case 'c':
+			if (command_name == "CAP") {
+				Cap(user, channel, server, line).execute();
+			}
+			break;
 		case 'i':
 			// if (command_name == "invite") {
 			// 	Invite(user, channel, server, line).execute();
@@ -94,22 +102,27 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::st
 			// }
 			break;
 		case 'n':
-			// if (command_name == "nick") {
-			// 	Nick(user, channel, server, line).execute();
+			if (command_name == "NICK") {
+				Nick(user, channel, server, line).execute();
 			// } else if (command_name == "notice") {
 			// 	Notice(user, channel, server, line).execute();
-			// }
+			}
 			break;
 		case 'p':
-			if (command_name == "pass") {
+			if (command_name == "PASS") {
 				Pass(user, channel, server, line).execute();
 			}
-			if (command_name == "ping") {
+			if (command_name == "PING") {
 				Ping(user, channel, server, line).execute();
 			}
 			// if (command_name == "part") {
 			// 	Part(user, channel, server, line).execute();
 			// }
+			break;
+		case 'u':
+			if (command_name == "USER") {
+				userCmd(user, channel, server, line).execute();
+			}
 			break;
 		default:
 			WARNING_MSG("Unknown command: " << command_name);

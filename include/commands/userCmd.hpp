@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nick.hpp                                           :+:      :+:    :+:   */
+/*   userCmd.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 17:17:31 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 22:13:30 by sben-tay         ###   ########.fr       */
+/*   Created: 2025/06/08 19:19:47 by sben-tay          #+#    #+#             */
+/*   Updated: 2025/06/08 22:02:24 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 #include "commands.hpp"
 
-class cmd::Nick : public ACommand {
+class cmd::userCmd : public ACommand {
 	public:
-		Nick(User *user, Channel *channel, Server *server, const std::string &line) : ACommand(user, channel, server, line) {}
-		virtual void execute(void);
-		virtual e_code checkArgs(void);
+		userCmd(User *user, Channel *channel, Server *server, const std::string &line) : ACommand(user, channel, server, line) {}
+		virtual void execute();
+		virtual e_code checkArgs();
 };

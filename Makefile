@@ -1,14 +1,14 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+         #
+#    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/05 22:54:26 by rparodi          ###   ########.fr        #
+#    Updated: 2025/06/08 21:10:25 by sben-tay         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 
 # Name
@@ -35,6 +35,7 @@ SRC =	sources/channel/channel.cpp \
 		sources/commands/ping.cpp \
 		sources/commands/pong.cpp \
 		sources/commands/privmsg.cpp \
+		sources/commands/userCmd.cpp \
 		sources/core/PollManager.cpp \
 		sources/core/Server.cpp \
 		sources/core/check.cpp \

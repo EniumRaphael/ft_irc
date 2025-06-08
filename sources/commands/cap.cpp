@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 22:10:24 by sben-tay          #+#    #+#             */
-/*   Updated: 2025/06/08 22:16:23 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/08 22:45:35 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 
 using namespace cmd;
 
-cmd::Cap::Cap(User *user, Channel *channel, Server *server, const std::string &line)
-	: ACommand(user, channel, server, line)
-{
-	_args = split(line);
-	_command = "CAP";
+e_code Cap::checkArgs() {
+	return _PARSING_OK;
 }
 
 void cmd::Cap::execute() {
+	DEBUG_MSG("coucou");
+	if (this->checkArgs() != _PARSING_OK)
+		return;
+	DEBUG_MSG("coucou");
 	if (_args.size() >= 2 && _args[1] == "LS") {
 		std::string reply = "CAP * LS :\r\n";
 		_sender->appendToWriteBuffer(reply);
 		DEBUG_MSG("Replied to CAP LS");
 	}
+	DEBUG_MSG("coucou");
 }

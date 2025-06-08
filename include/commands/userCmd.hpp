@@ -16,7 +16,7 @@
 
 class cmd::userCmd : public ACommand {
 	public:
-		userCmd(User *user, Channel *channel, Server *server, const std::string &line) : ACommand(user, channel, server, line) {}
+		userCmd(User *user, Channel *channel, Server *server,  std::string &line) : ACommand(user, channel, server, line) {}
 		virtual void execute();
 		virtual e_code checkArgs();
 };

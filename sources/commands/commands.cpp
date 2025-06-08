@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 20:20:11 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/08 23:26:07 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include "ping.hpp"
 #include "nick.hpp"
 #include "userCmd.hpp"
-
+#include "cap.hpp"
+#include <cctype>
+#include <iterator>
 
 /**
  * @brief To send the line where a command is invoqued to execute
@@ -25,21 +27,26 @@
  * @param channel channel where the command is sent
  * @param line line send by the user
  */
-std::vector<std::string> cmd::split(const std::string &line) {
+std::vector<std::string> cmd::split(std::string &line) {
 	std::vector<std::string> args;
 	std::string arg;
 	if (line.empty())
 		return args;
 	size_t pos = line.find(' ');
+	size_t old_pos = 0;
 	while (pos != std::string::npos) {
-		arg = line.substr(0, pos);
-		if (!arg.empty()) {
-			args.push_back(arg);
+		arg = line.substr(old_pos, pos);
+		if (arg.empty()) {
+			 break;
 		}
-		pos = line.find(' ');
+		for (size_t i = 0; i < arg.length(); i++)
+			arg = std::tolower(line[i]);
+		args.push_back(arg);
+		old_pos = pos;
+		pos = line.find(' ', old_pos + 1);
 	}
 	if (!line.empty()) {
-		args.push_back(line);
+		return args;
 	}
 	return args;
 }
@@ -52,11 +59,12 @@ std::vector<std::string> cmd::split(const std::string &line) {
  * @param server Server where the command is sent
  * @param line input line from the user
  */
-void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::string &line) {
+void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &line) {
 	DEBUG_MSG("in dispatch");
 	std::vector<std::string> args = cmd::split(line);
+	DEBUG_MSG("in dispatch");
 	if (args.empty()) {
-		ERROR_MSG("Empty line");
+		DEBUG_MSG("Empty line");
 		return;
 	}
 	std::string command_name = args[0];
@@ -64,15 +72,11 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::st
 		WARNING_MSG("No command found in line: " << line);
 		return;
 	}
-	if (command_name[0] == '/') {
-		command_name.erase(0, 1);
-	} else {
-		WARNING_MSG("Command does not start with '/': " << command_name);
-		return;
-	}
+	std::cout << command_name << std::endl;
+	DEBUG_MSG(command_name);
 	switch (command_name[0]) {
 		case 'c':
-			if (command_name == "CAP") {
+			if (command_name == "cap") {
 				Cap(user, channel, server, line).execute();
 			}
 			break;
@@ -109,10 +113,10 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::st
 			}
 			break;
 		case 'p':
-			if (command_name == "PASS") {
+			if (command_name == "pass") {
 				Pass(user, channel, server, line).execute();
 			}
-			if (command_name == "PING") {
+			if (command_name == "ping") {
 				Ping(user, channel, server, line).execute();
 			}
 			// if (command_name == "part") {
@@ -120,7 +124,7 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::st
 			// }
 			break;
 		case 'u':
-			if (command_name == "USER") {
+			if (command_name == "user") {
 				userCmd(user, channel, server, line).execute();
 			}
 			break;
@@ -133,7 +137,7 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, const std::st
 	(void)line;
 }
 
-cmd::ACommand::ACommand(::User *user, ::Channel *channel, ::Server *server, const std::string &line) : _sender(user), _channel(channel), _server(server) {
+cmd::ACommand::ACommand(::User *user, ::Channel *channel, ::Server *server, std::string &line) : _sender(user), _channel(channel), _server(server) {
 	DEBUG_MSG("ACommand constructor called");
 	_args = split(line);
 	_command = _args.at(0);

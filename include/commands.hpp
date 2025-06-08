@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:31:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 22:19:40 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/08 22:57:21 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 namespace cmd
 {
-	void dispatch(User *user, Channel *channel, Server *server, const std::string &line);
-	std::vector<std::string> split(const std::string &line);
+	void dispatch(User *user, Channel *channel, Server *server, std::string &line);
+	std::vector<std::string> split(std::string &line);
 	template <typename T>
 	T searchList(const std::list<T> &list, const std::string &name);
 
@@ -42,9 +42,10 @@ namespace cmd
 			virtual void execute() = 0;
 			virtual e_code checkArgs() = 0;
 			~ACommand();
-			ACommand(User *user, Channel *channel, Server *server, const std::string &line);
+			ACommand(User *user, Channel *channel, Server *server, std::string &line);
 	};
 
+	class Cap;
 	class Invite;
 	class Join;
 	class Kick;
@@ -54,6 +55,7 @@ namespace cmd
 	class Nick;
 	class Notice;
 	class Part;
+	class Pass;
 	class Ping;
 	class Pong;
 	class PrivMsg;
@@ -61,8 +63,6 @@ namespace cmd
 	class Topic;
 	class Unknown;
 	class userCmd;
-	class Pass;
-	class Cap;
 };
 
 #include "./commands/commands.tpp"

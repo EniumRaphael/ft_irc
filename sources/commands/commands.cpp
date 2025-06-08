@@ -27,26 +27,26 @@
  * @param channel channel where the command is sent
  * @param line line send by the user
  */
+
 std::vector<std::string> cmd::split(std::string &line) {
 	std::vector<std::string> args;
-	std::string arg;
-	if (line.empty())
-		return args;
-	size_t pos = line.find(' ');
-	size_t old_pos = 0;
-	while (pos != std::string::npos) {
-		arg = line.substr(old_pos, pos);
-		if (arg.empty()) {
-			 break;
+	size_t start = 0;
+	size_t end;
+
+	while ((end = line.find(' ', start)) != std::string::npos) {
+		std::string arg = line.substr(start, end - start);
+		if (!arg.empty()) {
+			for (size_t i = 0; i < arg.length(); ++i)
+				arg[i] = std::tolower(arg[i]);
+			args.push_back(arg);
 		}
-		for (size_t i = 0; i < arg.length(); i++)
-			arg = std::tolower(line[i]);
-		args.push_back(arg);
-		old_pos = pos;
-		pos = line.find(' ', old_pos + 1);
+		start = end + 1;
 	}
-	if (!line.empty()) {
-		return args;
+	if (start < line.length()) {
+		std::string arg = line.substr(start);
+		for (size_t i = 0; i < arg.length(); ++i)
+			arg[i] = std::tolower(arg[i]);
+		args.push_back(arg);
 	}
 	return args;
 }

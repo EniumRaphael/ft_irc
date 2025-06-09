@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 23:26:07 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/09 14:06:14 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ std::vector<std::string> cmd::split(std::string &line) {
  * @param line input line from the user
  */
 void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &line) {
-	DEBUG_MSG("in dispatch");
 	std::vector<std::string> args = cmd::split(line);
-	DEBUG_MSG("in dispatch");
 	if (args.empty()) {
 		DEBUG_MSG("Empty line");
 		return;
@@ -73,7 +71,6 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 		return;
 	}
 	std::cout << command_name << std::endl;
-	DEBUG_MSG(command_name);
 	switch (command_name[0]) {
 		case 'c':
 			if (command_name == "cap") {

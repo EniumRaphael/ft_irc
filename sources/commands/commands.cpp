@@ -6,18 +6,25 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/09 14:06:14 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:25:57 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.hpp"
-#include "logs.hpp"
-#include "pass.hpp"
-#include "ping.hpp"
-#include "nick.hpp"
-#include "userCmd.hpp"
-#include "cap.hpp"
 #include <cctype>
+#include "join.hpp"
+#include "privmsg.hpp"
+#include "nick.hpp"
+#include "invite.hpp"
+#include "list.hpp"
+#include "cap.hpp"
+#include "modes.hpp"
+#include "ping.hpp"
+#include "notice.hpp"
+#include "kick.hpp"
+#include "userCmd.hpp"
+#include "pass.hpp"
+#include "part.hpp"
 #include <iterator>
 
 /**
@@ -78,47 +85,50 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 			}
 			break;
 		case 'i':
-			// if (command_name == "invite") {
-			// 	Invite(user, channel, server, line).execute();
-			// }
+			if (command_name == "invite") {
+				Invite(user, channel, server, line).execute();
+			}
 			break;
 		case 'j':
-			// if (command_name == "join") {
-			// 	Join(user, channel, server, line).execute();
-			// }
+			if (command_name == "join") {
+				Join(user, channel, server, line).execute();
+			}
 			break;
 		case 'k':
-			// if (command_name == "kick") {
-			// 	Kick(user, channel, server, line).execute();
-			// }
+			if (command_name == "kick") {
+				Kick(user, channel, server, line).execute();
+			}
 			break;
 		case 'l':
-			// if (command_name == "list") {
-			// 	List(user, channel, server, line).execute();
-			// }
+			if (command_name == "list") {
+				List(user, channel, server, line).execute();
+			}
 			break;
 		case 'm':
-			// if (command_name == "mode") {
-			// 	Mode(user, channel, server, line).execute();
-			// }
+			if (command_name == "mode") {
+				Mode(user, channel, server, line).execute();
+			}
 			break;
 		case 'n':
 			if (command_name == "NICK") {
-				Nick(user, channel, server, line).execute();
-			// } else if (command_name == "notice") {
-			// 	Notice(user, channel, server, line).execute();
+				 Nick(user, channel, server, line).execute();
+			} else if (command_name == "notice") {
+				 Notice(user, channel, server, line).execute();
 			}
 			break;
 		case 'p':
 			if (command_name == "pass") {
 				Pass(user, channel, server, line).execute();
 			}
+			if (command_name == "privmsg") {
+				PrivMsg(user, channel, server, line).execute();
+			}
 			if (command_name == "ping") {
 				Ping(user, channel, server, line).execute();
 			}
-			// if (command_name == "part") {
-			// 	Part(user, channel, server, line).execute();
-			// }
+			if (command_name == "part") {
+				Part(user, channel, server, line).execute();
+			}
 			break;
 		case 'u':
 			if (command_name == "user") {

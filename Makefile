@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/08 23:06:16 by rparodi          ###   ########.fr        #
+#    Updated: 2025/06/10 13:40:37 by rparodi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,9 @@ SRC =	sources/channel/channel.cpp \
 		sources/commands/commands.cpp \
 		sources/commands/invite.cpp \
 		sources/commands/join.cpp \
+		sources/commands/kick.cpp \
+		sources/commands/list.cpp \
+		sources/commands/modes.cpp \
 		sources/commands/nick.cpp \
 		sources/commands/notice.cpp \
 		sources/commands/part.cpp \

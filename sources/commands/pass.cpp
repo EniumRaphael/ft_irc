@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 20:10:47 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:27:03 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ e_code Pass::checkArgs() {
 	if (_args.size() != 2) {
 		WARNING_MSG("Not correct for Pass command");
 		return ERR_NEEDMOREPARAMS;
-	}
-	DEBUG_MSG("coucou");
-	if (_sender->isRegistered()) {
-		WARNING_MSG(_sender->getName() << " is already is already log in the server !");
-		return ERR_ALREADYREGISTERED;
 	}
 	return _PARSING_OK;
 }

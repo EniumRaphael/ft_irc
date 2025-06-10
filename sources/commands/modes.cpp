@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/10 16:08:09 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:29:52 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ e_code Mode::checkArgs() {
 			return ERR_CHANOPRIVSNEEDED;
 		}
 	}
-
 	return _PARSING_OK;
 }
 

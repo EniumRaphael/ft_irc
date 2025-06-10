@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/10 16:25:02 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:25:57 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 				Pass(user, channel, server, line).execute();
 			}
 			if (command_name == "privmsg") {
-				Ping(user, channel, server, line).execute();
+				PrivMsg(user, channel, server, line).execute();
 			}
 			if (command_name == "ping") {
 				Ping(user, channel, server, line).execute();

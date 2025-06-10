@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/10 13:39:23 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:08:09 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@ void Mode::checkMode() {
 	for (size_t i = 1; i < flags.size(); ++i)
 	{
 		s_mode m;
-		m.mode   = ERROR_MODE;
-		m.add    = add;
+		m.mode = ERROR_MODE;
+		m.add = add;
 		m.remove = !add;
 		m.arguments.clear();
-
 		switch (flags[i])
 		{
 			case 'i':

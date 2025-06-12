@@ -110,7 +110,7 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 			}
 			break;
 		case 'n':
-			if (command_name == "NICK") {
+			if (command_name == "nick") {
 				 Nick(user, channel, server, line).execute();
 			} else if (command_name == "notice") {
 				 Notice(user, channel, server, line).execute();

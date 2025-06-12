@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 22:18:49 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:52:12 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,9 @@ e_code cmd::Nick::checkArgs() {
 		WARNING_MSG("Nick: Not enough arguments");
 		return ERR_NONICKNAMEGIVEN;
 	}
-	if (_sender->isRegistered()) {
-		WARNING_MSG(_sender->getName() << " is already registered");
-		return ERR_ALREADYREGISTERED;
-	}
 	User* existing = searchList<User*>(_users, _args[1]); // à adapter si besoin
 	if (existing != NULL) {
+		
 		WARNING_MSG("Nick already in use: " << _args[1]);
 		return ERR_NICKNAMEINUSE;
 	}
@@ -37,7 +34,7 @@ e_code cmd::Nick::checkArgs() {
  * @note To change the nickname of the user
  */
 void cmd::Nick::execute() {
-	if (checkArgs() == _PARSING_OK) {
+	if (checkArgs() != _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for Nick command (see warning message)");
 		return;
 	}

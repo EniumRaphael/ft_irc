@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/08 21:41:26 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:04:12 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void User::checkRegistration()
 {
     if (!_registered && _hasNick && _hasUser && _hasPass)
     {
+        std::cout << "JE SUIS ENREGISTRE" << std::endl;
         _registered = true;
             std::string welcome = ":localhost 001 " + _nickname +
             " :Welcome to the IRC server " + getPrefix() + "\r\n";

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/10 16:27:03 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:52:35 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ e_code Pass::checkArgs() {
  */
 
 void Pass::execute() {
-	if (checkArgs() == _PARSING_OK) {
+	if (checkArgs() != _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for Pass command (see warning message)");
 		DEBUG_MSG("skill issues");
 		return;
@@ -41,4 +41,5 @@ void Pass::execute() {
 		return;
 	}
 	_sender->setHasPass(true);
+	_sender->checkRegistration();
 }

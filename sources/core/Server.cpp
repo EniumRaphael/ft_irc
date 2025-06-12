@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/03 14:56:06 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:03:53 by sben-tay         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "color.hpp"
 #include "server.hpp"
@@ -84,7 +84,6 @@ void Server::start()
         readyClients.clear();
         _pollManager.pollLoop(_serverFd, newClients, disconnected,
                               readyClients);
-        std::cout << "Poll loop finished" << std::endl;
         std::cout << "New clients: " << newClients.size() << std::endl;
         for (size_t i = 0; i < newClients.size(); ++i)
         {
@@ -108,12 +107,29 @@ void Server::start()
                 {
                     // This prints every command/message received from any client
                     std::cout << "Client " << fd << " says: " << cmd << std::endl;
-					 cmd::dispatch(_users[fd], NULL, this, cmd);
+                    cmd::dispatch(_users[fd], NULL, this, cmd);
                 }
             }
         }
-
-        // Optionally: handle server shutdown, signals, etc.
+        for (std::vector<std::pair<int, std::string > > ::iterator it = readyClients.begin(); it != readyClients.end(); ++it)
+        {
+            int fd = it->first;
+            if (_users.count(fd) && _users[fd]->isReadyToSend())
+            {
+                std::string writeBuffer = _users[fd]->getWriteBuffer();
+                ssize_t bytesSent = send(fd, writeBuffer.c_str(), writeBuffer.size(), 0);
+                if (bytesSent < 0)
+                {
+                    std::cerr << "Erreur send" << std::endl;
+                }
+                else
+                {
+                    _users[fd]->clearWriteBuffer();
+                }
+            }
+            
+        }
+        std::cout << "Poll loop finished" << std::endl;
     }
     close(_serverFd);
 }

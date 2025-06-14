@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/12 18:03:53 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/14 23:16:54 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 
 /**
  * @brief The constructor of the Server class.
@@ -47,6 +48,8 @@ Server::~Server()
         close(_serverFd);
     }
 }
+
+std::vector<std::string> splitLines(const std::string& input);
 
 void Server::start()
 {
@@ -102,12 +105,15 @@ void Server::start()
             if (_users.count(fd))
             {
                 _users[fd]->appendToReadBuffer(data);
-                std::string cmd;
-                while (!(cmd = _users[fd]->extractFullCommand()).empty())
+                std::string rawCmd;
+                while (!(rawCmd = _users[fd]->extractFullCommand()).empty())
                 {
+                    std::vector<std::string> lines = splitLines(rawCmd);
+                    for (size_t i = 0; i < lines.size(); ++i) {
+                        std::cout << "Client " << fd << " says: " << lines[i] << std::endl;
+                        cmd::dispatch(_users[fd], NULL, this, lines[i]);
+                    }
                     // This prints every command/message received from any client
-                    std::cout << "Client " << fd << " says: " << cmd << std::endl;
-                    cmd::dispatch(_users[fd], NULL, this, cmd);
                 }
             }
         }
@@ -122,8 +128,7 @@ void Server::start()
                 {
                     std::cerr << "Erreur send" << std::endl;
                 }
-                else
-                {
+                else {
                     _users[fd]->clearWriteBuffer();
                 }
             }
@@ -185,4 +190,17 @@ std::list<User *> Server::getUsersList() const {
 
 std::list<Channel *> Server::getChannelsList() const {
 	return this->_channels;
+}
+
+std::vector<std::string> splitLines(const std::string& input) {
+	std::vector<std::string> lines;
+	std::istringstream stream(input);
+	std::string line;
+
+	while (std::getline(stream, line)) {
+		if (!line.empty() && line[line.length() - 1] == '\r')
+			line.erase(line.length() - 1); // retirer le \r final
+		lines.push_back(line);
+	}
+	return lines;
 }

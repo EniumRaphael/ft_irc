@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/12 18:04:12 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/14 22:34:59 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void User::appendToWriteBuffer(const std::string &data)
 // Check registration
 void User::checkRegistration()
 {
-    if (!_registered && _hasNick && _hasUser && _hasPass)
+    if (!_registered && _hasNick && _hasUser) // without _hasPass check
     {
         std::cout << "JE SUIS ENREGISTRE" << std::endl;
         _registered = true;

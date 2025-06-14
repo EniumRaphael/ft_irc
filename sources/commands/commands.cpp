@@ -77,7 +77,7 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 		WARNING_MSG("No command found in line: " << line);
 		return;
 	}
-	std::cout << command_name << std::endl;
+	DEBUG_MSG("Command Name = [" << command_name << "]");
 	switch (command_name[0]) {
 		case 'c':
 			if (command_name == "cap") {
@@ -110,10 +110,10 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 			}
 			break;
 		case 'n':
-			if (command_name == "NICK") {
-				 Nick(user, channel, server, line).execute();
+			if (command_name == "nick") {
+				Nick(user, channel, server, line).execute();
 			} else if (command_name == "notice") {
-				 Notice(user, channel, server, line).execute();
+				Notice(user, channel, server, line).execute();
 			}
 			break;
 		case 'p':

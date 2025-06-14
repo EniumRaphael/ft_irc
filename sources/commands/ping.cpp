@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 20:13:52 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/14 23:25:45 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 using namespace cmd;
 
 e_code Ping::checkArgs() {
-	if (_args.size() < 3) {
+	if (_args.size() < 2) {
 		WARNING_MSG("Not enough arguments for PING command");
 		return ERR_NEEDMOREPARAMS;
 	}
@@ -32,11 +32,10 @@ e_code Ping::checkArgs() {
  */
 
 void Ping::execute() {
-	clock_t start = clock() / CLOCKS_PER_SEC;
-	if (checkArgs() == _PARSING_OK) {
+	if (checkArgs() != _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for PRIVMSG command (see warning message)");
 		return;
 	}
-	clock_t diff = Pong().answer(start);
-	INFO_MSG(diff);
+	_sender->appendToWriteBuffer("PONG " + _args[1] + "\r\n");
+	DEBUG_MSG(_sender->getWriteBuffer());
 }

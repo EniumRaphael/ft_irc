@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/05 22:34:07 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/12 13:23:58 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ e_code Join::checkArgs() {
  * @note To join a new channel
  */
 void Join::execute() {
-	if (checkArgs() == _PARSING_OK) {
+	if (checkArgs() != _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for Join command (see warning message)");
 		return;
 	}

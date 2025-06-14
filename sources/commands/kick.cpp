@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/09 14:37:11 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/12 13:24:16 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ e_code Kick::checkArgs() {
  * @note To kick a user from a channel
  */
 void Kick::execute() {
-	if (checkArgs() == _PARSING_OK) {
+	if (checkArgs() != _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for INVITE command (see warning message)");
 		return;
 	}

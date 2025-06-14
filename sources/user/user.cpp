@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/08 21:41:26 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/14 23:27:43 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void User::checkRegistration()
 {
     if (!_registered && _hasNick && _hasUser && _hasPass)
     {
+        std::cout << "JE SUIS ENREGISTRE" << std::endl;
         _registered = true;
             std::string welcome = ":localhost 001 " + _nickname +
             " :Welcome to the IRC server " + getPrefix() + "\r\n";
@@ -101,18 +102,19 @@ bool User::isReadyToSend() const
 
 // Extract full command from read buffer
 std::string User::extractFullCommand() {
-    std::string command;
     size_t pos = _read_buffer.find("\r\n");
     if (pos == std::string::npos)
         pos = _read_buffer.find("\n"); // fallback
 
     if (pos != std::string::npos) {
-        command = _read_buffer.substr(0, pos);
-        _read_buffer.erase(0, pos + 1);
-        if (_read_buffer[pos] == '\r') // clean up stray \r
-            _read_buffer.erase(0, 1);
+        std::string command = _read_buffer.substr(0, pos);
+        if (_read_buffer.substr(pos, 2) == "\r\n")
+            _read_buffer.erase(0, pos + 2);
+        else
+            _read_buffer.erase(0, pos + 1);
+        return command;
     }
-    return command;
+    return "";
 }
 
 void User::setHasNick(bool value) { _hasNick = value; }

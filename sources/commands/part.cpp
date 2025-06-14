@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/05 22:50:21 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/12 13:24:39 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ e_code Part::checkArgs() {
  * @note To leave a channel givent in parameter
  */
 void Part::execute() {
-	if (checkArgs() == _PARSING_OK) {
+	if (checkArgs() != _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for Part command (see warning message)");
 		return;
 	}

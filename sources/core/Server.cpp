@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/03 14:56:06 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/14 23:16:54 by sben-tay         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "color.hpp"
 #include "server.hpp"
@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 
 /**
  * @brief The constructor of the Server class.
@@ -47,6 +48,8 @@ Server::~Server()
         close(_serverFd);
     }
 }
+
+std::vector<std::string> splitLines(const std::string& input);
 
 void Server::start()
 {
@@ -84,7 +87,6 @@ void Server::start()
         readyClients.clear();
         _pollManager.pollLoop(_serverFd, newClients, disconnected,
                               readyClients);
-        std::cout << "Poll loop finished" << std::endl;
         std::cout << "New clients: " << newClients.size() << std::endl;
         for (size_t i = 0; i < newClients.size(); ++i)
         {
@@ -103,17 +105,36 @@ void Server::start()
             if (_users.count(fd))
             {
                 _users[fd]->appendToReadBuffer(data);
-                std::string cmd;
-                while (!(cmd = _users[fd]->extractFullCommand()).empty())
+                std::string rawCmd;
+                while (!(rawCmd = _users[fd]->extractFullCommand()).empty())
                 {
+                    std::vector<std::string> lines = splitLines(rawCmd);
+                    for (size_t i = 0; i < lines.size(); ++i) {
+                        std::cout << "Client " << fd << " says: " << lines[i] << std::endl;
+                        cmd::dispatch(_users[fd], NULL, this, lines[i]);
+                    }
                     // This prints every command/message received from any client
-                    std::cout << "Client " << fd << " says: " << cmd << std::endl;
-					 cmd::dispatch(_users[fd], NULL, this, cmd);
                 }
             }
         }
-
-        // Optionally: handle server shutdown, signals, etc.
+        for (std::vector<std::pair<int, std::string > > ::iterator it = readyClients.begin(); it != readyClients.end(); ++it)
+        {
+            int fd = it->first;
+            if (_users.count(fd) && _users[fd]->isReadyToSend())
+            {
+                std::string writeBuffer = _users[fd]->getWriteBuffer();
+                ssize_t bytesSent = send(fd, writeBuffer.c_str(), writeBuffer.size(), 0);
+                if (bytesSent < 0)
+                {
+                    std::cerr << "Erreur send" << std::endl;
+                }
+                else {
+                    _users[fd]->clearWriteBuffer();
+                }
+            }
+            
+        }
+        std::cout << "Poll loop finished" << std::endl;
     }
     close(_serverFd);
 }
@@ -169,4 +190,17 @@ std::list<User *> Server::getUsersList() const {
 
 std::list<Channel *> Server::getChannelsList() const {
 	return this->_channels;
+}
+
+std::vector<std::string> splitLines(const std::string& input) {
+	std::vector<std::string> lines;
+	std::istringstream stream(input);
+	std::string line;
+
+	while (std::getline(stream, line)) {
+		if (!line.empty() && line[line.length() - 1] == '\r')
+			line.erase(line.length() - 1); // retirer le \r final
+		lines.push_back(line);
+	}
+	return lines;
 }

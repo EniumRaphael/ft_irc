@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/12 17:52:12 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:30:15 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ e_code cmd::Nick::checkArgs() {
 		return ERR_NONICKNAMEGIVEN;
 	}
 	User* existing = searchList<User*>(_users, _args[1]); // à adapter si besoin
-	if (existing != NULL) {
-		
-		WARNING_MSG("Nick already in use: " << _args[1]);
+	if (existing != NULL) {		
+		_sender->appendToWriteBuffer(":" + _sender->getPrefix() + " 433 * " + _args[1] + " :Nickname is already in use\r\n");
 		return ERR_NICKNAMEINUSE;
 	}
 	return _PARSING_OK;

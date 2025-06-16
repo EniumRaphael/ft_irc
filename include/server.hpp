@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:50:32 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/14 23:08:11 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:01:10 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,5 @@ public:
 	std::string getPassword() const;
 	void showInfo() const;
 	void printUsers() const;
+	void disconnectClient(int fd);
 };

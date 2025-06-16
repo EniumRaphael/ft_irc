@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/14 23:16:54 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:35:26 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ void Server::start()
         // Handle disconnected clients
         for (size_t i = 0; i < disconnected.size(); ++i)
         {
-            delete _users[disconnected[i]];
-            _users.erase(disconnected[i]);
+            disconnectClient(disconnected[i]);
         }
         for (size_t i = 0; i < readyClients.size(); ++i)
         {
@@ -132,7 +131,6 @@ void Server::start()
                     _users[fd]->clearWriteBuffer();
                 }
             }
-            
         }
         std::cout << "Poll loop finished" << std::endl;
     }
@@ -203,4 +201,13 @@ std::vector<std::string> splitLines(const std::string& input) {
 		lines.push_back(line);
 	}
 	return lines;
+}
+
+void Server::disconnectClient(int fd) {
+    _pollManager.removeClient(fd);
+    close(fd);
+    if (_users.count(fd)) {
+        delete _users[fd];
+        _users.erase(fd);
+    }
 }

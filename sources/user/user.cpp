@@ -6,15 +6,16 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/14 23:27:43 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:36:36 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "core.hpp"
+#include <unistd.h>
 
 // Constructor
 User::User(short unsigned int fd) : _fd(fd), _registered(false), _hasNick(false), _hasUser(false), \
-    _hasPass(false) {}
+    _hasPass(false), _passReceived(false), _passIsValid(false) {}
 
 /**
  * @brief Getter for the fd
@@ -35,7 +36,6 @@ std::string User::getName() const {
 void User::setUsername(const std::string &username) {
     _username = username;
     _hasUser = true;
-    checkRegistration();
 }
 
 // Setter for nickname (with basic checks)
@@ -51,7 +51,6 @@ void User::setNickname(const std::string &nickname) {
     } else {
         _nickname = nickname;
         _hasNick = true;
-        checkRegistration();
     }
 }
 
@@ -83,14 +82,24 @@ void User::appendToWriteBuffer(const std::string &data)
 // Check registration
 void User::checkRegistration()
 {
-    if (!_registered && _hasNick && _hasUser && _hasPass)
+    if (_registered)
+        return;
+    if (_hasNick && _hasUser && _passReceived && _passIsValid)
     {
-        std::cout << "JE SUIS ENREGISTRE" << std::endl;
         _registered = true;
-            std::string welcome = ":localhost 001 " + _nickname +
-            " :Welcome to the IRC server " + getPrefix() + "\r\n";
-
-        appendToWriteBuffer(welcome);
+        std::string msg = ":localhost 001 " + _nickname +
+                          " :Welcome to the IRC server " + getPrefix() + "\r\n";
+        appendToWriteBuffer(msg);
+    }
+    else if (_hasNick && _hasUser && _passReceived && !_passIsValid)
+    {
+        std::string msg = ":localhost 464 * :Password incorrect\r\n";
+        appendToWriteBuffer(msg);
+    }
+    else if (_hasNick && _hasUser && !_passReceived)
+    {
+        std::string msg = ":localhost 451 * :You must send PASS to register\r\n";
+        appendToWriteBuffer(msg);
     }
 }
 
@@ -122,6 +131,10 @@ void User::setHasNick(bool value) { _hasNick = value; }
 void User::setHasUser(bool value) { _hasUser = value; }
 
 void User::setHasPass(bool value) { _hasPass = value; }
+
+void User::setPassReceived(bool value) { _passReceived = value; }
+
+void User::setPassIsValid(bool value) { _passIsValid = value; }
 
 bool User::getHasPass() const { return _hasPass; }
 

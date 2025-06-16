@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/12 17:52:35 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:33:20 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,22 @@ e_code Pass::checkArgs() {
  * @note To connect a user with the password
  */
 
-void Pass::execute() {
-	if (checkArgs() != _PARSING_OK) {
-		ERROR_MSG("Invalid arguments for Pass command (see warning message)");
-		DEBUG_MSG("skill issues");
-		return;
-	}
-	DEBUG_MSG("mais pas trop skill issues");
-	if (_args.at(1) != _server->getPassword()) {
-		ERROR_MSG("The password is incorrect");
+void cmd::Pass::execute() {
+	if (_args.size() < 2) {
+		_sender->appendToWriteBuffer(":localhost 461 PASS :Not enough parameters\r\n");
 		return;
 	}
 	_sender->setHasPass(true);
+	_sender->setPassReceived(true);
+	if (_args[1] == _server->getPassword())
+	{
+		DEBUG_MSG("PASSISVALID");
+		_sender->setPassIsValid(true);
+	}
+	else{
+		DEBUG_MSG("PASSISINVALID");
+		_sender->setPassIsValid(false);
+	}
+
 	_sender->checkRegistration();
 }

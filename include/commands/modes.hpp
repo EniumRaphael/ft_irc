@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:17:31 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 15:59:01 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:37:07 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 enum e_mode {
 	ERROR_MODE = 0,
 	CHAN_INVITE_ONLY,
-	CHAN_SET_TOPIC,
 	CHAN_SET_KEY,
 	CHAN_SET_LIMIT,
 	CHAN_SET_OP,
+	CHAN_SET_TOPIC,
 };
 
 typedef struct s_mode {

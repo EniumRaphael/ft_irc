@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:31:58 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/08 22:57:21 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:36:38 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ namespace cmd
 	class Topic;
 	class Unknown;
 	class userCmd;
+	class Whois;
+	class Whowas;
 };
 
 #include "./commands/commands.tpp"

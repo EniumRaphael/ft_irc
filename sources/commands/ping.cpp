@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/14 23:25:45 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:58:06 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void Ping::execute() {
 		ERROR_MSG("Invalid arguments for PRIVMSG command (see warning message)");
 		return;
 	}
-	_sender->appendToWriteBuffer("PONG " + _args[1] + "\r\n");
+	std::string msgpong = "PONG " + _args[1] + "\r\n";
+	_sender->appendToWriteBuffer(msgpong);
 	DEBUG_MSG(_sender->getWriteBuffer());
 }

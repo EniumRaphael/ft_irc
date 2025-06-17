@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:57:49 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/16 18:36:01 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:59:19 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ class User
 		std::string _read_buffer;
 		std::string _write_buffer;
 		std::string _username;
+		std::string _realname;
+		std::string _ipAdress;
 		bool _hasNick;
 		bool _hasUser;
 		bool _hasPass;
@@ -40,11 +42,15 @@ class User
 		void setRegistered();
 		void appendToReadBuffer(const std::string &data);
 		void appendToWriteBuffer(const std::string &data);
+		void checkRegistration();
+		void resolveHostInfo();
+		
+		// setters and getters
 		void setNickname(const std::string &nickname);
 		void setUsername(const std::string &username);
-		void checkRegistration();
-
-		// setters and getters
+		void setRealname(const std::string &realname);
+		std::string getUsername(void) const;
+		std::string getRealname(void) const;
 		void setHasNick(bool value);
 		void setHasUser(bool value);
 		void setHasPass(bool value);
@@ -52,6 +58,10 @@ class User
 		void setPassIsValid(bool value);
 		bool getHasPass() const;
 		std::string getNickname() const;
+		const std::string& getHostname() const;
+		const std::string& getIpAddress() const;
+		void setHostname(const std::string &hostname);
+		void setIpAddress(const std::string &ip);
 
 		bool hasDataToSend() const;
 		std::string getWriteBuffer() const;

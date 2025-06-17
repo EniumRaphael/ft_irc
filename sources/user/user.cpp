@@ -6,12 +6,16 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/16 18:36:36 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:42:40 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "core.hpp"
 #include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 
 // Constructor
 User::User(short unsigned int fd) : _fd(fd), _registered(false), _hasNick(false), _hasUser(false), \
@@ -87,19 +91,20 @@ void User::checkRegistration()
     if (_hasNick && _hasUser && _passReceived && _passIsValid)
     {
         _registered = true;
-        std::string msg = ":localhost 001 " + _nickname +
+        resolveHostInfo();
+        std::string msg001 = ":localhost 001 " + _nickname +
                           " :Welcome to the IRC server " + getPrefix() + "\r\n";
-        appendToWriteBuffer(msg);
+        appendToWriteBuffer(msg001);
     }
     else if (_hasNick && _hasUser && _passReceived && !_passIsValid)
     {
-        std::string msg = ":localhost 464 * :Password incorrect\r\n";
-        appendToWriteBuffer(msg);
+        std::string msg464 = ":localhost 464 * :Password incorrect\r\n";
+        appendToWriteBuffer(msg464);
     }
     else if (_hasNick && _hasUser && !_passReceived)
     {
-        std::string msg = ":localhost 451 * :You must send PASS to register\r\n";
-        appendToWriteBuffer(msg);
+        std::string msg451 = ":localhost 451 * :You must send PASS to register\r\n";
+        appendToWriteBuffer(msg451);
     }
 }
 
@@ -146,6 +151,38 @@ std::string User::getWriteBuffer() const { return _write_buffer; }
 
 void User::clearWriteBuffer() { _write_buffer.clear(); }
 
-std::string User::getPrefix() const {
-	return _nickname + "!" + _username + "@localhost";
+std::string User::getPrefix() const { return _nickname + "!" + _username + "@" + _hostname; }
+
+std::string User::getUsername() const { return _username; }
+
+const std::string& User::getHostname() const { return _hostname; }
+
+const std::string& User::getIpAddress() const { return _ipAdress; }
+
+void User::setHostname(const std::string &hostname) { _hostname = hostname; }
+
+void User::setIpAddress(const std::string &ip) { _ipAdress = ip; }
+
+void User::resolveHostInfo()
+{
+	struct sockaddr_in addr;
+	socklen_t len = sizeof(addr);
+
+	if (getpeername(_fd, (struct sockaddr*)&addr, &len) == -1)
+	{
+		std::cerr << "getpeername failed for fd " << _fd << std::endl;
+		return;
+	}
+
+	_ipAdress = std::string(inet_ntoa(addr.sin_addr));
+
+	struct hostent* host = gethostbyaddr((const void*)&addr.sin_addr, sizeof(addr.sin_addr), AF_INET);
+	if (host)
+		_hostname = std::string(host->h_name);
+	else
+		_hostname = _ipAdress;
 }
+
+void User::setRealname(const std::string &realname) { _realname = realname; }
+
+std::string User::getRealname(void) const { return _realname; }

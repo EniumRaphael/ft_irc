@@ -25,6 +25,8 @@
 #include "userCmd.hpp"
 #include "pass.hpp"
 #include "part.hpp"
+#include "whois.hpp"
+#include "whowas.hpp"
 #include <iterator>
 
 /**
@@ -40,7 +42,15 @@ std::vector<std::string> cmd::split(std::string &line) {
 	size_t start = 0;
 	size_t end;
 
-	while ((end = line.find(' ', start)) != std::string::npos) {
+	while (start < line.length()) {
+		if (line[start] == ':') {
+			std::string arg = line.substr(start + 1);
+			args.push_back(arg);
+			break;
+		}
+		end = line.find(' ', start);
+		if (end == std::string::npos)
+			end = line.length();
 		std::string arg = line.substr(start, end - start);
 		if (!arg.empty()) {
 			for (size_t i = 0; i < arg.length(); ++i)
@@ -48,12 +58,6 @@ std::vector<std::string> cmd::split(std::string &line) {
 			args.push_back(arg);
 		}
 		start = end + 1;
-	}
-	if (start < line.length()) {
-		std::string arg = line.substr(start);
-		for (size_t i = 0; i < arg.length(); ++i)
-			arg[i] = std::tolower(arg[i]);
-		args.push_back(arg);
 	}
 	return args;
 }
@@ -133,6 +137,13 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 		case 'u':
 			if (command_name == "user") {
 				userCmd(user, channel, server, line).execute();
+			}
+			break;
+		case 'w':
+			if (command_name == "whois") {
+				Whois(user, channel, server, line).execute();
+			} else if (command_name == "whowas") {
+				Whowas(user, channel, server, line).execute();
 			}
 			break;
 		default:

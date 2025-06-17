@@ -6,13 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:50:32 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/16 18:01:10 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:36:46 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <list>
+#include <map>
 #include "core.hpp"
 #include "channel.hpp"
 #include "user.hpp"

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/16 18:35:26 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:38:39 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,15 @@ void Server::printUsers() const
     for (std::map<int, User *>::const_iterator it = _users.begin(); it != _users.end(); ++it)
     {
         std::cout << "User fd: " << it->first << std::endl;
-        std::cout << "Nickname: " << it->second->getName() << std::endl;
+        std::cout << "Username: " << it->second->getUsername() << std::endl;
+        std::cout << "Nickname: " << it->second->getNickname() << std::endl;
+        std::cout << "Realname: " <<  it->second->getRealname() << std::endl;
+        std::cout << "hostname: " << it->second->getHostname() << std::endl;
+        std::cout << "IP Address: " << it->second->getIpAddress() << std::endl;
+        std::cout << "Registered: " << (it->second->isRegistered() ? "Yes" : "No") << std::endl;
+        std::cout << "Prefix: " << it->second->getPrefix() << std::endl;
+        std::cout << "----------------------------------------" << std::endl;
+
     }
 }
 

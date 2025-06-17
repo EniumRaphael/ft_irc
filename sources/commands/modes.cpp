@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 17:57:02 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/17 18:00:26 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,12 @@ void Mode::execute() {
 				if (this->_mode[i].second.add) {
 					if (this->_cTarget->getNeedInvite() == true) {
 						DEBUG_MSG("Already as invite only");
-					} this->_cTarget->setNeedInvite(true);
+					}
+					this->_cTarget->setNeedInvite(true);
 				} else if (this->_mode[i].second.remove) {
 					if (this->_cTarget->getNeedInvite() == false) {
 						DEBUG_MSG("Already as not invite only");
+					}
 					this->_cTarget->setNeedInvite(false);
 				}
 				break;

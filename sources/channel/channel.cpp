@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 17:22:09 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/18 01:17:37 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "channel.hpp"
 #include <iostream>
+
+Channel::Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite)
+	:_name(name), _owner(owner), _maxUsers(maxUsers), _needInvite(needInvite) {}
 
 /**
  * @brief Get the name of the channel
@@ -45,7 +48,7 @@ User *Channel::getOwner() const {
  *
  * @return list of Users in the channel
  */
-std::list<User *> Channel::getUsers() const {
+std::list<User *>& Channel::getUsers() {
 	return this->_users;
 }
 
@@ -216,3 +219,11 @@ void Channel::removeOperator(User *user) {
 	}
 }
 
+void Channel::sendAllClientInAChannel(const std::string toSend,  User *sender) {
+  for(std::list<User *>::iterator it = this->_users.begin(); it != this->_users.end(); ++it) {
+	if (*it == sender) {
+		continue;
+  	}
+  	(*it)->appendToWriteBuffer(toSend);
+  }
+}

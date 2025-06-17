@@ -3,38 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:18:17 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 17:52:19 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/18 01:18:05 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "user.hpp"
+#include "server.hpp"
 #include <string>
 #include <list>
 
 class Channel {
-	private:
-		std::string _name;
-		std::string _password;
-		std::string _topic;
-		User *_owner;
-		bool _needInvite;
-		size_t _maxUsers;
-		std::list<User *> _operators;
-		std::list<User *> _users;
-		std::list<User *> _invited;
 	public:
+		Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite);
+		
 		// getters
 		std::string getName() const;
 		std::string getTopic() const;
 		size_t getMaxUsers() const;
 		User *getOwner() const;
 		std::list<User *> getOperators() const;
-		std::list<User *> getUsers() const;
+		std::list<User *>& getUsers();
 		std::list<User *> getInvited() const;
 		std::string getPassword() const;
 		bool isOperator(User *user) const;
@@ -50,4 +43,20 @@ class Channel {
 		void addUser(User *user);
 		void removeUser(User *user);
 		void removeOperator(User *user);
+		
+		// utility functions
+		void sendAllClientInAChannel(const std::string toSend, User *sender);
+
+	private:
+		std::string _name;
+		User *_owner;
+		std::string _password;
+		size_t _maxUsers;
+		bool _needInvite;
+		std::string _topic;
+		std::list<User *> _operators;
+		std::list<User *> _users;
+		std::list<User *> _invited;
 };
+
+

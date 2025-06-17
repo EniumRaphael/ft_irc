@@ -6,13 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:57:49 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 15:59:19 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:19:32 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <string>
+#include "PollManager.hpp"
 
 class User
 {
@@ -26,14 +27,17 @@ class User
 		std::string _username;
 		std::string _realname;
 		std::string _ipAdress;
+		
 		bool _hasNick;
 		bool _hasUser;
 		bool _hasPass;
 		bool _passReceived;
 		bool _passIsValid;
+
+		PollManager& _poll;
 	
 	public:
-		User(short unsigned fd);
+		User(short unsigned fd, PollManager& poll);
 		short unsigned int getFd() const;
 		bool isReadyToSend() const;
 		bool isRegistered() const;

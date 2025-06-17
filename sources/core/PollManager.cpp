@@ -18,7 +18,7 @@ PollManager::~PollManager()
     }
 }
 
-void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vector<int> &disconnected, std::vector<std::pair<int, std::string> > &readyClients)
+void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vector<int> &disconnected, std::vector<std::pair<int, std::string> > &readyClients, std::vector<int> &readyToWrite)
 {
     int poll_count = poll(&_fds[0], _fds.size(), -1);
     if (poll_count == -1)
@@ -59,6 +59,8 @@ void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vec
                 --i;
             }
         }
+        else if (_fds[i].revents & POLLOUT)
+            readyToWrite.push_back(fd);
     }
     // }
 }
@@ -93,4 +95,16 @@ void PollManager::setServerFd(int fd)
     pfd.fd = fd;
     pfd.events = POLLIN;
     _fds.push_back(pfd);
+}
+
+void PollManager::setWritable(short unsigned fd, bool enable) {
+    for (size_t i = 0; i < _fds.size(); ++i) {
+        if (_fds[i].fd == fd) {
+            if (enable)
+                _fds[i].events |= POLLOUT;
+            else
+                _fds[i].events &= ~POLLOUT;
+            break;
+        }
+    }
 }

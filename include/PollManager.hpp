@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   PollManager.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:15:13 by omoudni           #+#    #+#             */
-/*   Updated: 2025/05/22 17:30:00 by omoudni          ###   ########.fr       */
+/*   Updated: 2025/06/18 01:26:38 by sben-tay         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #pragma once
 
@@ -26,7 +26,8 @@ public:
     void addClient(short unsigned fd);
     void removeClient(short unsigned fd);
     void updateServer(short unsigned fd);
-    void pollLoop(int server_fd, std::vector<int> &newClients, std::vector<int> &disconnected, std::vector<std::pair<int, std::string> > &readyClients);
+    void pollLoop(int server_fd, std::vector<int> &newClients, std::vector<int> &disconnected, std::vector<std::pair<int, std::string> > &readyClients, std::vector<int> &readyToWrite);
+    void setWritable(short unsigned fd, bool enable);
 
 private:
     std::vector<struct pollfd> _fds;

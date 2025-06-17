@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/12 13:24:27 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:09:26 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,41 +28,41 @@ void Mode::checkMode() {
 
 	if (flags.empty() || (flags[0] != '+' && flags[0] != '-'))
 	{
-		m.mode = ERROR_MODE;
+		m.add = false;
+		m.remove = false;
 		return;
 	}
 	bool add = (flags[0] == '+');
 	for (size_t i = 1; i < flags.size(); ++i)
 	{
+		e_mode tmp = ERROR_MODE;
 		s_mode m;
-		m.mode = ERROR_MODE;
 		m.add = add;
 		m.remove = !add;
 		m.arguments.clear();
 		switch (flags[i])
 		{
 			case 'i':
-				m.mode = CHAN_INVITE_ONLY;
+				tmp = CHAN_INVITE_ONLY;
 				break;
 			case 't':
-				m.mode = CHAN_SET_TOPIC;
+				tmp = CHAN_SET_TOPIC;
 				break;
 			case 'k':
-				m.mode = CHAN_SET_KEY;
+				tmp = CHAN_SET_KEY;
 				break;
 			case 'l':
-				m.mode = CHAN_SET_LIMIT;
+				tmp = CHAN_SET_LIMIT;
 				break;
 			case 'o':
-				m.mode = CHAN_SET_OP;
+				tmp = CHAN_SET_OP;
 				break;
 			default :
-				m.mode = ERROR_MODE;
 				break;
 		}
-		if ((m.mode == CHAN_SET_KEY || m.mode == CHAN_SET_LIMIT || m.mode == CHAN_SET_OP) && argIndex < _args.size())
+		if ((this->_mode.back().first == CHAN_SET_KEY || this->_mode.back().first == CHAN_SET_LIMIT || this->_mode.back().first == CHAN_SET_OP) && argIndex < _args.size())
 			m.arguments = _args[argIndex++];
-		this->_mode.push_back(std::make_pair(true, m));
+		this->_mode.push_back(std::make_pair(tmp, m));
 	}
 }
 
@@ -72,34 +72,34 @@ void Mode::checkMode() {
  * @return return the e_code if there is an error else return _PARSING_OK
  */
 e_code Mode::checkArgs() {
-	if (_args.size() < 2)
+	if (this->_args.size() < 2)
 		return ERR_NEEDMOREPARAMS;
-	if (_args.at(1).at(0) != '#') {
+	if (this->_args.at(1).at(0) != '#') {
 		WARNING_MSG("Invalid channel name for INVITE command");
 		INFO_MSG("Channel names must start with a '#' character");
 		return ERR_NOSUCHCHANNEL;
 	} else
-		_args.at(1).erase(0, 1);
-	if (_cTarget == NULL) {
+		this->_args.at(1).erase(0, 1);
+	if (this->_cTarget == NULL) {
 		WARNING_MSG("Channel not found for INVITE command");
 		INFO_MSG("You can only invite users to channels you are in");
 		return ERR_NOSUCHCHANNEL;
 	}
-	if (_args.size() == 2) {
+	if (this->_args.size() == 2) {
 		return RPL_CHANNELMODEIS;
 	}
 	checkMode();
-	if (_mode.empty())
+	if (this->_mode.empty())
 		return ERR_UNKNOWNMODE;
-	for (size_t i = 0; i < _mode.size(); ++i)
+	for (size_t i = 0; i < this->_mode.size(); ++i)
 	{
-		const s_mode &m = _mode[i].second;
-		if (m.mode == ERROR_MODE)
+		const e_mode &ret = this->_mode[i].first;
+		if (ret == ERROR_MODE)
 			return ERR_UNKNOWNMODE;
-		if (m.mode == CHAN_SET_KEY || m.mode == CHAN_SET_LIMIT || m.mode == CHAN_SET_OP)
-			if (m.arguments.empty())
+		if (ret == CHAN_SET_KEY || ret == CHAN_SET_LIMIT || ret == CHAN_SET_OP)
+			if (this->_mode[i].second.arguments.empty())
 				return ERR_NEEDMOREPARAMS;
-		if (searchList(_cTarget->getOperators(), _sender->getName()) != NULL) {
+		if (searchList(this->_cTarget->getOperators(), this->_sender->getName()) != NULL) {
 			WARNING_MSG("You are not an operator in the channel for INVITE command");
 			return ERR_CHANOPRIVSNEEDED;
 		}
@@ -116,5 +116,4 @@ void Mode::execute() {
 		ERROR_MSG("Invalid arguments for INVITE command (see warning message)");
 		return;
 	}
-	// check how the com
 }

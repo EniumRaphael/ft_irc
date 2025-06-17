@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:17:31 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/10 13:32:34 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:59:01 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ enum e_mode {
 
 typedef struct s_mode {
 	std::string arguments;
-	e_mode mode;
 	bool add;
 	bool remove;
 }	t_mode;
@@ -40,5 +39,5 @@ class cmd::Mode : public ACommand {
 		virtual e_code checkArgs();
 		void checkMode();
 	private:
-		std::vector<std::pair<bool, s_mode> > _mode;
+		std::vector<std::pair<e_mode, s_mode> > _mode;
 };

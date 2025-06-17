@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:18:17 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 17:52:19 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/17 23:38:49 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,9 @@
 #include <list>
 
 class Channel {
-	private:
-		std::string _name;
-		std::string _password;
-		std::string _topic;
-		User *_owner;
-		bool _needInvite;
-		size_t _maxUsers;
-		std::list<User *> _operators;
-		std::list<User *> _users;
-		std::list<User *> _invited;
 	public:
+		Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite);
+		
 		// getters
 		std::string getName() const;
 		std::string getTopic() const;
@@ -50,4 +42,20 @@ class Channel {
 		void addUser(User *user);
 		void removeUser(User *user);
 		void removeOperator(User *user);
+		
+		// utility functions
+		void sendAllClientInAChannel(const std::string toSend);
+
+	private:
+		std::string _name;
+		User *_owner;
+		std::string _password;
+		size_t _maxUsers;
+		bool _needInvite;
+		std::string _topic;
+		std::list<User *> _operators;
+		std::list<User *> _users;
+		std::list<User *> _invited;
 };
+
+

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 17:38:39 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 23:16:55 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ std::list<User *> Server::getUsersList() const {
 	return userList;
 }
 
-std::list<Channel *> Server::getChannelsList() const {
+std::list<Channel *>& Server::getChannelsList() {
 	return this->_channels;
 }
 

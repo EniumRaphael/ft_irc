@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:50:32 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 17:36:46 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 23:16:58 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ public:
 	void start();
 	unsigned short int getPort() const;
 	std::list<User *> getUsersList() const;
-	std::list<Channel *> getChannelsList() const;
+	std::list<Channel *>& getChannelsList();
 	std::string getPassword() const;
 	void showInfo() const;
 	void printUsers() const;

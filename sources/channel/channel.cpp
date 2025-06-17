@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 17:22:09 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/17 23:51:54 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "channel.hpp"
 #include <iostream>
+
+Channel::Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite)
+	:_name(name), _owner(owner), _maxUsers(maxUsers), _needInvite(needInvite) {}
 
 /**
  * @brief Get the name of the channel
@@ -216,3 +219,8 @@ void Channel::removeOperator(User *user) {
 	}
 }
 
+void Channel::sendAllClientInAChannel(const std::string toSend) {
+  for(std::list<User *>::iterator it = this->_users.begin(); it != this->_users.end(); ++it) {
+  (*it)->appendToWriteBuffer(toSend);
+  }
+}

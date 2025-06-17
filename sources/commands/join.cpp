@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/12 13:23:58 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:48:08 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 using namespace cmd;
 
 e_code Join::checkArgs() {
-	if (_args.size() < 2) {
+	if (_args.size() < 2 || _args[1].empty()) {
 		WARNING_MSG("Not enough arguments for Join command");
 		return ERR_NEEDMOREPARAMS;
 	}
-	if (_args.at(1).at(0) != '#') {
+	if (_args[1][0] != '#') {
 		WARNING_MSG("Invalid channel name for Join command");
 		INFO_MSG("Channel names must start with a '#' character");
 		return ERR_NOSUCHCHANNEL;
 	} else
-		_args.at(1).erase(0, 1);
+		_args[1].erase(0, 1);
 	_cTarget = searchList(_channels, _args.at(1));
 	if (_cTarget == NULL) {
 		WARNING_MSG("Channel not found for Join command");

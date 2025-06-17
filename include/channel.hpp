@@ -6,13 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:18:17 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 00:10:56 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:18:05 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "user.hpp"
+#include "server.hpp"
 #include <string>
 #include <list>
 
@@ -44,7 +45,7 @@ class Channel {
 		void removeOperator(User *user);
 		
 		// utility functions
-		void sendAllClientInAChannel(const std::string toSend);
+		void sendAllClientInAChannel(const std::string toSend, User *sender);
 
 	private:
 		std::string _name;

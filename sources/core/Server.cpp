@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 00:10:14 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:34:56 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ std::vector<std::string> splitLines(const std::string& input);
 void Server::start()
 {
     _serverFd = socket(AF_INET, SOCK_STREAM, 0);
-    if (_serverFd == -1)
-    {
+    if (_serverFd == -1) {
         std::cerr << "Erreur socket" << std::endl;
         return;
     }
@@ -67,73 +66,76 @@ void Server::start()
     addr.sin_port = htons(_port);
 
     if (bind(_serverFd, (sockaddr *)&addr, sizeof(addr)) == -1 ||
-        listen(_serverFd, 10) == -1)
-    {
+        listen(_serverFd, 10) == -1) {
         std::cerr << "Erreur bind/listen" << std::endl;
         close(_serverFd);
         return;
     }
 
     std::cout << "Serveur lancé sur le port " << _port << std::endl;
+
     _pollManager.setServerFd(_serverFd);
     std::vector<int> newClients;
     std::vector<int> disconnected;
-    std::vector<std::pair<int, std::string> > readyClients;
-    while (true)
-    {
+    std::vector<std::pair<int, std::string > > readyClients;
+    std::vector<int> readyToWrite;
+
+    while (true) {
         printUsers();
+
         newClients.clear();
         disconnected.clear();
         readyClients.clear();
-        _pollManager.pollLoop(_serverFd, newClients, disconnected,
-                              readyClients);
-        std::cout << "New clients: " << newClients.size() << std::endl;
-        for (size_t i = 0; i < newClients.size(); ++i)
-        {
-            _users[newClients[i]] = new User(newClients[i]);
+        readyToWrite.clear();
+
+        _pollManager.pollLoop(_serverFd, newClients, disconnected, readyClients, readyToWrite);
+
+        for (size_t i = 0; i < newClients.size(); ++i) {
+            _users[newClients[i]] = new User(newClients[i], _pollManager);
         }
-        // Handle disconnected clients
-        for (size_t i = 0; i < disconnected.size(); ++i)
-        {
+
+        for (size_t i = 0; i < disconnected.size(); ++i) {
             disconnectClient(disconnected[i]);
         }
-        for (size_t i = 0; i < readyClients.size(); ++i)
-        {
+
+        for (size_t i = 0; i < readyClients.size(); ++i) {
             int fd = readyClients[i].first;
             const std::string &data = readyClients[i].second;
-            if (_users.count(fd))
-            {
+
+            if (_users.count(fd)) {
                 _users[fd]->appendToReadBuffer(data);
                 std::string rawCmd;
-                while (!(rawCmd = _users[fd]->extractFullCommand()).empty())
-                {
+
+                while (!(rawCmd = _users[fd]->extractFullCommand()).empty()) {
                     std::vector<std::string> lines = splitLines(rawCmd);
                     for (size_t i = 0; i < lines.size(); ++i) {
                         std::cout << "Client " << fd << " says: " << lines[i] << std::endl;
                         cmd::dispatch(_users[fd], NULL, this, lines[i]);
                     }
-                    // This prints every command/message received from any client
                 }
             }
         }
-        for (std::vector<std::pair<int, std::string > > ::iterator it = readyClients.begin(); it != readyClients.end(); ++it)
-        {
-            int fd = it->first;
-            if (_users.count(fd) && _users[fd]->isReadyToSend())
-            {
+
+        for (size_t i = 0; i < readyToWrite.size(); ++i) {
+            int fd = readyToWrite[i];
+            if (_users.count(fd)) {
                 std::string writeBuffer = _users[fd]->getWriteBuffer();
-                ssize_t bytesSent = send(fd, writeBuffer.c_str(), writeBuffer.size(), 0);
-                if (bytesSent < 0)
-                {
-                    std::cerr << "Erreur send" << std::endl;
-                }
-                else {
-                    _users[fd]->clearWriteBuffer();
+                if (!writeBuffer.empty()) {
+                    ssize_t bytesSent = send(fd, writeBuffer.c_str(), writeBuffer.size(), MSG_NOSIGNAL);
+                    if (bytesSent < 0) {
+                        std::cerr << "Erreur send sur fd " << fd << std::endl;
+                        disconnectClient(fd);
+                    } else {
+                        _users[fd]->clearWriteBuffer();
+                        _pollManager.setWritable(fd, false);
+                    }
                 }
             }
         }
+
         std::cout << "Poll loop finished" << std::endl;
     }
+
     close(_serverFd);
 }
 
@@ -185,7 +187,6 @@ void Server::printUsers() const
 std::string Server::getPassword() const { return this->_password; }
 
 std::list<User *> Server::getUsersList() const {
-	WARNING_MSG("TO DO FILL")
 	std::list<User*> userList;
 	for (std::map<int, User*>::const_iterator it = _users.begin(); it != _users.end(); ++it) {
 		userList.push_back(it->second);
@@ -218,3 +219,5 @@ void Server::disconnectClient(int fd) {
 	delete user;
 	_users.erase(fd);
 }
+
+PollManager& Server::getPollManager() { return _pollManager; }

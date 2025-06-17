@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 23:55:31 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:58:16 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,5 @@ void Join::execute() {
 	for (std::list<User *>::iterator it = _cTarget->getUsers().begin(); it != _cTarget->getUsers().end(); ++it) {
 		msg353 += (*it)->getNickname() + " ";
 	}
-	_cTarget->sendAllClientInAChannel(msgJoin + msg332 + msg353 + "\r\n");
+	_cTarget->sendAllClientInAChannel(msgJoin + msg332 + msg353 + "\r\n", _sender);
 }

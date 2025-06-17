@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/12 13:25:02 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:56:49 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,31 @@
 
 using namespace cmd;
 
+// exemple:
+// PRIVMSG #samy :salut 
+
 e_code PrivMsg::checkArgs() {
 	if (_args.size() < 3) {
 		WARNING_MSG("Not enough arguments for PRIVMSG command");
 		return ERR_NEEDMOREPARAMS;
 	}
-	if (_args.at(1).at(0) != '#') {
-		_uTarget = searchList(this->_users, _args.at(2));
-		if (this->_uTarget == NULL) {
-			WARNING_MSG("User not found");
-			return ERR_NOSUCHNICK;
-		}
-		if (this->_uTarget->isRegistered() == false) {
-			WARNING_MSG("User is not registered for PRIVMSG command");
-			INFO_MSG("You can only privmsg registered users");
-			return ERR_NOSUCHNICK;
-		}
-	} else {
-		_cTarget = searchList(_channels, _args.at(1));
+
+	std::string target = _args.at(1);
+
+	if (target[0] == '#') {
+		target.erase(0, 1); // Enlève le '#'
+		_cTarget = searchList(_server->getChannelsList(), target);
 		if (_cTarget == NULL) {
 			WARNING_MSG("Channel not found for PRIVMSG command");
-			INFO_MSG("You can only privmsg users to channels you are in");
 			return ERR_NOSUCHCHANNEL;
-		} else
-		_args.at(1).erase(0, 1);
+		}
+	} 
+	else {
+		_uTarget = searchList(_users, target);
+		if (_uTarget == NULL || !_uTarget->isRegistered()) {
+			WARNING_MSG("User not found or not registered");
+			return ERR_NOSUCHNICK;
+		}
 	}
 	return _PARSING_OK;
 }
@@ -48,10 +49,26 @@ e_code PrivMsg::checkArgs() {
  * @brief Execute the PrivMsg command
  * @note To send a private message to a user / a channel
  */
+
 void PrivMsg::execute() {
 	if (checkArgs() != _PARSING_OK) {
 		ERROR_MSG("Invalid arguments for PRIVMSG command (see warning message)");
 		return;
 	}
-	// check how the com
+
+	std::string target = _args.at(1);
+	std::string content = _args.at(2);
+	std::string msg = ":" + _sender->getPrefix() + " PRIVMSG " + target + " :" + content + "\r\n";
+
+	// Envoi vers un channel
+	if (target[0] == '#') {
+		target.erase(0, 1); // Enlève le #
+		if (_cTarget)
+			_cTarget->sendAllClientInAChannel(msg, _sender); // Optionnel: évite d'envoyer au sender
+	}
+	// Envoi vers un user
+	else {
+		if (_uTarget)
+			_uTarget->appendToWriteBuffer(msg);
+	}
 }

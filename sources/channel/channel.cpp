@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 00:10:48 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:17:37 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,8 +219,11 @@ void Channel::removeOperator(User *user) {
 	}
 }
 
-void Channel::sendAllClientInAChannel(const std::string toSend) {
+void Channel::sendAllClientInAChannel(const std::string toSend,  User *sender) {
   for(std::list<User *>::iterator it = this->_users.begin(); it != this->_users.end(); ++it) {
-  (*it)->appendToWriteBuffer(toSend);
+	if (*it == sender) {
+		continue;
+  	}
+  	(*it)->appendToWriteBuffer(toSend);
   }
 }

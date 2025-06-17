@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/17 17:42:40 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:19:52 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 #include <netdb.h>
 
 // Constructor
-User::User(short unsigned int fd) : _fd(fd), _registered(false), _hasNick(false), _hasUser(false), \
-    _hasPass(false), _passReceived(false), _passIsValid(false) {}
+User::User(short unsigned int fd, PollManager& poll) : _fd(fd), _registered(false), _hasNick(false), _hasUser(false), \
+    _hasPass(false), _passReceived(false), _passIsValid(false), _poll(poll) {}
 
 /**
  * @brief Getter for the fd
@@ -81,6 +81,7 @@ void User::appendToReadBuffer(const std::string &data)
 void User::appendToWriteBuffer(const std::string &data)
 {
     _write_buffer += data;
+    _poll.setWritable(_fd, true);
 }
 
 // Check registration

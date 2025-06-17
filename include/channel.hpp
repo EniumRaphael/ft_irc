@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:18:17 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 23:38:49 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:10:56 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class Channel {
 		size_t getMaxUsers() const;
 		User *getOwner() const;
 		std::list<User *> getOperators() const;
-		std::list<User *> getUsers() const;
+		std::list<User *>& getUsers();
 		std::list<User *> getInvited() const;
 		std::string getPassword() const;
 		bool isOperator(User *user) const;

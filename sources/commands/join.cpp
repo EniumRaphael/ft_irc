@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 23:50:28 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/17 23:55:31 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,4 @@ void Join::execute() {
 		msg353 += (*it)->getNickname() + " ";
 	}
 	_cTarget->sendAllClientInAChannel(msgJoin + msg332 + msg353 + "\r\n");
-
 }

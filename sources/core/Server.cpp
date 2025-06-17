@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 23:16:55 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:10:14 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,6 @@ void Server::printUsers() const
 std::string Server::getPassword() const { return this->_password; }
 
 std::list<User *> Server::getUsersList() const {
-	// to_delete when done
 	WARNING_MSG("TO DO FILL")
 	std::list<User*> userList;
 	for (std::map<int, User*>::const_iterator it = _users.begin(); it != _users.end(); ++it) {
@@ -212,10 +211,10 @@ std::vector<std::string> splitLines(const std::string& input) {
 }
 
 void Server::disconnectClient(int fd) {
-    _pollManager.removeClient(fd);
-    close(fd);
-    if (_users.count(fd)) {
-        delete _users[fd];
-        _users.erase(fd);
-    }
+	User *user = _users[fd];
+	for (std::list<Channel*>::iterator it = _channels.begin(); it != _channels.end(); ++it)
+		(*it)->removeUser(user);
+
+	delete user;
+	_users.erase(fd);
 }

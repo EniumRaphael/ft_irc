@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/17 23:51:54 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:10:48 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ User *Channel::getOwner() const {
  *
  * @return list of Users in the channel
  */
-std::list<User *> Channel::getUsers() const {
+std::list<User *>& Channel::getUsers() {
 	return this->_users;
 }
 

@@ -6,7 +6,7 @@
 /*   By: rparodi <rparodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/05/26 22:55:45 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:22:09 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,51 @@ std::list<User *> Channel::getOperators() const {
 }
 
 /**
+ * @brief Get the password of the channel
+ *
+ * @return string with the password
+ */
+std::string Channel::getPassword() const {
+	return this->_password;
+}
+
+/**
+ * @brief Get the max user allowd to be in the channel
+ *
+ * @return size_t max user
+ */
+size_t Channel::getMaxUsers() const {
+	return this->_maxUsers;
+}
+
+/**
+ * @brief Get if an invitation is needed for this channel
+ *
+ * @return the boolean to check if an invite is needed for the channel
+ */
+bool Channel::getNeedInvite() const {
+	return this->_needInvite;
+}
+
+/**
+ * @brief Setter got the NeedInvite channel
+ *
+ * @param toSet The new value for need Invite
+ */
+void Channel::setNeedInvite(bool toSet) {
+	this->_needInvite = toSet;
+}
+
+/**
+ * @brief Setter for the Max User for the channel
+ *
+ * @param arg the new number (integer / long)
+ */
+void Channel::setMaxUser(size_t arg) {
+	this->_maxUsers = arg;
+}
+
+/**
  * @brief Get the list of the Invited in the channel
  *
  * @return list of Invited in the channel
@@ -104,6 +149,15 @@ bool Channel::isUserInChannel(User *user) const {
  */
 void Channel::setTopic(const std::string &topic) {
 	this->_topic = topic;
+}
+
+/**
+ * @brief Setter for the Channel's password
+ *
+ * @param newPass the new password to set
+ */
+void Channel::setPassword(const std::string &newPass) {
+	this->_password = newPass;
 }
 
 /**

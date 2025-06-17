@@ -66,6 +66,7 @@ void PollManager::pollLoop(int server_fd, std::vector<int> &newClients, std::vec
 void PollManager::addClient(short unsigned fd)
 {
     struct pollfd pfd;
+    std::memset(&pfd, 0, sizeof(pfd));
     pfd.fd = fd;
     pfd.events = POLLIN;
     _fds.push_back(pfd);

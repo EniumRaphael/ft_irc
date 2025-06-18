@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:18:17 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 01:18:05 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:24:15 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ class Channel {
 		bool isOperator(User *user) const;
 		bool isUserInChannel(User *user) const;
 		bool getNeedInvite() const;
+		bool getProtectTopic() const;
 
 		// setters
+		void setProtectTopic(bool toSet);
 		void setMaxUser(size_t args);
 		void setNeedInvite(bool toSet);
 		void setTopic(const std::string &topic);
@@ -53,6 +55,7 @@ class Channel {
 		std::string _password;
 		size_t _maxUsers;
 		bool _needInvite;
+		bool _protectTopic;
 		std::string _topic;
 		std::list<User *> _operators;
 		std::list<User *> _users;

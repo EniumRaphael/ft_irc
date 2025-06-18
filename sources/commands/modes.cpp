@@ -98,9 +98,12 @@ e_code Mode::checkArgs() {
 		const e_mode &ret = this->_mode[i].first;
 		if (ret == ERROR_MODE)
 			return ERR_UNKNOWNMODE;
-		if ((ret == CHAN_SET_KEY && this->_mode[i].second.add) || (ret == CHAN_SET_TOPIC && this->_mode[i].second.add) || (ret == CHAN_SET_LIMIT && this->_mode[i].second.add) || ret == CHAN_SET_OP)
-			if (this->_mode[i].second.arguments.empty())
+		if ((ret == CHAN_SET_KEY && this->_mode[i].second.add) || (ret == CHAN_SET_LIMIT && this->_mode[i].second.add) || ret == CHAN_SET_OP)
+			if (this->_mode[i].second.arguments.empty()) {
+				std::string msg461 = ":localhost 461 " + this->_sender->getNickname() + " " + this->_command + " :Not enough parameters\r\n";
+				this->_sender->appendToWriteBuffer(msg461);
 				return ERR_NEEDMOREPARAMS;
+			}
 		if (searchList(this->_cTarget->getOperators(), this->_sender->getName()) != NULL) {
 			WARNING_MSG("You are not an operator in the channel for INVITE command");
 			return ERR_CHANOPRIVSNEEDED;
@@ -172,9 +175,13 @@ void Mode::execute() {
 				break;
 			case CHAN_SET_TOPIC:
 				if (this->_mode[i].second.add) {
-					this->_cTarget->setTopic(this->_mode[i].second.arguments);
+					if (this->_cTarget->getProtectTopic())
+						DEBUG_MSG("Topic is already protected");
+					this->_cTarget->setProtectTopic(true);
 				} else if (this->_mode[i].second.remove) {
-					this->_cTarget->setTopic("");
+					if (!this->_cTarget->getProtectTopic())
+						DEBUG_MSG("Topic is already non-protected");
+					this->_cTarget->setProtectTopic(false);
 				}
 				break;
 			default:

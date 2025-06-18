@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 00:56:49 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:51:56 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ using namespace cmd;
 
 e_code PrivMsg::checkArgs() {
 	if (_args.size() < 3) {
-		WARNING_MSG("Not enough arguments for PRIVMSG command");
+		std::string msg461 = ":localhost 461 " + this->_sender->getNickname() + " " + this->_command + " :Not enough parameters\r\n";
+		this->_sender->appendToWriteBuffer(msg461);
 		return ERR_NEEDMOREPARAMS;
 	}
 

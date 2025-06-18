@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 01:17:37 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:20:01 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,13 @@ bool Channel::isUserInChannel(User *user) const {
 	return false;
 }
 
+bool Channel::getProtectTopic() const {
+	return this->_protectTopic;
+}
+
+void Channel::setProtectTopic(bool toSet) {
+	this->_protectTopic = toSet;
+}
 /**
  * @brief Setter for the topic of the channel
  *

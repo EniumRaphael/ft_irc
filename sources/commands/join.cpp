@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 00:58:16 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:51:54 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ using namespace cmd;
 
 e_code Join::checkArgs() {
 	if (_args.size() < 2 || _args[1].empty()) {
-		WARNING_MSG("Not enough arguments for Join command");
+		std::string msg461 = ":localhost 461 " + this->_sender->getNickname() + " " + this->_command + " :Not enough parameters\r\n";
+		this->_sender->appendToWriteBuffer(msg461);
 		return ERR_NEEDMOREPARAMS;
 	}
 	if (_args[1][0] != '#') {

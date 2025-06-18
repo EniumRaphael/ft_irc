@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/12 13:24:39 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:55:38 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ using namespace cmd;
 
 e_code Part::checkArgs() {
 	if (_args.size() < 2) {
-		WARNING_MSG("Not enough arguments for PART command");
+		std::string msg461 = ":localhost 461 " + this->_sender->getNickname() + " " + this->_command + " :Not enough parameters\r\n";
+		this->_sender->appendToWriteBuffer(msg461);
 		return ERR_NEEDMOREPARAMS;
 	}
 	if (_args.at(1).at(0) != '#') {

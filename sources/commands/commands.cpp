@@ -143,7 +143,8 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 		case 't':
 		 	if (command_name == "topic") {
 				Topic(user, channel, server, line).execute();
-			 }
+			}
+			break;
 		case 'w':
 			if (command_name == "whois") {
 				Whois(user, channel, server, line).execute();

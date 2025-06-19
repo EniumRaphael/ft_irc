@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 11:21:59 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:42:56 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void List::execute() {
 			std::ostringstream msg322; msg322 << ":localhost 322 " << _sender->getNickname()
 				<< " " << (*it)->getName() << " " <<
 				(*it)->getUsers().size() <<
-				" :" <<  _channel->getTopic() << "\r\n";
+				" :" << (*it)->getTopic() << "\r\n";
 			this->_sender->appendToWriteBuffer(msg322.str());
 		}
 	}

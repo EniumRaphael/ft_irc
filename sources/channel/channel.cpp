@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 12:20:01 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 01:16:03 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,10 +190,17 @@ void Channel::addOperator(User *user) {
  * @param user to add in the channel
  */
 void Channel::addUser(User *user) {
+	if (!user) {
+		std::cerr << "Error: Attempt to add a null user to the channel " << this->_name << std::endl;
+		DEBUG_MSG("Attempt to add a null user to the channel " << this->_name);
+		return;
+	}
 	if (this->isUserInChannel(user) == false) {
+		DEBUG_MSG("Adding user " << user->getName() << " to channel " << this->_name);
 		this->_users.push_back(user);
 	}
 	else {
+		DEBUG_MSG("User " << user->getName() << " is already in channel " << this->_name);
 		std::cerr << user->getName() << " is already in the channel " << this->_name << std::endl;
 	}
 }
@@ -226,11 +233,9 @@ void Channel::removeOperator(User *user) {
 	}
 }
 
-void Channel::sendAllClientInAChannel(const std::string toSend,  User *sender) {
-  for(std::list<User *>::iterator it = this->_users.begin(); it != this->_users.end(); ++it) {
-	if (*it == sender) {
-		continue;
-  	}
-  	(*it)->appendToWriteBuffer(toSend);
-  }
+void Channel::sendAllClientInAChannel(const std::string &toSend, User *exclude) {
+	for (std::list<User *>::iterator it = _users.begin(); it != _users.end(); ++it) {
+		if (*it != exclude)
+			(*it)->appendToWriteBuffer(toSend);
+	}
 }

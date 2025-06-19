@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:18:17 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 12:24:15 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 01:15:59 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class Channel {
 		void removeOperator(User *user);
 		
 		// utility functions
-		void sendAllClientInAChannel(const std::string toSend, User *sender);
+		void sendAllClientInAChannel(const std::string &toSend, User *exclude = NULL);
 
 	private:
 		std::string _name;

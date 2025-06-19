@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 12:51:56 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 02:28:16 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void PrivMsg::execute() {
 
 	// Envoi vers un channel
 	if (target[0] == '#') {
-		target.erase(0, 1); // Enlève le #
+		target.erase(0, 1);
 		if (_cTarget)
 			_cTarget->sendAllClientInAChannel(msg, _sender); // Optionnel: évite d'envoyer au sender
 	}

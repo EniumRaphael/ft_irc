@@ -6,12 +6,13 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 11:33:25 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 13:46:05 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "channel.hpp"
 #include <iostream>
+#include <algorithm>
 
 Channel::Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite) : _name(name), _owner(owner), _maxUsers(maxUsers), _needInvite(needInvite) {
 	this->_protectTopic = false;
@@ -60,7 +61,7 @@ std::list<User *>& Channel::getUsers() {
  *
  * @return list of Operators in the channel
  */
-std::list<User *> Channel::getOperators() const {
+std::list<User *>& Channel::getOperators() {
 	return this->_operators;
 }
 
@@ -241,4 +242,19 @@ void Channel::sendAllClientInAChannel(const std::string &toSend, User *exclude) 
 		if (*it != exclude)
 			(*it)->appendToWriteBuffer(toSend);
 	}
+}
+
+void Channel::addInvited(User *user) {
+	if (user && !isInvited(user))
+		_invited.push_back(user);
+}
+
+bool Channel::isInvited(User *user) const {
+	if (user)
+	{
+		if (std::find(_invited.begin(), _invited.end(), user) != _invited.end())
+			return true;
+	}
+	std::cerr << user->getName() << " is not invited to the channel " << this->_name << std::endl;
+	return false;
 }

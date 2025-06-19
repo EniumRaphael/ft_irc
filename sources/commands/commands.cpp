@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 11:25:46 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 13:02:11 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
  * @param line line send by the user
  */
 
-std::vector<std::string> cmd::split(std::string &line) {
+std::vector<std::string> cmd::split(std::string &line, char sep) {
 	std::vector<std::string> args;
 	size_t start = 0;
 	size_t end;
@@ -49,7 +49,7 @@ std::vector<std::string> cmd::split(std::string &line) {
 			args.push_back(arg);
 			break;
 		}
-		end = line.find(' ', start);
+		end = line.find(sep, start);
 		if (end == std::string::npos)
 			end = line.length();
 		std::string arg = line.substr(start, end - start);
@@ -72,7 +72,7 @@ std::vector<std::string> cmd::split(std::string &line) {
  * @param line input line from the user
  */
 void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &line) {
-	std::vector<std::string> args = cmd::split(line);
+	std::vector<std::string> args = cmd::split(line, ' ');
 	if (args.empty()) {
 		DEBUG_MSG("Empty line");
 		return;
@@ -163,7 +163,7 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 
 cmd::ACommand::ACommand(::User *user, ::Channel *channel, ::Server *server, std::string &line) : _sender(user), _channel(channel), _server(server) {
 	DEBUG_MSG("ACommand constructor called");
-	_args = split(line);
+	_args = split(line, ' ');
 	_command = _args.at(0);
 	_channels = server->getChannelsList();
 	_users = server->getUsersList();

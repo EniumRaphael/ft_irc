@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/18 01:19:52 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/19 02:23:06 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,20 +117,25 @@ bool User::isReadyToSend() const
 
 // Extract full command from read buffer
 std::string User::extractFullCommand() {
+
     size_t pos = _read_buffer.find("\r\n");
-    if (pos == std::string::npos)
-        pos = _read_buffer.find("\n"); // fallback
 
     if (pos != std::string::npos) {
         std::string command = _read_buffer.substr(0, pos);
-        if (_read_buffer.substr(pos, 2) == "\r\n")
-            _read_buffer.erase(0, pos + 2);
-        else
-            _read_buffer.erase(0, pos + 1);
+        _read_buffer.erase(0, pos + 2);
         return command;
     }
+
+    pos = _read_buffer.find('\n');
+    if (pos != std::string::npos) {
+        std::string command = _read_buffer.substr(0, pos);
+        _read_buffer.erase(0, pos + 1);
+        return command;
+    }
+
     return "";
 }
+
 
 void User::setHasNick(bool value) { _hasNick = value; }
 
@@ -187,3 +192,10 @@ void User::resolveHostInfo()
 void User::setRealname(const std::string &realname) { _realname = realname; }
 
 std::string User::getRealname(void) const { return _realname; }
+
+void User::consumeWriteBuffer(size_t len) {
+	if (len >= _write_buffer.size())
+		_write_buffer.clear();
+	else
+		_write_buffer.erase(0, len);
+}

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 01:34:56 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/19 02:24:05 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,9 @@ void Server::start()
                         std::cerr << "Erreur send sur fd " << fd << std::endl;
                         disconnectClient(fd);
                     } else {
-                        _users[fd]->clearWriteBuffer();
-                        _pollManager.setWritable(fd, false);
+                        _users[fd]->consumeWriteBuffer(bytesSent);
+                        if (_users[fd]->getWriteBuffer().empty())
+                            _pollManager.setWritable(fd, false);
                     }
                 }
             }

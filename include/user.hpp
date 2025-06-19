@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:57:49 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 01:19:32 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/19 02:22:55 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ class User
 		bool hasDataToSend() const;
 		std::string getWriteBuffer() const;
 		void clearWriteBuffer();
+		void consumeWriteBuffer(size_t len);
 
 		std::string getPrefix() const;
 };

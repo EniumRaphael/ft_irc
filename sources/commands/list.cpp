@@ -6,18 +6,20 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 12:52:13 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:21:59 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "list.hpp"
+#include "channel.hpp"
 #include "commands.hpp"
 #include "logs.hpp"
+#include <sstream>
 
 using namespace cmd;
 
 e_code List::checkArgs() {
-	if (_args.size() < 3) {
+	if (_args.size() < 1) {
 		std::string msg461 = ":localhost 461 " + this->_sender->getNickname() + " " + this->_command + " :Not enough parameters\r\n";
 		this->_sender->appendToWriteBuffer(msg461);
 		return ERR_NEEDMOREPARAMS;
@@ -27,19 +29,6 @@ e_code List::checkArgs() {
 		INFO_MSG("You can only LIST registered users");
 		return ERR_NOSUCHNICK;
 	}
-	if (_args.at(1).at(0) != '#') {
-		WARNING_MSG("Invalid channel name for LIST command");
-		INFO_MSG("Channel names must start with a '#' character");
-		return ERR_NOSUCHCHANNEL;
-	} else
-		_args.at(1).erase(0, 1);
-	_cTarget = searchList(_channels, _args.at(1));
-	if (_cTarget == NULL) {
-		WARNING_MSG("Channel not found for LIST command");
-		INFO_MSG("You can only LIST users to channels you are in");
-		return ERR_NOSUCHCHANNEL;
-	} else
-		_args.at(1).erase(0, 1);
 	return _PARSING_OK;
 }
 
@@ -52,5 +41,18 @@ void List::execute() {
 		ERROR_MSG("Invalid arguments for LIST command (see warning message)");
 		return;
 	}
-	// check how the com
+	if (this->_args.size() > 1) {
+		for (size_t i = 1; i < this->_args.size(); i++) {
+		}
+	} else {
+		std::list<Channel *> &channelList = this->_server->getChannelsList();
+		for (std::list<Channel *>::iterator it = channelList.begin(); it != channelList.end(); it++) {
+			DEBUG_MSG((*it)->getName());
+			std::ostringstream msg322; msg322 << ":localhost 322 " << _sender->getNickname()
+				<< " " << (*it)->getName() << " " <<
+				(*it)->getUsers().size() <<
+				" :" <<  _channel->getTopic() << "\r\n";
+			this->_sender->appendToWriteBuffer(msg322.str());
+		}
+	}
 }

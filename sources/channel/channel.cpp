@@ -6,15 +6,18 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 01:16:03 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:33:25 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "channel.hpp"
 #include <iostream>
 
-Channel::Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite)
-	:_name(name), _owner(owner), _maxUsers(maxUsers), _needInvite(needInvite) {}
+Channel::Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite) : _name(name), _owner(owner), _maxUsers(maxUsers), _needInvite(needInvite) {
+	this->_protectTopic = false;
+	this->_maxUsers = ~0;
+	this->_topic = "No topic is set";
+}
 
 /**
  * @brief Get the name of the channel

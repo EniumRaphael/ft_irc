@@ -6,25 +6,26 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/10 16:25:57 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:25:46 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.hpp"
 #include <cctype>
-#include "join.hpp"
-#include "privmsg.hpp"
-#include "nick.hpp"
-#include "invite.hpp"
-#include "list.hpp"
 #include "cap.hpp"
-#include "modes.hpp"
-#include "ping.hpp"
-#include "notice.hpp"
+#include "invite.hpp"
+#include "join.hpp"
 #include "kick.hpp"
-#include "userCmd.hpp"
-#include "pass.hpp"
+#include "list.hpp"
+#include "modes.hpp"
+#include "nick.hpp"
+#include "notice.hpp"
 #include "part.hpp"
+#include "pass.hpp"
+#include "ping.hpp"
+#include "privmsg.hpp"
+#include "topic.hpp"
+#include "userCmd.hpp"
 #include "whois.hpp"
 #include "whowas.hpp"
 #include <iterator>
@@ -139,6 +140,10 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 				userCmd(user, channel, server, line).execute();
 			}
 			break;
+		case 't':
+		 	if (command_name == "topic") {
+				Topic(user, channel, server, line).execute();
+			 }
 		case 'w':
 			if (command_name == "whois") {
 				Whois(user, channel, server, line).execute();

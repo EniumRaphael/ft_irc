@@ -6,25 +6,26 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:11:56 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/10 16:25:57 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 13:02:11 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.hpp"
 #include <cctype>
-#include "join.hpp"
-#include "privmsg.hpp"
-#include "nick.hpp"
-#include "invite.hpp"
-#include "list.hpp"
 #include "cap.hpp"
-#include "modes.hpp"
-#include "ping.hpp"
-#include "notice.hpp"
+#include "invite.hpp"
+#include "join.hpp"
 #include "kick.hpp"
-#include "userCmd.hpp"
-#include "pass.hpp"
+#include "list.hpp"
+#include "modes.hpp"
+#include "nick.hpp"
+#include "notice.hpp"
 #include "part.hpp"
+#include "pass.hpp"
+#include "ping.hpp"
+#include "privmsg.hpp"
+#include "topic.hpp"
+#include "userCmd.hpp"
 #include "whois.hpp"
 #include "whowas.hpp"
 #include <iterator>
@@ -37,7 +38,7 @@
  * @param line line send by the user
  */
 
-std::vector<std::string> cmd::split(std::string &line) {
+std::vector<std::string> cmd::split(std::string &line, char sep) {
 	std::vector<std::string> args;
 	size_t start = 0;
 	size_t end;
@@ -48,7 +49,7 @@ std::vector<std::string> cmd::split(std::string &line) {
 			args.push_back(arg);
 			break;
 		}
-		end = line.find(' ', start);
+		end = line.find(sep, start);
 		if (end == std::string::npos)
 			end = line.length();
 		std::string arg = line.substr(start, end - start);
@@ -71,7 +72,7 @@ std::vector<std::string> cmd::split(std::string &line) {
  * @param line input line from the user
  */
 void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &line) {
-	std::vector<std::string> args = cmd::split(line);
+	std::vector<std::string> args = cmd::split(line, ' ');
 	if (args.empty()) {
 		DEBUG_MSG("Empty line");
 		return;
@@ -139,6 +140,11 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 				userCmd(user, channel, server, line).execute();
 			}
 			break;
+		case 't':
+		 	if (command_name == "topic") {
+				Topic(user, channel, server, line).execute();
+			}
+			break;
 		case 'w':
 			if (command_name == "whois") {
 				Whois(user, channel, server, line).execute();
@@ -157,7 +163,7 @@ void cmd::dispatch(::User *user, Channel *channel, Server *server, std::string &
 
 cmd::ACommand::ACommand(::User *user, ::Channel *channel, ::Server *server, std::string &line) : _sender(user), _channel(channel), _server(server) {
 	DEBUG_MSG("ACommand constructor called");
-	_args = split(line);
+	_args = split(line, ' ');
 	_command = _args.at(0);
 	_channels = server->getChannelsList();
 	_users = server->getUsersList();

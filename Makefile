@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/17 17:06:04 by sben-tay         ###   ########.fr        #
+#    Updated: 2025/06/19 11:29:58 by rparodi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC =	sources/channel/channel.cpp \
 		sources/commands/ping.cpp \
 		sources/commands/pong.cpp \
 		sources/commands/privmsg.cpp \
+		sources/commands/topic.cpp \
 		sources/commands/userCmd.cpp \
 		sources/commands/whois.cpp \
 		sources/commands/whowas.cpp \

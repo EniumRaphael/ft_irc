@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 12:53:44 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/19 14:02:08 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ e_code Mode::checkArgs() {
 		return ERR_NOSUCHCHANNEL;
 	} else
 		this->_args.at(1).erase(0, 1);
+	_cTarget = searchList(_server->getChannelsList(), _args.at(1));
 	if (this->_cTarget == NULL) {
 		WARNING_MSG("Channel not found for INVITE command");
 		INFO_MSG("You can only invite users to channels you are in");

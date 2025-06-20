@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/20 13:40:14 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:18:27 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ short unsigned int User::getFd() const { return this->_fd; }
  *
  * @return the actual nickname of the user
  */
-std::string User::getName() const {
+const std::string User::getName() const {
 	return this->_nickname;
 }
 
@@ -151,17 +151,17 @@ void User::setPassIsValid(bool value) { _passIsValid = value; }
 
 bool User::getHasPass() const { return _hasPass; }
 
-std::string User::getNickname() const { return _nickname; }
+const std::string User::getNickname() const { return _nickname; }
 
 bool User::hasDataToSend() const { return !_write_buffer.empty(); }
 
-std::string User::getWriteBuffer() const { return _write_buffer; }
+const std::string User::getWriteBuffer() const { return _write_buffer; }
 
 void User::clearWriteBuffer() { _write_buffer.clear(); }
 
-std::string User::getPrefix() const { return _nickname + "!" + _username + "@" + _hostname; }
+const std::string User::getPrefix() const { return _nickname + "!" + _username + "@" + _hostname; }
 
-std::string User::getUsername() const { return _username; }
+const std::string User::getUsername() const { return _username; }
 
 const std::string& User::getHostname() const { return _hostname; }
 
@@ -193,7 +193,7 @@ void User::resolveHostInfo()
 
 void User::setRealname(const std::string &realname) { _realname = realname; }
 
-std::string User::getRealname(void) const { return _realname; }
+const std::string User::getRealname(void) const { return _realname; }
 
 void User::consumeWriteBuffer(size_t len) {
 	if (len >= _write_buffer.size())

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/18 12:55:06 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/20 16:47:40 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ e_code Kick::checkArgs() {
 		return ERR_NOSUCHCHANNEL;
 	} else
 		_args.at(1).erase(0, 1);
-	_cTarget = searchList(_channels, _args.at(1));
+	_cTarget = searchList(this->_server->getChannelsList(), _args.at(1));
 	if (_cTarget == NULL) {
 		WARNING_MSG("Channel not found for KICK command");
 		INFO_MSG("You can only KICK users to channels you are in");
 		return ERR_NOSUCHCHANNEL;
 	} else
 		_args.at(1).erase(0, 1);
-	if (searchList(_cTarget->getOperators(), _sender->getName()) != NULL) {
+	if (searchList(_cTarget->getOperators(), _sender->getName()) == NULL) {
 		WARNING_MSG("You are not an operator in the channel for KICK command");
 		return ERR_CHANOPRIVSNEEDED;
 	}
@@ -49,7 +49,7 @@ e_code Kick::checkArgs() {
 		INFO_MSG("You can only KICK registered users");
 		return ERR_NOSUCHNICK;
 	}
-	if (searchList(this->_cTarget->getUsers(), this->_uTarget->getName())) {
+	if (searchList(this->_cTarget->getUsers(), this->_uTarget->getName()) == NULL) {
 		WARNING_MSG("User is already in the channel for KICK command");
 		INFO_MSG("You cannot KICK a user who is already in the channel");
 		return ERR_USERONCHANNEL;
@@ -66,5 +66,20 @@ void Kick::execute() {
 		ERROR_MSG("Invalid arguments for INVITE command (see warning message)");
 		return;
 	}
-	// check how the com
+	std::string msgPart = ":" + this->_uTarget->getPrefix() + " PART #" + _cTarget->getName() + "\r\n";
+	std::string msgKick = ":" + this->_uTarget->getPrefix() + " KICK #" + this->_cTarget->getName();
+	if (_args.size() > 4)
+		msgKick += " :" + _args.at(4);
+	msgKick += "\r\n";
+
+	this->_sender->appendToWriteBuffer(msgKick + msgPart);
+	_cTarget->removeUser(this->_uTarget);
+	_cTarget->removeOperator(this->_uTarget);
+
+	if (_cTarget->getUsers().empty()) {
+		std::list<Channel*>& allChannels = _server->getChannelsList();
+		allChannels.remove(_cTarget);
+		delete _cTarget;
+		DEBUG_MSG("Channel supprimé car vide.");
+	}
 }

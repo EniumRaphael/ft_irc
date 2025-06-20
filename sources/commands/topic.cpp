@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/20 17:09:43 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:55:27 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,25 @@ void Topic::execute() {
 		ERROR_MSG("Invalid arguments for TOPIC command (see warning message)");
 		return;
 	}
+
 	if (this->_args.size() == 1) {
 		if (this->_cTarget->getTopic().empty()) {
-			std::string msg331 = ":localhost 331 " + this->_sender->getNickname() + " " + this->_cTarget->getName() + " :No topic is set" + "\r\n";
+			std::string msg331 = ":localhost 331 " + this->_sender->getNickname() + " " + this->_cTarget->getName() + " :No topic is set\r\n";
 			this->_sender->appendToWriteBuffer(msg331);
 		} else {
-			std::string msg332 = ":localhost 332 " + this->_sender->getNickname() + " " + this->_cTarget->getName() + " :" + _cTarget->getTopic() + "\r\n";
+			std::string msg332 = ":localhost 332 " + this->_sender->getNickname() + " " + this->_cTarget->getName() + " :" + this->_cTarget->getTopic() + "\r\n";
 			this->_sender->appendToWriteBuffer(msg332);
 		}
 	} else {
-		this->_cTarget->setTopic(this->_args.at(2));
+		std::string newTopic;
+		for (size_t i = 2; i < this->_args.size(); ++i) {
+			newTopic += this->_args[i];
+			if (i != this->_args.size() - 1)
+				newTopic += " ";
+		}
+		this->_cTarget->setTopic(newTopic);
+
+		std::string topicMsg = ":" + this->_sender->getPrefix() + " TOPIC " + this->_cTarget->getName() + " :" + newTopic + "\r\n";
+		this->_cTarget->sendAllClientInAChannel(topicMsg);
 	}
 }

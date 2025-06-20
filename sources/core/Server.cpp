@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 02:24:05 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:13:42 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,11 @@ void Server::start()
                 _users[fd]->appendToReadBuffer(data);
                 std::string rawCmd;
 
+                DEBUG_MSG("cmd = " << _users[fd]->extractFullCommand());
                 while (!(rawCmd = _users[fd]->extractFullCommand()).empty()) {
                     std::vector<std::string> lines = splitLines(rawCmd);
                     for (size_t i = 0; i < lines.size(); ++i) {
+                        DEBUG_MSG("cmd = " << _users[fd]->extractFullCommand());
                         std::cout << "Client " << fd << " says: " << lines[i] << std::endl;
                         cmd::dispatch(_users[fd], NULL, this, lines[i]);
                     }
@@ -126,8 +128,9 @@ void Server::start()
                         std::cerr << "Erreur send sur fd " << fd << std::endl;
                         disconnectClient(fd);
                     } else {
-                        _users[fd]->consumeWriteBuffer(bytesSent);
-                        if (_users[fd]->getWriteBuffer().empty())
+                            _users[fd]->clearWriteBuffer();
+                        // _users[fd]->consumeWriteBuffer(bytesSent);
+                        // if (_users[fd]->getWriteBuffer().empty())
                             _pollManager.setWritable(fd, false);
                     }
                 }

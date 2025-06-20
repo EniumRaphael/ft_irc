@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/20 16:47:40 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:01:49 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void Kick::execute() {
 		msgKick += " :" + _args.at(4);
 	msgKick += "\r\n";
 
-	this->_sender->appendToWriteBuffer(msgKick + msgPart);
+	this->_uTarget->appendToWriteBuffer(msgKick + msgPart);
 	_cTarget->removeUser(this->_uTarget);
 	_cTarget->removeOperator(this->_uTarget);
 

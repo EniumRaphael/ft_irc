@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/19 02:23:06 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:40:14 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ std::string User::extractFullCommand() {
     if (pos != std::string::npos) {
         std::string command = _read_buffer.substr(0, pos);
         _read_buffer.erase(0, pos + 2);
+        DEBUG_MSG(command);
         return command;
     }
 
@@ -130,6 +131,7 @@ std::string User::extractFullCommand() {
     if (pos != std::string::npos) {
         std::string command = _read_buffer.substr(0, pos);
         _read_buffer.erase(0, pos + 1);
+        DEBUG_MSG(command);
         return command;
     }
 

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/20 15:13:42 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:19:42 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,9 @@ void Server::start()
                 _users[fd]->appendToReadBuffer(data);
                 std::string rawCmd;
 
-                DEBUG_MSG("cmd = " << _users[fd]->extractFullCommand());
                 while (!(rawCmd = _users[fd]->extractFullCommand()).empty()) {
                     std::vector<std::string> lines = splitLines(rawCmd);
                     for (size_t i = 0; i < lines.size(); ++i) {
-                        DEBUG_MSG("cmd = " << _users[fd]->extractFullCommand());
                         std::cout << "Client " << fd << " says: " << lines[i] << std::endl;
                         cmd::dispatch(_users[fd], NULL, this, lines[i]);
                     }

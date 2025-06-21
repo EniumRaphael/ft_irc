@@ -6,14 +6,14 @@
 /*   By: omoudni <omoudni@student.42paris.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:16:03 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/05 11:10:45 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/21 11:59:02 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #pragma once
 
-#ifdef DEBUG
-#define LOG std::endl << CLR_CYAN << "Debug: " << __FILE__ << ":" << __LINE__  << std::endl << CLR_RESET
+#ifndef BONUS
+#define BONUS 0
 #endif
 
 enum e_code {

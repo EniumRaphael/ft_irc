@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 13:58:39 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/21 19:04:34 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,23 @@
 
 Channel::Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite) : _name(name), _owner(owner), _maxUsers(maxUsers), _needInvite(needInvite) {
 	this->_protectTopic = false;
+	if (BONUS)
+		this->_botChannel = true;
+	else
+		this->_botChannel = false;
 	this->_maxUsers = ~0;
 	this->_topic = "";
+}
+
+Channel::~Channel() {
+	for (std::list<User *>::iterator it = _users.begin(); it != _users.end(); ++it) {
+		if (*it != _owner) {
+			delete *it;
+		}
+	}
+	_users.clear();
+	_operators.clear();
+	_invited.clear();
 }
 
 /**
@@ -258,3 +273,7 @@ bool Channel::isInvited(User *user) const {
 	std::cerr << user->getName() << " is not invited to the channel " << this->_name << std::endl;
 	return false;
 }
+
+void Channel::setBotChannel(bool isBot) { _botChannel = isBot; }
+
+bool Channel::getBotChannel() const { return _botChannel; }

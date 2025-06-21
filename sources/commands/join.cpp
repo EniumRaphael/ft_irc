@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 02:27:50 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:51:55 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "commands.hpp"
 #include "logs.hpp"
 #include <list>
+#include "bonus.hpp"
 
 using namespace cmd;
 
@@ -65,7 +66,13 @@ void Join::execute() {
 		for (std::list<User *>::iterator it = _cTarget->getUsers().begin(); it != _cTarget->getUsers().end(); ++it) {
 			msg353 += (*it)->getNickname() + " ";
 		}
-		_sender->appendToWriteBuffer(msgJoin +  msg332 + msg353 + "\r\n");
+		if (BONUS) {
+			_cTarget->setBotChannel(true);
+			std::string msgJoinBot = ":bot!ircbot@localhost JOIN #" + _cTarget->getName() + "\r\n";
+			_sender->appendToWriteBuffer(msgJoinBot + msgJoin +  msg332 + msg353 + "\r\n");
+		}
+		else
+			_sender->appendToWriteBuffer(msgJoin +  msg332 + msg353 + "\r\n");
 		return;
 	}
 

@@ -6,13 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 02:28:16 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:52:06 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "privmsg.hpp"
 #include "commands.hpp"
 #include "logs.hpp"
+#include "bonus.hpp"
 
 using namespace cmd;
 
@@ -61,12 +62,33 @@ void PrivMsg::execute() {
 	std::string content = _args.at(2);
 	std::string msg = ":" + _sender->getPrefix() + " PRIVMSG " + target + " :" + content + "\r\n";
 
+	//bonus msgBot
+	std::string msgBot = ":bot!ircbot@localhost PRIVMSG " + target + " :📜 Liste des commandes disponibles :\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- JOIN #channel        → Rejoindre un canal\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- PART #channel        → Quitter un canal\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- PRIVMSG <cible> msg  → Envoyer un message\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- TOPIC #channel :txt  → Voir / modifier le topic\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- MODE #channel +o nick → Ajouter un opérateur\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- INVITE nick #channel  → Inviter un utilisateur\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- KICK #channel nick    → Éjecter un utilisateur\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- WHO / WHOIS           → Infos sur les utilisateurs\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- !help                 → Affiche cette aide\r\n";
+
+	
 	// Envoi vers un channel
 	if (target[0] == '#') {
 		target.erase(0, 1);
 		if (_cTarget)
-			_cTarget->sendAllClientInAChannel(msg, _sender); // Optionnel: évite d'envoyer au sender
+			_cTarget->sendAllClientInAChannel(msg, _sender);
+			
+		if (BONUS) {
+			if (_args.at(2) == "!help") {
+				std::cout << "BONUS: PING command received, sending PONG" << std::endl;
+				_cTarget->sendAllClientInAChannel(msgBot);
+			}
+		}
 	}
+	
 	// Envoi vers un user
 	else {
 		if (_uTarget)

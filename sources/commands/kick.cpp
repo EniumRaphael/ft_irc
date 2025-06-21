@@ -6,13 +6,15 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/20 17:01:49 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/21 19:19:30 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kick.hpp"
 #include "commands.hpp"
 #include "logs.hpp"
+#include "bonus.hpp"
+
 
 using namespace cmd;
 
@@ -40,7 +42,11 @@ e_code Kick::checkArgs() {
 		return ERR_CHANOPRIVSNEEDED;
 	}
 	_uTarget = searchList(this->_users, _args.at(2));
-	if (this->_uTarget == NULL) {
+
+	if (BONUS && _args.at(2) == "bot" && _cTarget->getBotChannel() == true) {
+		return _PARSING_OK;
+	}
+	else if (this->_uTarget == NULL) {
 		WARNING_MSG("User not found");
 		return ERR_NOSUCHNICK;
 	}
@@ -66,8 +72,19 @@ void Kick::execute() {
 		ERROR_MSG("Invalid arguments for INVITE command (see warning message)");
 		return;
 	}
+	std::cout << "MODE BONUS ?" << BONUS << std::endl;
+	if (BONUS && _args.at(2) == "bot") {
+		if (_cTarget->getBotChannel() == true) {
+			std::cout << "Bot is already in the channel, kicking it" << std::endl;
+			std::string msgKickBot = ":bot!ircbot@localhost KICK #" + _cTarget->getName() + " bot :Bot kicked from channel\r\n";
+			this->_sender->appendToWriteBuffer(msgKickBot);
+			_cTarget->setBotChannel(false);
+		}
+		std::cout << "peace" << std::endl;
+		return;
+	}
 	std::string msgPart = ":" + this->_uTarget->getPrefix() + " PART #" + _cTarget->getName() + "\r\n";
-	std::string msgKick = ":" + this->_uTarget->getPrefix() + " KICK #" + this->_cTarget->getName();
+	std::string msgKick = ":" + this->_uTarget->getPrefix() + " KICK #" + this->_cTarget->getName() + " " + this->_uTarget->getName() + " :kicked from channel\r\n";
 	if (_args.size() > 4)
 		msgKick += " :" + _args.at(4);
 	msgKick += "\r\n";

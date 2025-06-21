@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:37:12 by omoudni           #+#    #+#             */
-/*   Updated: 2025/06/20 19:18:27 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:38:31 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,9 +163,11 @@ const std::string User::getPrefix() const { return _nickname + "!" + _username +
 
 const std::string User::getUsername() const { return _username; }
 
-const std::string& User::getHostname() const { return _hostname; }
+const std::string User::getHostname() const { return _hostname; }
 
-const std::string& User::getIpAddress() const { return _ipAdress; }
+const std::string User::getIpAddress() const { return _ipAdress; }
+
+const std::string User::getReadBuffer() const { return _read_buffer; }
 
 void User::setHostname(const std::string &hostname) { _hostname = hostname; }
 

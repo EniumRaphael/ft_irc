@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/21 18:52:06 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/22 01:53:33 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void PrivMsg::execute() {
 		if (_cTarget)
 			_cTarget->sendAllClientInAChannel(msg, _sender);
 			
-		if (BONUS) {
+		if (BONUS && _cTarget->getBotChannel()) {
 			if (_args.at(2) == "!help") {
 				std::cout << "BONUS: PING command received, sending PONG" << std::endl;
 				_cTarget->sendAllClientInAChannel(msgBot);

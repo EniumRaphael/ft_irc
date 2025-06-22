@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:18:17 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 13:42:03 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:36:38 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 class Channel {
 	public:
 		Channel(const std::string &name, User *owner, size_t maxUsers, bool needInvite);
-		
+		~Channel();
 		// getters
 		std::string getName() const;
 		std::string getTopic() const;
@@ -47,6 +47,8 @@ class Channel {
 		bool isInvited(User *user) const;
 		void removeUser(User *user);
 		void removeOperator(User *user);
+		void setBotChannel(bool isBot);
+		bool getBotChannel() const;
 		
 		// utility functions
 		void sendAllClientInAChannel(const std::string &toSend, User *exclude = NULL);
@@ -62,6 +64,7 @@ class Channel {
 		std::list<User *> _operators;
 		std::list<User *> _users;
 		std::list<User *> _invited;
+		bool _botChannel;
 };
 
 

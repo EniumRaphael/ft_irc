@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:57:49 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/20 19:17:53 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:38:06 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <string>
 #include "PollManager.hpp"
+
 
 class User
 {
@@ -38,6 +39,7 @@ class User
 	
 	public:
 		User(short unsigned fd, PollManager& poll);
+		User( void ); // default constructor for bot service
 		short unsigned int getFd() const;
 		void appendToReadBuffer(const std::string &data);
 		void appendToWriteBuffer(const std::string &data);
@@ -61,10 +63,11 @@ class User
 		const std::string getRealname(void) const;
 		const std::string getNickname() const;
 		const std::string getWriteBuffer() const;
-		const std::string& getHostname() const;
-		const std::string& getIpAddress() const;
+		const std::string getHostname() const;
+		const std::string getIpAddress() const;
 		const std::string getName() const;
 		const std::string getPrefix() const;
+		const std::string getReadBuffer() const;
 		
 		bool hasDataToSend() const;
 		bool getHasPass() const;

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/20 17:55:27 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:30:19 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void Topic::execute() {
 
 	if (this->_args.size() == 1) {
 		if (this->_cTarget->getTopic().empty()) {
-			std::string msg331 = ":localhost 331 " + this->_sender->getNickname() + " " + this->_cTarget->getName() + " :No topic is set\r\n";
+			std::string msg331 = ":localhost 331 " + this->_sender->getNickname() + " #" + this->_cTarget->getName() + " :No topic is set\r\n";
 			this->_sender->appendToWriteBuffer(msg331);
 		} else {
-			std::string msg332 = ":localhost 332 " + this->_sender->getNickname() + " " + this->_cTarget->getName() + " :" + this->_cTarget->getTopic() + "\r\n";
+			std::string msg332 = ":localhost 332 " + this->_sender->getNickname() + " #" + this->_cTarget->getName() + " :" + this->_cTarget->getTopic() + "\r\n";
 			this->_sender->appendToWriteBuffer(msg332);
 		}
 	} else {
@@ -70,7 +70,7 @@ void Topic::execute() {
 		}
 		this->_cTarget->setTopic(newTopic);
 
-		std::string topicMsg = ":" + this->_sender->getPrefix() + " TOPIC " + this->_cTarget->getName() + " :" + newTopic + "\r\n";
+		std::string topicMsg = ":" + this->_sender->getPrefix() + " TOPIC #" + this->_cTarget->getName() + " :" + newTopic + "\r\n";
 		this->_cTarget->sendAllClientInAChannel(topicMsg);
 	}
 }

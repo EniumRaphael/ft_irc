@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/21 11:58:21 by rparodi          ###   ########.fr        #
+#    Updated: 2025/06/23 14:12:52 by rparodi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,8 @@ END = \033[0m
 all: header $(NAME) footer
 
 bonus: CPPFLAGS += -D BONUS=1
-bonus: all
+bonus: re
+
 # Clean (make clean)
 clean:
 	@printf '$(GREY) Removing $(END)$(RED)Objects$(END)\n'

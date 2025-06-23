@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/23 13:00:50 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:39:03 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@
 #include <cstdlib>
 #include <cstring>
 #include <sstream>
+#include <signal.h>
+
+volatile sig_atomic_t g_stop = 0;
+
+void handle_sigint(int sig) {
+    (void)sig;
+    g_stop = 1;
+}
+
 
 /**
  * @brief The constructor of the Server class.
@@ -53,6 +62,7 @@ std::vector<std::string> splitLines(const std::string& input);
 
 void Server::start()
 {
+    signal(SIGINT, handle_sigint);
     _serverFd = socket(AF_INET, SOCK_STREAM, 0);
     if (_serverFd == -1) {
 		ERROR_MSG("Error in the socket function");
@@ -79,7 +89,7 @@ void Server::start()
     std::vector<std::pair<int, std::string > > readyClients;
     std::vector<int> readyToWrite;
 
-    while (true) {
+    while (!g_stop) {
         printUsers();
 
         newClients.clear();
@@ -136,7 +146,7 @@ void Server::start()
 
         std::cout << "Poll loop finished" << std::endl;
     }
-
+    std::cout << "[INFO] CTRL+C détecté. Fermeture du serveur..." << std::endl;
     close(_serverFd);
 }
 

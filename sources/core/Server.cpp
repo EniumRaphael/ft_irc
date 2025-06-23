@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/20 19:19:42 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:00:50 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void Server::start()
 {
     _serverFd = socket(AF_INET, SOCK_STREAM, 0);
     if (_serverFd == -1) {
-        std::cerr << "Erreur socket" << std::endl;
+		ERROR_MSG("Error in the socket function");
         return;
     }
 
@@ -67,12 +67,11 @@ void Server::start()
 
     if (bind(_serverFd, (sockaddr *)&addr, sizeof(addr)) == -1 ||
         listen(_serverFd, 10) == -1) {
-        std::cerr << "Erreur bind/listen" << std::endl;
-        close(_serverFd);
+		ERROR_MSG("Error bind/listen");
         return;
     }
 
-    std::cout << "Serveur lancé sur le port " << _port << std::endl;
+	INFO_MSG("Serveur lancé sur le port ");
 
     _pollManager.setServerFd(_serverFd);
     std::vector<int> newClients;

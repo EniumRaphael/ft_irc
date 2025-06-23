@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/23 14:46:53 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:18:12 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ void Server::start()
         std::cout << "Poll loop finished" << std::endl;
     }
     std::cout << "[INFO] CTRL+C détecté. Fermeture du serveur..." << std::endl;
-    close(_serverFd);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:43:24 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/21 19:04:34 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:55:34 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,6 @@ Channel::Channel(const std::string &name, User *owner, size_t maxUsers, bool nee
 }
 
 Channel::~Channel() {
-	for (std::list<User *>::iterator it = _users.begin(); it != _users.end(); ++it) {
-		if (*it != _owner) {
-			delete *it;
-		}
-	}
 	_users.clear();
 	_operators.clear();
 	_invited.clear();

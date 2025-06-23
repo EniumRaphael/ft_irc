@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/20 16:57:53 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/23 15:01:35 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ e_code Invite::checkArgs() {
 		this->_sender->appendToWriteBuffer(msg461);
 		return ERR_NEEDMOREPARAMS;
 	}
-	if (_args.at(1).at(0) != '#') {
+	if (_args.at(2).at(0) != '#') {
 		WARNING_MSG("Invalid channel name for INVITE command");
 		INFO_MSG("Channel names must start with a '#' character");
 		return ERR_NOSUCHCHANNEL;
 	} else
-		_args.at(1).erase(0, 1);
-	_cTarget = searchList(_server->getChannelsList(), _args.at(1));
+		_args.at(2).erase(0, 1);
+	_cTarget = searchList(_server->getChannelsList(), _args.at(2));
 	if (_cTarget == NULL) {
 		WARNING_MSG("Channel not found for INVITE command");
 		INFO_MSG("You can only invite users to channels you are in");
@@ -38,7 +38,7 @@ e_code Invite::checkArgs() {
 		WARNING_MSG("You are not an operator in the channel for INVITE command");
 		return ERR_NOPRIVILEGES;
 	}
-	_uTarget = searchList(this->_users, _args.at(2));
+	_uTarget = searchList(this->_users, _args.at(1));
 	if (this->_uTarget == NULL) {
 		WARNING_MSG("User not found");
 		return ERR_NOSUCHNICK;

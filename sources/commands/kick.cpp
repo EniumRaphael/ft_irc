@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/22 19:38:09 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:27:38 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void Kick::execute() {
 	if (BONUS && _args.at(2) == "bot") {
 		if (_cTarget->getBotChannel()) {
 			std::string msgKickBot = ":bot!ircbot@localhost KICK #" + _cTarget->getName() + " " + "bot";
-			if (_args.size() > 4)
+			if (_args.size() > 3)
 				msgKickBot += " :" + _args.at(3);
 			msgKickBot += "\r\n";
 			std::cout << " msgKickBot: " << msgKickBot << std::endl;
@@ -80,9 +80,12 @@ void Kick::execute() {
 
 	
 	std::string msgPart = ":" + this->_uTarget->getPrefix() + " PART #" + _cTarget->getName() + "\r\n";
-	std::string msgKick = ":" + this->_uTarget->getPrefix() + " KICK #" + this->_cTarget->getName();
-	if (_args.size() > 4)
-		msgKick += " :" + _args.at(4);
+	std::string msgKick = ":" + this->_uTarget->getPrefix() + " KICK #" + this->_cTarget->getName() + " " + _uTarget->getName();
+	if (_args.size() > 3)
+	{
+		DEBUG_MSG("Je rajoute le message de kick avec un motif");
+		msgKick += " :" + _args.at(3);
+	}
 	msgKick += "\r\n";
 
 	std::cout << " msgKick: " << msgKick << "msgPart: " << msgPart << std::endl;

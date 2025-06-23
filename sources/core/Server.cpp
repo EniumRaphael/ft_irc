@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/23 14:39:03 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:46:53 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,14 @@ Server::Server(int port, const std::string &password) : _port(port), _password(p
 Server::~Server()
 {
     std::cout << CLR_GREY << "Info: Server destructor called" << CLR_RESET << std::endl;
-    if (_serverFd != -1)
-    {
+    if (_serverFd != -1) {
         close(_serverFd);
+    }
+    for (std::list<Channel *>::iterator it = _channels.begin(); it != _channels.end(); ++it) {
+        delete *it;
+    }
+    for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); ++it) {
+        delete it->second;
     }
 }
 

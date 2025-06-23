@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:57:49 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/21 14:38:06 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:55:06 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ class User
 	
 	public:
 		User(short unsigned fd, PollManager& poll);
-		User( void ); // default constructor for bot service
 		short unsigned int getFd() const;
 		void appendToReadBuffer(const std::string &data);
 		void appendToWriteBuffer(const std::string &data);

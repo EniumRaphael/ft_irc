@@ -6,11 +6,12 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:25:04 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/21 18:49:43 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/23 12:44:32 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "core.hpp"
+#include "logs.hpp"
 #include <cerrno>
 #include <cstdlib>
 #include <iostream>
@@ -28,7 +29,7 @@ unsigned short int valid_port(char *input)
 	for (size_t i = 0; input[i]; i++) {
 		if (!isdigit(input[i])) {
 			if (DEBUG)
-				std::cerr << LOG << CLR_RED << "Error: Not only number in port: " << input << std::endl;
+				ERROR_MSG("Not only number in port: " << input);
 			return (0);
 		}
 	}
@@ -36,7 +37,7 @@ unsigned short int valid_port(char *input)
 	int port = strtol(input, NULL, 10);
 	if (errno == ERANGE) {
 		if (DEBUG)
-			std::cerr << LOG << CLR_RED << "Error: Port out of range: " << input << std::endl;
+			ERROR_MSG("Port out of range" << input);
 		return (0);
 	}
 	if (port < 1 || port > 65535)

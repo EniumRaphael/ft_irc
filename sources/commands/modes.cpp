@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 14:02:08 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:52:33 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void Mode::checkMode() {
 			default :
 				break;
 		}
-		if ((this->_mode.back().first == CHAN_SET_KEY || this->_mode.back().first == CHAN_SET_LIMIT || this->_mode.back().first == CHAN_SET_OP) && argIndex < _args.size())
+		if ((tmp == CHAN_SET_KEY || tmp == CHAN_SET_LIMIT || tmp == CHAN_SET_OP) && argIndex < _args.size())
 			m.arguments = _args[argIndex++];
 		this->_mode.push_back(std::make_pair(tmp, m));
 	}

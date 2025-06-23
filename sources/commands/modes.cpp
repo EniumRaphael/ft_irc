@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/23 12:52:33 by rparodi          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:08:52 by rparodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ e_code Mode::checkArgs() {
 				this->_sender->appendToWriteBuffer(msg461);
 				return ERR_NEEDMOREPARAMS;
 			}
-		if (searchList(this->_cTarget->getOperators(), this->_sender->getName()) != NULL) {
+		if (searchList(this->_cTarget->getOperators(), this->_sender->getName()) == NULL) {
 			WARNING_MSG("You are not an operator in the channel for INVITE command");
 			return ERR_CHANOPRIVSNEEDED;
 		}

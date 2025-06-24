@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/24 05:07:56 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:02:33 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,34 +79,37 @@ void PrivMsg::execute() {
 				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- !help                 → Affiche cette aide\r\n";
 
 	std::string msgEmote = ":bot!ircbot@localhost PRIVMSG " + target + " :           📜 Emote list :\r\n";
-				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " : 😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏\r\n";
-				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " : 😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟\r\n";
-				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " : 😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯\r\n";
-				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " : 😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿\r\n";
-				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " : 🙀🙁🙂🙃🙄🙅🙆🙇🙈🙉🙊🙋🙌🙍🙎🙏\r\n";
-				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " : 🤐🤑🤒🤓🤤🤔🤕🤖🤗🤘🤙🤚🤛🤜🤝🤟\r\n";
-				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " : 💐💑💒💓💔💕💖💗💘💙💚💛💜💝💞💟\r\n";
-				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " : 💠💡💢💣💤💥💦💧💨💩💪💫💬💭💯🤨\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :🙀🙁🙂🙃🙄🙅🙆🙇🙈🙉🙊🙋🙌🙍🙎🙏\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :🤐🤑🤒🤓🤤🤔🤕🤖🤗🤘🤙🤚🤛🤜🤝🤟\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :💐💑💒💓💔💕💖💗💘💙💚💛💜💝💞💟\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :💠💡💢💣💤💥💦💧💨💩💪💫💬💭💯🤨\r\n";
 	
+	std::cout << "target = " << target << std::endl;
 	// Envoi vers un channel
 	if (target[0] == '#') {
 		target.erase(0, 1);
-		if (_cTarget && !BONUS)
-			_cTarget->sendAllClientInAChannel(msg, _sender);
-			
-		if (BONUS && _cTarget->getBotChannel()) {
-			if (_args.at(2) == "!help")
+
+		if (_cTarget) {
+			if (BONUS && _cTarget->getBotChannel() && _args.at(2) == "!help")
 				_sender->appendToWriteBuffer(msgBot);
-			else if (_args.at(2) == "!emote")
+			else if (BONUS && _cTarget->getBotChannel() && _args.at(2) == "!emote")
 				_sender->appendToWriteBuffer(msgEmote);
+			else
+				_cTarget->sendAllClientInAChannel(msg, _sender);
 		}
 	}
 	
 	// Envoi vers un user
-	else {
-		for(std::list<User *>::iterator it = _server->getUsersList().begin(); it != _server->getUsersList().end(); ++it) {
-			if ((*it)->getName() == target)
-			_uTarget->appendToWriteBuffer(msg);
+	const std::list<User *>& users = _server->getUsersList();
+
+	for (std::list<User *>::const_iterator it = users.begin(); it != users.end(); ++it) {
+		if ((*it)->getName() == target) {
+			(*it)->appendToWriteBuffer(msg);
+			break;
 		}
 	}
 }

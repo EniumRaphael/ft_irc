@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/19 01:13:28 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:31:15 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void Part::execute() {
 	_cTarget->sendAllClientInAChannel(msgPart);
 	_cTarget->removeUser(_sender);
 	_cTarget->removeOperator(_sender);
-	// remove invited list
 
 	if (_cTarget->getUsers().empty()) {
 		std::list<Channel*>& allChannels = _server->getChannelsList();

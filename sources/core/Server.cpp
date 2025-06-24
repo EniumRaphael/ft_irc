@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/24 14:41:14 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:51:44 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ std::vector<std::string> splitLines(const std::string& input);
 
 void Server::start()
 {
+    signal(SIGQUIT, SIG_IGN);
     signal(SIGINT, handle_sigint);
     _serverFd = socket(AF_INET, SOCK_STREAM, 0);
     if (_serverFd == -1) {

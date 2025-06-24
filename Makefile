@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/24 12:32:31 by rparodi          ###   ########.fr        #
+#    Updated: 2025/06/24 14:49:42 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,13 +116,9 @@ test: debug
 	@tmux new-session -d -s $(SESSION) \
 		'bash -lc "./$(NAME) $(PORT) irc; exec bash"'
 	@tmux split-window -h -p 70 -t $(SESSION):0 \
-		'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
+		'bash -lc "irssi -c localhost -p $(PORT) -w irc -n test_haut || exec yes \"irssi exit code: $?\""'
 	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
-		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
-	@tmux split-window -v -p 50 -t $(SESSION):0.2 \
-		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
-	@tmux split-window -v -p 50 -t $(SESSION):0.3 \
-		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
+		'bash -lc "irssi -c localhost -p $(PORT) -w irc -n test_bas || exec yes \"irssi exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
 run: all
@@ -133,9 +129,9 @@ run: all
 	@tmux new-session -d -s $(SESSION) \
 		'bash -lc "./$(NAME) $(PORT) irc; exec bash"'
 	@tmux split-window -h -p 70 -t $(SESSION):0 \
-		'bash -lc "irssi -c localhost -p $(PORT) -w irc || exec yes \"irssi exit code: $?\""'
+		'bash -lc "irssi -c localhost -p $(PORT) -w irc -n test_haut || exec yes \"irssi exit code: $?\""'
 	@tmux split-window -v -p 50 -t $(SESSION):0.1 \
-		'bash -lc "nc localhost $(PORT) || exec yes \"netcat exit code: $?\""'
+		'bash -lc "irssi -c localhost -p $(PORT) -w irc -n test_bas || exec yes \"irssi exit code: $?\""'
 	@tmux attach -t $(SESSION)
 
 

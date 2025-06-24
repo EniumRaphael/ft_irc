@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/24 14:35:17 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:40:17 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void Kick::execute() {
 	}
 	msgKick += "\r\n";
 
-	std::cout << " msgKick: " << msgKick << "msgPart: " << msgPart << std::endl;
 	_uTarget->appendToWriteBuffer(msgPart);
 	_cTarget->sendAllClientInAChannel(msgKick);
 	

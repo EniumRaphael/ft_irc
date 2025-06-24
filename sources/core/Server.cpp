@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:11:07 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/23 16:18:12 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:41:14 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void handle_sigint(int sig) {
  */
 Server::Server(int port, const std::string &password) : _port(port), _password(password)
 {
-    std::cout << CLR_GREY << "Info: Server constructor called" << CLR_RESET << std::endl;
+    INFO_MSG("Info: Server constructor called");
 }
 
 /**
@@ -51,7 +51,7 @@ Server::Server(int port, const std::string &password) : _port(port), _password(p
  */
 Server::~Server()
 {
-    std::cout << CLR_GREY << "Info: Server destructor called" << CLR_RESET << std::endl;
+    INFO_MSG("Info: Server destructor called");
     if (_serverFd != -1) {
         close(_serverFd);
     }

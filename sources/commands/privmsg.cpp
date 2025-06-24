@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/24 14:02:33 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:40:03 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void PrivMsg::execute() {
 				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :💐💑💒💓💔💕💖💗💘💙💚💛💜💝💞💟\r\n";
 				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :💠💡💢💣💤💥💦💧💨💩💪💫💬💭💯🤨\r\n";
 	
-	std::cout << "target = " << target << std::endl;
 	// Envoi vers un channel
 	if (target[0] == '#') {
 		target.erase(0, 1);

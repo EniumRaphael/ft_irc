@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/23 15:27:38 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:35:17 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,10 @@ void Kick::execute() {
 		return;
 	}
 
+	// std::string msgPart = ":" + _sender->getPrefix() + " PART #" + _cTarget->getName();
 	
 	std::string msgPart = ":" + this->_uTarget->getPrefix() + " PART #" + _cTarget->getName() + "\r\n";
-	std::string msgKick = ":" + this->_uTarget->getPrefix() + " KICK #" + this->_cTarget->getName() + " " + _uTarget->getName();
+	std::string msgKick = ":" + _sender->getPrefix() + " KICK #" + this->_cTarget->getName() + " " + _uTarget->getName();
 	if (_args.size() > 3)
 	{
 		DEBUG_MSG("Je rajoute le message de kick avec un motif");
@@ -89,8 +90,8 @@ void Kick::execute() {
 	msgKick += "\r\n";
 
 	std::cout << " msgKick: " << msgKick << "msgPart: " << msgPart << std::endl;
-	_cTarget->sendAllClientInAChannel(msgKick);
 	_uTarget->appendToWriteBuffer(msgPart);
+	_cTarget->sendAllClientInAChannel(msgKick);
 	
 	_cTarget->removeUser(this->_uTarget);
 	_cTarget->removeOperator(this->_uTarget);

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:29:48 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/22 01:53:33 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:02:33 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "commands.hpp"
 #include "logs.hpp"
 #include "bonus.hpp"
+#include <algorithm>
 
 using namespace cmd;
 
@@ -64,34 +65,51 @@ void PrivMsg::execute() {
 
 	//bonus msgBot
 	std::string msgBot = ":bot!ircbot@localhost PRIVMSG " + target + " :📜 Liste des commandes disponibles :\r\n";
-				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- JOIN #channel        → Rejoindre un canal\r\n";
-				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- PART #channel        → Quitter un canal\r\n";
-				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- PRIVMSG <cible> msg  → Envoyer un message\r\n";
-				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- TOPIC #channel :txt  → Voir / modifier le topic\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- JOIN #channel         → Rejoindre un canal\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- PART #channel         → Quitter un canal\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- PRIVMSG <cible> msg   → Envoyer un message\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- TOPIC #channel :txt   → Voir / modifier le topic\r\n";
 				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- MODE #channel +o nick → Ajouter un opérateur\r\n";
 				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- INVITE nick #channel  → Inviter un utilisateur\r\n";
 				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- KICK #channel nick    → Éjecter un utilisateur\r\n";
 				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- WHO / WHOIS           → Infos sur les utilisateurs\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- DCC SEND nick /PATH   → Transferer des fichiers à l'utilisateur\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- DCC GET /PATH         → Accepter le transfert des fichiers reçu\r\n";
+				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- !emote                → Affiche la liste d'emoji\r\n";
 				msgBot += ":bot!ircbot@localhost PRIVMSG " + target + " :- !help                 → Affiche cette aide\r\n";
 
+	std::string msgEmote = ":bot!ircbot@localhost PRIVMSG " + target + " :           📜 Emote list :\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :🙀🙁🙂🙃🙄🙅🙆🙇🙈🙉🙊🙋🙌🙍🙎🙏\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :🤐🤑🤒🤓🤤🤔🤕🤖🤗🤘🤙🤚🤛🤜🤝🤟\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :💐💑💒💓💔💕💖💗💘💙💚💛💜💝💞💟\r\n";
+				msgEmote += ":bot!ircbot@localhost PRIVMSG " + target + " :💠💡💢💣💤💥💦💧💨💩💪💫💬💭💯🤨\r\n";
 	
+	std::cout << "target = " << target << std::endl;
 	// Envoi vers un channel
 	if (target[0] == '#') {
 		target.erase(0, 1);
-		if (_cTarget)
-			_cTarget->sendAllClientInAChannel(msg, _sender);
-			
-		if (BONUS && _cTarget->getBotChannel()) {
-			if (_args.at(2) == "!help") {
-				std::cout << "BONUS: PING command received, sending PONG" << std::endl;
-				_cTarget->sendAllClientInAChannel(msgBot);
-			}
+
+		if (_cTarget) {
+			if (BONUS && _cTarget->getBotChannel() && _args.at(2) == "!help")
+				_sender->appendToWriteBuffer(msgBot);
+			else if (BONUS && _cTarget->getBotChannel() && _args.at(2) == "!emote")
+				_sender->appendToWriteBuffer(msgEmote);
+			else
+				_cTarget->sendAllClientInAChannel(msg, _sender);
 		}
 	}
 	
 	// Envoi vers un user
-	else {
-		if (_uTarget)
-			_uTarget->appendToWriteBuffer(msg);
+	const std::list<User *>& users = _server->getUsersList();
+
+	for (std::list<User *>::const_iterator it = users.begin(); it != users.end(); ++it) {
+		if ((*it)->getName() == target) {
+			(*it)->appendToWriteBuffer(msg);
+			break;
+		}
 	}
 }

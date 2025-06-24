@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:03:13 by rparodi           #+#    #+#             */
-/*   Updated: 2025/06/23 14:38:53 by sben-tay         ###   ########.fr       */
+/*   Updated: 2025/06/24 00:47:18 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,4 @@ int main(int argc, char *argv[]) {
     server.start();
     return 0;
 }
+

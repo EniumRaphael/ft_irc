@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/02 15:40:00 by rparodi           #+#    #+#              #
-#    Updated: 2025/06/24 14:49:42 by sben-tay         ###   ########.fr        #
+#    Updated: 2025/09/01 16:22:45 by rparodi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ re: header fclean all
 $(NAME): $(OBJ)
 	@mkdir -p $(OBJDIRNAME)
 	@printf '$(GREY) Creating $(END)$(GREEN)$(OBJDIRNAME)$(END)\n'
-	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJ) #-fuse-ld=lld
+	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $(NAME) $(OBJ)
 
 # Creating the objects
 $(OBJDIRNAME)/%.o: %.cpp
